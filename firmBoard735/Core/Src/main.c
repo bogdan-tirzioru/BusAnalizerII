@@ -58,7 +58,17 @@ static void MX_USART1_UART_Init(void);
 static void MX_FDCAN1_Init(void);
 static void MX_FDCAN3_Init(void);
 /* USER CODE BEGIN PFP */
+FDCAN_FilterTypeDef can3_filter;
+FDCAN_TxHeaderTypeDef can_tx_header;
+FDCAN_RxHeaderTypeDef can_rx_header;
 
+uint8_t can_tx_data[8] =
+{
+    0x11, 0x22, 0x33, 0x44,
+    0x55, 0x66, 0x77, 0x88
+};
+
+uint8_t can_rx_data[8];
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -108,6 +118,143 @@ int main(void)
                     (uint8_t *)msg,
                     sizeof(msg) - 1,
                     HAL_MAX_DELAY);
+
+
+  /* Configure FDCAN3 RX filter for exact standard ID 0x123 */
+
+  can3_filter.IdType       = FDCAN_STANDARD_ID;
+  can3_filter.FilterIndex  = 0;
+  can3_filter.FilterType   = FDCAN_FILTER_MASK;
+  can3_filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+  can3_filter.FilterID1    = 0x123;
+  can3_filter.FilterID2    = 0x7FF;
+
+  if (HAL_FDCAN_ConfigFilter(&hfdcan3, &can3_filter) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan3,
+                                   FDCAN_REJECT,
+                                   FDCAN_REJECT,
+                                   FDCAN_REJECT_REMOTE,
+                                   FDCAN_REJECT_REMOTE) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* Prepare Classic CAN frame */
+
+  can_tx_header.Identifier          = 0x123;
+  can_tx_header.IdType              = FDCAN_STANDARD_ID;
+  can_tx_header.TxFrameType         = FDCAN_DATA_FRAME;
+  can_tx_header.DataLength          = FDCAN_DLC_BYTES_8;
+  can_tx_header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+  can_tx_header.BitRateSwitch       = FDCAN_BRS_OFF;
+  can_tx_header.FDFormat            = FDCAN_CLASSIC_CAN;
+  can_tx_header.TxEventFifoControl  = FDCAN_NO_TX_EVENTS;
+  can_tx_header.MessageMarker       = 0;
+
+
+  /* Receiver first */
+
+  if (HAL_FDCAN_Start(&hfdcan3) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* Then transmitter */
+
+  if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* Send one frame */
+
+  if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1,
+                                    &can_tx_header,
+                                    can_tx_data) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* Wait maximum 1 second for FDCAN3 */
+
+  uint32_t can_timeout = HAL_GetTick();
+
+  while (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3,
+                                       FDCAN_RX_FIFO0) == 0)
+  {
+      if ((HAL_GetTick() - can_timeout) > 1000)
+      {
+          const char err[] = "CAN ERROR: RX timeout\r\n";
+
+          HAL_UART_Transmit(&huart1,
+                            (uint8_t *)err,
+                            sizeof(err) - 1,
+                            HAL_MAX_DELAY);
+
+          break;
+      }
+  }
+
+
+  /* Read and verify */
+
+  if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3,
+                                    FDCAN_RX_FIFO0) > 0)
+  {
+      if (HAL_FDCAN_GetRxMessage(&hfdcan3,
+                                 FDCAN_RX_FIFO0,
+                                 &can_rx_header,
+                                 can_rx_data) != HAL_OK)
+      {
+          Error_Handler();
+      }
+
+      uint8_t can_ok = 1;
+
+      if (can_rx_header.Identifier != 0x123)
+      {
+          can_ok = 0;
+      }
+
+      for (int i = 0; i < 8; i++)
+      {
+          if (can_rx_data[i] != can_tx_data[i])
+          {
+              can_ok = 0;
+          }
+      }
+
+      if (can_ok)
+      {
+          const char ok[] =
+              "CAN OK: FDCAN1 -> FDCAN3, ID=0x123, "
+              "DATA=11 22 33 44 55 66 77 88\r\n";
+
+          HAL_UART_Transmit(&huart1,
+                            (uint8_t *)ok,
+                            sizeof(ok) - 1,
+                            HAL_MAX_DELAY);
+      }
+      else
+      {
+          const char err[] =
+              "CAN ERROR: received data mismatch\r\n";
+
+          HAL_UART_Transmit(&huart1,
+                            (uint8_t *)err,
+                            sizeof(err) - 1,
+                            HAL_MAX_DELAY);
+      }
+  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
