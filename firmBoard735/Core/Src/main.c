@@ -66,6 +66,8 @@ uint8_t can_pending_tx = 0;
 
 uint32_t can_reply_due = 0;
 uint32_t led_tick = 0;
+FDCAN_ErrorCountersTypeDef fdcan1_errors;
+FDCAN_ErrorCountersTypeDef fdcan3_errors;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -378,12 +380,15 @@ int main(void)
 
 	      if ((can_counter % 25) == 0)
 	      {
-	          char report[64];
+	    	  char report[128];
 
-	          int len = snprintf(report,
-	                             sizeof(report),
-	                             "CAN ping-pong counter = %lu\r\n",
-	                             can_counter);
+	    	  int len = snprintf(report, sizeof(report),
+	    	                     "CAN1 TEC=%lu REC=%lu | CAN3 TEC=%lu REC=%lu\r\n",
+	    	                     fdcan1_errors.TxErrorCnt,
+	    	                     fdcan1_errors.RxErrorCnt,
+	    	                     fdcan3_errors.TxErrorCnt,
+	    	                     fdcan3_errors.RxErrorCnt);
+
 
 	          HAL_UART_Transmit(&huart1,
 	                            (uint8_t *)report,
