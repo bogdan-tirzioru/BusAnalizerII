@@ -1,0 +1,6 @@
+*.o
+*.cyclo
+*.d
+*.su
+*.mk
+*.settings.xml
