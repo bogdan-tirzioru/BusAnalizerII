@@ -118,7 +118,7 @@ int main(void)
  8000322:	4806      	ldr	r0, [pc, #24]	@ (800033c <main+0x30>)
  8000324:	f000 fdff 	bl	8000f26 <HAL_GPIO_TogglePin>
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
- 8000328:	2120      	movs	r1, #32
+ 8000328:	2108      	movs	r1, #8
  800032a:	4804      	ldr	r0, [pc, #16]	@ (800033c <main+0x30>)
  800032c:	f000 fdfb 	bl	8000f26 <HAL_GPIO_TogglePin>
 	  HAL_Delay(500);
@@ -350,15 +350,15 @@ static void MX_GPIO_Init(void)
  80004a8:	687b      	ldr	r3, [r7, #4]
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, LED0_Pin|LED1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, LED1_Pin|LED0_Pin, GPIO_PIN_RESET);
  80004aa:	2200      	movs	r2, #0
- 80004ac:	2130      	movs	r1, #48	@ 0x30
+ 80004ac:	2118      	movs	r1, #24
  80004ae:	480b      	ldr	r0, [pc, #44]	@ (80004dc <MX_GPIO_Init+0xc0>)
  80004b0:	f000 fd20 	bl	8000ef4 <HAL_GPIO_WritePin>
 
-  /*Configure GPIO pins : LED0_Pin LED1_Pin */
-  GPIO_InitStruct.Pin = LED0_Pin|LED1_Pin;
- 80004b4:	2330      	movs	r3, #48	@ 0x30
+  /*Configure GPIO pins : LED1_Pin LED0_Pin */
+  GPIO_InitStruct.Pin = LED1_Pin|LED0_Pin;
+ 80004b4:	2318      	movs	r3, #24
  80004b6:	617b      	str	r3, [r7, #20]
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
  80004b8:	2301      	movs	r3, #1
