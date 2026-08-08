@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,17 +47,25 @@ FDCAN_HandleTypeDef hfdcan3;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
+FDCAN_FilterTypeDef can1_filter;
 FDCAN_FilterTypeDef can3_filter;
+
 FDCAN_TxHeaderTypeDef can_tx_header;
 FDCAN_RxHeaderTypeDef can_rx_header;
 
-uint8_t can_tx_data[8] =
-{
-    0x11, 0x22, 0x33, 0x44,
-    0x55, 0x66, 0x77, 0x88
-};
+uint8_t can_tx_data[8] = {0};
+uint8_t can_rx_data[8] = {0};
 
-uint8_t can_rx_data[8];
+uint32_t can_counter = 0;
+
+/* 0 = nothing pending
+ * 1 = FDCAN1 must transmit
+ * 3 = FDCAN3 must transmit
+ */
+uint8_t can_pending_tx = 0;
+
+uint32_t can_reply_due = 0;
+uint32_t led_tick = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -120,7 +128,28 @@ int main(void)
                     HAL_MAX_DELAY);
 
 
-  /* Configure FDCAN3 RX filter for exact standard ID 0x123 */
+  /* ----------------------------------------------------------
+   * FDCAN1 receives messages coming from FDCAN3
+   * ID = 0x321
+   * ---------------------------------------------------------- */
+
+  can1_filter.IdType       = FDCAN_STANDARD_ID;
+  can1_filter.FilterIndex  = 0;
+  can1_filter.FilterType   = FDCAN_FILTER_MASK;
+  can1_filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+  can1_filter.FilterID1    = 0x321;
+  can1_filter.FilterID2    = 0x7FF;
+
+  if (HAL_FDCAN_ConfigFilter(&hfdcan1, &can1_filter) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* ----------------------------------------------------------
+   * FDCAN3 receives messages coming from FDCAN1
+   * ID = 0x123
+   * ---------------------------------------------------------- */
 
   can3_filter.IdType       = FDCAN_STANDARD_ID;
   can3_filter.FilterIndex  = 0;
@@ -130,6 +159,18 @@ int main(void)
   can3_filter.FilterID2    = 0x7FF;
 
   if (HAL_FDCAN_ConfigFilter(&hfdcan3, &can3_filter) != HAL_OK)
+  {
+      Error_Handler();
+  }
+
+
+  /* Reject everything except our filters */
+
+  if (HAL_FDCAN_ConfigGlobalFilter(&hfdcan1,
+                                   FDCAN_REJECT,
+                                   FDCAN_REJECT,
+                                   FDCAN_REJECT_REMOTE,
+                                   FDCAN_REJECT_REMOTE) != HAL_OK)
   {
       Error_Handler();
   }
@@ -144,9 +185,8 @@ int main(void)
   }
 
 
-  /* Prepare Classic CAN frame */
+  /* Common Classic CAN TX header */
 
-  can_tx_header.Identifier          = 0x123;
   can_tx_header.IdType              = FDCAN_STANDARD_ID;
   can_tx_header.TxFrameType         = FDCAN_DATA_FRAME;
   can_tx_header.DataLength          = FDCAN_DLC_BYTES_8;
@@ -157,7 +197,12 @@ int main(void)
   can_tx_header.MessageMarker       = 0;
 
 
-  /* Receiver first */
+  /* Start both CAN controllers */
+
+  if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
+  {
+      Error_Handler();
+  }
 
   if (HAL_FDCAN_Start(&hfdcan3) != HAL_OK)
   {
@@ -165,15 +210,27 @@ int main(void)
   }
 
 
-  /* Then transmitter */
+  /* ----------------------------------------------------------
+   * Start ping-pong:
+   *
+   * FDCAN1 -> FDCAN3
+   * ID = 0x123
+   * counter = 0
+   * ---------------------------------------------------------- */
 
-  if (HAL_FDCAN_Start(&hfdcan1) != HAL_OK)
-  {
-      Error_Handler();
-  }
+  can_counter = 0;
 
+  can_tx_data[0] = (uint8_t)(can_counter);
+  can_tx_data[1] = (uint8_t)(can_counter >> 8);
+  can_tx_data[2] = (uint8_t)(can_counter >> 16);
+  can_tx_data[3] = (uint8_t)(can_counter >> 24);
 
-  /* Send one frame */
+  can_tx_data[4] = 0;
+  can_tx_data[5] = 0;
+  can_tx_data[6] = 0;
+  can_tx_data[7] = 0;
+
+  can_tx_header.Identifier = 0x123;
 
   if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1,
                                     &can_tx_header,
@@ -182,78 +239,13 @@ int main(void)
       Error_Handler();
   }
 
+  const char start[] =
+      "CAN ping-pong started, period = 40 ms\r\n";
 
-  /* Wait maximum 1 second for FDCAN3 */
-
-  uint32_t can_timeout = HAL_GetTick();
-
-  while (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3,
-                                       FDCAN_RX_FIFO0) == 0)
-  {
-      if ((HAL_GetTick() - can_timeout) > 1000)
-      {
-          const char err[] = "CAN ERROR: RX timeout\r\n";
-
-          HAL_UART_Transmit(&huart1,
-                            (uint8_t *)err,
-                            sizeof(err) - 1,
-                            HAL_MAX_DELAY);
-
-          break;
-      }
-  }
-
-
-  /* Read and verify */
-
-  if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3,
-                                    FDCAN_RX_FIFO0) > 0)
-  {
-      if (HAL_FDCAN_GetRxMessage(&hfdcan3,
-                                 FDCAN_RX_FIFO0,
-                                 &can_rx_header,
-                                 can_rx_data) != HAL_OK)
-      {
-          Error_Handler();
-      }
-
-      uint8_t can_ok = 1;
-
-      if (can_rx_header.Identifier != 0x123)
-      {
-          can_ok = 0;
-      }
-
-      for (int i = 0; i < 8; i++)
-      {
-          if (can_rx_data[i] != can_tx_data[i])
-          {
-              can_ok = 0;
-          }
-      }
-
-      if (can_ok)
-      {
-          const char ok[] =
-              "CAN OK: FDCAN1 -> FDCAN3, ID=0x123, "
-              "DATA=11 22 33 44 55 66 77 88\r\n";
-
-          HAL_UART_Transmit(&huart1,
-                            (uint8_t *)ok,
-                            sizeof(ok) - 1,
-                            HAL_MAX_DELAY);
-      }
-      else
-      {
-          const char err[] =
-              "CAN ERROR: received data mismatch\r\n";
-
-          HAL_UART_Transmit(&huart1,
-                            (uint8_t *)err,
-                            sizeof(err) - 1,
-                            HAL_MAX_DELAY);
-      }
-  }
+  HAL_UART_Transmit(&huart1,
+                    (uint8_t *)start,
+                    sizeof(start) - 1,
+                    HAL_MAX_DELAY);
 
   /* USER CODE END 2 */
 
@@ -264,14 +256,153 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	  HAL_Delay(500);
+	  uint32_t now = HAL_GetTick();
 
-//	  if (HAL_UART_Receive(&huart1, &ch, 1, 10) == HAL_OK)
-//	  {
-//	     HAL_UART_Transmit(&huart1, &ch, 1, HAL_MAX_DELAY);
-//	  }
+
+	  /* ==========================================================
+	   * Did FDCAN3 receive the 0x123 frame from FDCAN1?
+	   * ========================================================== */
+
+	  if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3,
+	                                   FDCAN_RX_FIFO0) > 0)
+	  {
+	      if (HAL_FDCAN_GetRxMessage(&hfdcan3,
+	                                 FDCAN_RX_FIFO0,
+	                                 &can_rx_header,
+	                                 can_rx_data) != HAL_OK)
+	      {
+	          Error_Handler();
+	      }
+
+	      if (can_rx_header.Identifier == 0x123)
+	      {
+	          can_counter =
+	                ((uint32_t)can_rx_data[0])
+	              | ((uint32_t)can_rx_data[1] << 8)
+	              | ((uint32_t)can_rx_data[2] << 16)
+	              | ((uint32_t)can_rx_data[3] << 24);
+
+	          can_counter++;
+
+	          /* CAN2/FDCAN3 will reply after 40 ms */
+	          can_reply_due = now + 40;
+	          can_pending_tx = 3;
+	      }
+	  }
+
+
+	  /* ==========================================================
+	   * Did FDCAN1 receive the 0x321 frame from FDCAN3?
+	   * ========================================================== */
+
+	  if (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan1,
+	                                   FDCAN_RX_FIFO0) > 0)
+	  {
+	      if (HAL_FDCAN_GetRxMessage(&hfdcan1,
+	                                 FDCAN_RX_FIFO0,
+	                                 &can_rx_header,
+	                                 can_rx_data) != HAL_OK)
+	      {
+	          Error_Handler();
+	      }
+
+	      if (can_rx_header.Identifier == 0x321)
+	      {
+	          can_counter =
+	                ((uint32_t)can_rx_data[0])
+	              | ((uint32_t)can_rx_data[1] << 8)
+	              | ((uint32_t)can_rx_data[2] << 16)
+	              | ((uint32_t)can_rx_data[3] << 24);
+
+	          can_counter++;
+
+	          /* CAN1/FDCAN1 will reply after 40 ms */
+	          can_reply_due = now + 40;
+	          can_pending_tx = 1;
+	      }
+	  }
+
+
+	  /* ==========================================================
+	   * Time to send the scheduled reply?
+	   * ========================================================== */
+
+	  if ((can_pending_tx != 0) &&
+	      ((int32_t)(now - can_reply_due) >= 0))
+	  {
+	      /* Put counter into first 4 data bytes */
+
+	      can_tx_data[0] = (uint8_t)(can_counter);
+	      can_tx_data[1] = (uint8_t)(can_counter >> 8);
+	      can_tx_data[2] = (uint8_t)(can_counter >> 16);
+	      can_tx_data[3] = (uint8_t)(can_counter >> 24);
+
+	      can_tx_data[4] = 0;
+	      can_tx_data[5] = 0;
+	      can_tx_data[6] = 0;
+	      can_tx_data[7] = 0;
+
+
+	      if (can_pending_tx == 3)
+	      {
+	          /* FDCAN3 -> FDCAN1 */
+
+	          can_tx_header.Identifier = 0x321;
+
+	          if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan3,
+	                                            &can_tx_header,
+	                                            can_tx_data) != HAL_OK)
+	          {
+	              Error_Handler();
+	          }
+	      }
+	      else
+	      {
+	          /* FDCAN1 -> FDCAN3 */
+
+	          can_tx_header.Identifier = 0x123;
+
+	          if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1,
+	                                            &can_tx_header,
+	                                            can_tx_data) != HAL_OK)
+	          {
+	              Error_Handler();
+	          }
+	      }
+
+	      can_pending_tx = 0;
+
+
+	      /* Print only once every 25 CAN messages.
+	         25 x 40 ms ≈ 1 second */
+
+	      if ((can_counter % 25) == 0)
+	      {
+	          char report[64];
+
+	          int len = snprintf(report,
+	                             sizeof(report),
+	                             "CAN ping-pong counter = %lu\r\n",
+	                             can_counter);
+
+	          HAL_UART_Transmit(&huart1,
+	                            (uint8_t *)report,
+	                            len,
+	                            HAL_MAX_DELAY);
+	      }
+	  }
+
+
+	  /* LEDs remain alive, but without blocking CAN */
+
+	  if ((now - led_tick) >= 500)
+	  {
+	      led_tick = now;
+
+	      HAL_GPIO_TogglePin(LED0_GPIO_Port, LED0_Pin);
+	      HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	  }
+
   }
   /* USER CODE END 3 */
 }
