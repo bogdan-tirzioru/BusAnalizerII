@@ -818,9 +818,9 @@ static void MX_FDCAN3_Init(void)
  800089a:	4b1b      	ldr	r3, [pc, #108]	@ (8000908 <MX_FDCAN3_Init+0xc0>)
  800089c:	2201      	movs	r2, #1
  800089e:	631a      	str	r2, [r3, #48]	@ 0x30
-  hfdcan3.Init.MessageRAMOffset = 0;
+  hfdcan3.Init.MessageRAMOffset = 9;
  80008a0:	4b19      	ldr	r3, [pc, #100]	@ (8000908 <MX_FDCAN3_Init+0xc0>)
- 80008a2:	2200      	movs	r2, #0
+ 80008a2:	2209      	movs	r2, #9
  80008a4:	635a      	str	r2, [r3, #52]	@ 0x34
   hfdcan3.Init.StdFiltersNbr = 1;
  80008a6:	4b18      	ldr	r3, [pc, #96]	@ (8000908 <MX_FDCAN3_Init+0xc0>)
