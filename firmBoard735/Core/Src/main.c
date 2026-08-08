@@ -47,17 +47,6 @@ FDCAN_HandleTypeDef hfdcan3;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
-
-/* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-static void MPU_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_USART1_UART_Init(void);
-static void MX_FDCAN1_Init(void);
-static void MX_FDCAN3_Init(void);
-/* USER CODE BEGIN PFP */
 FDCAN_FilterTypeDef can3_filter;
 FDCAN_TxHeaderTypeDef can_tx_header;
 FDCAN_RxHeaderTypeDef can_rx_header;
@@ -69,6 +58,17 @@ uint8_t can_tx_data[8] =
 };
 
 uint8_t can_rx_data[8];
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MPU_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART1_UART_Init(void);
+static void MX_FDCAN1_Init(void);
+static void MX_FDCAN3_Init(void);
+/* USER CODE BEGIN PFP */
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
