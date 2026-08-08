@@ -641,7 +641,7 @@ void BSP_SD_WriteCpltCallback(void)
    osMessagePut(SDQueueID, WRITE_CPLT_MSG, 0);
 #else
    const uint16_t msg = WRITE_CPLT_MSG;
-   osMessageQueuePut(SDQueueID, (const void *)&msg, NULL, 0);
+   osMessageQueuePut(SDQueueID, (const void *)&msg, (void *)NULL, 0);
 #endif
 }
 
