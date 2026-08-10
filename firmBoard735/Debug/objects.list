@@ -1,5 +1,6 @@
 "./Core/Src/can_test.o"
 "./Core/Src/fatfs_test.o"
+"./Core/Src/hyperram_test.o"
 "./Core/Src/main.o"
 "./Core/Src/sd_test.o"
 "./Core/Src/stm32h7xx_hal_msp.o"

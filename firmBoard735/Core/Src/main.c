@@ -118,6 +118,8 @@ int main(void)
                     (uint8_t *)msg,
                     sizeof(msg) - 1,
                     HAL_MAX_DELAY);
+
+  HyperRAM_Test_ID();
   SD_Test_ReadOnly();
   FATFS_Test_ReadOnly();
   FATFS_Test_ReadWrite();
@@ -334,9 +336,9 @@ static void MX_OCTOSPI1_Init(void)
   hospi1.Init.SampleShifting = HAL_OSPI_SAMPLE_SHIFTING_NONE;
   hospi1.Init.DelayHoldQuarterCycle = HAL_OSPI_DHQC_ENABLE;
   hospi1.Init.ChipSelectBoundary = 23;
-  hospi1.Init.DelayBlockBypass = HAL_OSPI_DELAY_BLOCK_BYPASSED;
+  hospi1.Init.DelayBlockBypass = HAL_OSPI_DELAY_BLOCK_USED;
   hospi1.Init.MaxTran = 0;
-  hospi1.Init.Refresh = 100;
+  hospi1.Init.Refresh = 99;
   if (HAL_OSPI_Init(&hospi1) != HAL_OK)
   {
     Error_Handler();
