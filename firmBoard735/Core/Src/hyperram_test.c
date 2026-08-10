@@ -183,9 +183,7 @@ void HyperRAM_Test_ID(void)
          */
         if ((status0 == 0) &&
             (status1 == 0) &&
-            ((id0 & 0x000FU) == 0x0001U) &&
-            (((id0 >> 4) & 0x000FU) == 0x0008U) &&
-            (((id0 >> 8) & 0x001FU) == 0x000DU) &&
+            ((id0 & 0x3FFFU) == 0x0C81U) &&
             ((id1 & 0x000FU) == 0x0000U))
         {
             valid_count++;

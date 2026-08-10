@@ -118,7 +118,7 @@ int main(void)
                     (uint8_t *)msg,
                     sizeof(msg) - 1,
                     HAL_MAX_DELAY);
-
+  HAL_Delay(1);
   HyperRAM_Test_ID();
   SD_Test_ReadOnly();
   FATFS_Test_ReadOnly();
@@ -327,7 +327,7 @@ static void MX_OCTOSPI1_Init(void)
   hospi1.Init.FifoThreshold = 4;
   hospi1.Init.DualQuad = HAL_OSPI_DUALQUAD_DISABLE;
   hospi1.Init.MemoryType = HAL_OSPI_MEMTYPE_HYPERBUS;
-  hospi1.Init.DeviceSize = 24;
+  hospi1.Init.DeviceSize = 23;
   hospi1.Init.ChipSelectHighTime = 8;
   hospi1.Init.FreeRunningClock = HAL_OSPI_FREERUNCLK_DISABLE;
   hospi1.Init.ClockMode = HAL_OSPI_CLOCK_MODE_0;
@@ -335,7 +335,7 @@ static void MX_OCTOSPI1_Init(void)
   hospi1.Init.ClockPrescaler = 11;
   hospi1.Init.SampleShifting = HAL_OSPI_SAMPLE_SHIFTING_NONE;
   hospi1.Init.DelayHoldQuarterCycle = HAL_OSPI_DHQC_ENABLE;
-  hospi1.Init.ChipSelectBoundary = 23;
+  hospi1.Init.ChipSelectBoundary = 0;
   hospi1.Init.DelayBlockBypass = HAL_OSPI_DELAY_BLOCK_USED;
   hospi1.Init.MaxTran = 0;
   hospi1.Init.Refresh = 99;
