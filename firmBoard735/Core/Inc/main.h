@@ -33,6 +33,7 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "can_test.h"
 #include "sd_test.h"
+#include "fatfs_test.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

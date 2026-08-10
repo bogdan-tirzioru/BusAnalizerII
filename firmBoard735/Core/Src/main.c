@@ -115,6 +115,8 @@ int main(void)
                     sizeof(msg) - 1,
                     HAL_MAX_DELAY);
   SD_Test_ReadOnly();
+  FATFS_Test_ReadOnly();
+  FATFS_Test_ReadWrite();
   CAN_Test_Init();
 
 
