@@ -180,6 +180,113 @@ void SD_Test_ReadOnly(void)
         uart_print("No 55 AA signature - raw read still completed successfully\r\n");
     }
 
+    SD_CheckFilesystem();
 
     uart_print("--- SDMMC READ TEST PASSED ---\r\n\r\n");
 }
+static void SD_CheckFilesystem(void)
+{
+    char text[128];
+
+    /* Sector 0 is already readable */
+    if (HAL_SD_ReadBlocks(&hsd1,
+                          sd_sector,
+                          0,
+                          1,
+                          2000) != HAL_OK)
+    {
+        uart_print("FS CHECK: cannot read sector 0\r\n");
+        return;
+    }
+
+    /* Check boot signature */
+    if ((sd_sector[510] != 0x55) ||
+        (sd_sector[511] != 0xAA))
+    {
+        uart_print("FS CHECK: no 55 AA signature\r\n");
+        return;
+    }
+
+    /*
+     * First MBR partition entry begins at byte 446.
+     */
+    uint8_t partition_type = sd_sector[450];
+
+    uint32_t start_lba =
+          ((uint32_t)sd_sector[454])
+        | ((uint32_t)sd_sector[455] << 8)
+        | ((uint32_t)sd_sector[456] << 16)
+        | ((uint32_t)sd_sector[457] << 24);
+
+    snprintf(text, sizeof(text),
+             "Partition 1: type=0x%02X, start LBA=%lu\r\n",
+             partition_type,
+             start_lba);
+
+    uart_print(text);
+
+    /*
+     * If start_lba is zero, sector 0 may itself be the
+     * filesystem boot sector ("superfloppy" layout).
+     */
+    if (start_lba != 0)
+    {
+        if (HAL_SD_ReadBlocks(&hsd1,
+                              sd_sector,
+                              start_lba,
+                              1,
+                              2000) != HAL_OK)
+        {
+            uart_print("FS CHECK: cannot read partition boot sector\r\n");
+            return;
+        }
+    }
+
+    uart_print("Filesystem: ");
+
+    /*
+     * exFAT OEM name is at bytes 3..10.
+     */
+    if (memcmp(&sd_sector[3], "EXFAT   ", 8) == 0)
+    {
+        uart_print("exFAT\r\n");
+    }
+
+    /*
+     * FAT12/FAT16 filesystem type string is normally
+     * at bytes 54..61.
+     */
+    else if (memcmp(&sd_sector[54], "FAT12   ", 8) == 0)
+    {
+        uart_print("FAT12\r\n");
+    }
+    else if (memcmp(&sd_sector[54], "FAT16   ", 8) == 0)
+    {
+        uart_print("FAT16\r\n");
+    }
+
+    /*
+     * FAT32 filesystem type string is normally
+     * at bytes 82..89.
+     */
+    else if (memcmp(&sd_sector[82], "FAT32   ", 8) == 0)
+    {
+        uart_print("FAT32\r\n");
+    }
+    else
+    {
+        uart_print("unknown / not recognized\r\n");
+
+        uart_print("Boot sector first 16 bytes: ");
+
+        for (uint32_t i = 0; i < 16; i++)
+        {
+            snprintf(text, sizeof(text), "%02X ", sd_sector[i]);
+            uart_print(text);
+        }
+
+        uart_print("\r\n");
+    }
+}
+
+
