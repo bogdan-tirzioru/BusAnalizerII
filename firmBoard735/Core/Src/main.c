@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include "console.h"
 #include "can_test.h"
 #include "sd_test.h"
 #include "fatfs_test.h"
@@ -122,7 +123,8 @@ int main(void)
   MX_OCTOSPI1_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
-
+  Console_Init(&huart1);
+  printf("\r\nBusAnalyzerII console ready\r\n");
   BoardID_Init();
   BoardID_Print(&huart1);
 

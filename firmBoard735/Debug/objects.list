@@ -1,5 +1,7 @@
 "./Core/Src/board_id.o"
 "./Core/Src/can_test.o"
+"./Core/Src/console.o"
+"./Core/Src/fatfs_rtc.o"
 "./Core/Src/fatfs_test.o"
 "./Core/Src/hyperram_test.o"
 "./Core/Src/main.o"

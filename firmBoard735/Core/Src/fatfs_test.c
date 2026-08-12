@@ -285,6 +285,36 @@ void FATFS_Test_ReadWrite(void)
     f_close(&file);
 
 
+
+    FILINFO file_info;
+
+    if (f_stat("STM32TST.TXT", &file_info) == FR_OK)
+    {
+        uint16_t year;
+        uint8_t month;
+        uint8_t day;
+        uint8_t hour;
+        uint8_t minute;
+        uint8_t second;
+
+        year   = 1980U + ((file_info.fdate >> 9) & 0x7FU);
+        month  = (file_info.fdate >> 5) & 0x0FU;
+        day    = file_info.fdate & 0x1FU;
+
+        hour   = (file_info.ftime >> 11) & 0x1FU;
+        minute = (file_info.ftime >> 5) & 0x3FU;
+        second = (file_info.ftime & 0x1FU) * 2U;
+
+        snprintf(text, sizeof(text),"FatFs timestamp: %04u-%02u-%02u %02u:%02u:%02u\r\n",
+               year,
+               month,
+               day,
+               hour,
+               minute,
+               second);
+        uart_print(text);
+    }
+
     snprintf(text, sizeof(text),
              "Read back %u bytes\r\n",
              bytes_read);
@@ -293,6 +323,7 @@ void FATFS_Test_ReadWrite(void)
 
     uart_print("Content: ");
     uart_print(read_buffer);
+
 
 
     /* -----------------------------------------------------
