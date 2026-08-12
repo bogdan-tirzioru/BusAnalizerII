@@ -137,11 +137,11 @@ void FATFS_Test_ReadWrite(void)
      *
      * FA_CREATE_ALWAYS:
      * - create file if it doesn't exist
-     * - overwrite STM32TST.TXT if it already exists
+     * - overwrite BusAnalyzerII_FatFs_Long_Filename_Test.txt if it already exists
      * ----------------------------------------------------- */
 
     res = f_open(&file,
-                 "STM32TST.TXT",
+                 "BusAnalyzerII_FatFs_Long_Filename_Test.txt",
                  FA_CREATE_ALWAYS | FA_WRITE);
 
     if (res != FR_OK)
@@ -154,7 +154,7 @@ void FATFS_Test_ReadWrite(void)
         return;
     }
 
-    printf("STM32TST.TXT opened for write\r\n");
+    printf("BusAnalyzerII_FatFs_Long_Filename_Test.txt opened for write\r\n");
 
 
     /* -----------------------------------------------------
@@ -235,7 +235,7 @@ void FATFS_Test_ReadWrite(void)
      * ----------------------------------------------------- */
 
     res = f_open(&file,
-                 "STM32TST.TXT",
+                 "BusAnalyzerII_FatFs_Long_Filename_Test.txt",
                  FA_READ);
 
     if (res != FR_OK)
@@ -280,7 +280,7 @@ void FATFS_Test_ReadWrite(void)
 
     FILINFO file_info;
 
-    if (f_stat("STM32TST.TXT", &file_info) == FR_OK)
+    if (f_stat("BusAnalyzerII_FatFs_Long_Filename_Test.txt", &file_info) == FR_OK)
     {
         uint16_t year;
         uint8_t month;

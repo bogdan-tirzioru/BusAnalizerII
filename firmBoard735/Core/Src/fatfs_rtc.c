@@ -4,7 +4,7 @@
 
 
 extern RTC_HandleTypeDef hrtc;
-DWORD get_fattime(void)
+DWORD my_get_fattime(void)
 {
     RTC_TimeTypeDef time = {0};
     RTC_DateTypeDef date = {0};

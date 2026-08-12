@@ -15,6 +15,7 @@
   *
   ******************************************************************************
   */
+
 /* USER CODE END Header */
 #include "fatfs.h"
 
@@ -24,7 +25,7 @@ FATFS SDFatFS;    /* File system object for SD logical drive */
 FIL SDFile;       /* File object for SD */
 
 /* USER CODE BEGIN Variables */
-
+DWORD my_get_fattime(void);
 /* USER CODE END Variables */
 
 void MX_FATFS_Init(void)
@@ -37,6 +38,17 @@ void MX_FATFS_Init(void)
   /* USER CODE END Init */
 }
 
+/**
+  * @brief  Gets Time from RTC
+  * @param  None
+  * @retval Time in DWORD
+  */
+DWORD get_fattime(void)
+{
+  /* USER CODE BEGIN get_fattime */
+  return my_get_fattime();
+  /* USER CODE END get_fattime */
+}
 
 /* USER CODE BEGIN Application */
 

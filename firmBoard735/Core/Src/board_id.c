@@ -88,6 +88,8 @@ const char *BoardID_GetName(void)
 
 void BoardID_Print(UART_HandleTypeDef *huart)
 {
+    (void)huart;
+
     char buffer[384];
 
     uint32_t device_id = HAL_GetDEVID();
@@ -120,11 +122,7 @@ void BoardID_Print(UART_HandleTypeDef *huart)
             len = sizeof(buffer) - 1;
         }
 
-        HAL_UART_Transmit(
-            huart,
-            (uint8_t *)buffer,
-            (uint16_t)len,
-            HAL_MAX_DELAY
-        );
+        buffer[len] = '\0';
+        printf("%s", buffer);
     }
 }
