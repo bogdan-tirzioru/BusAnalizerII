@@ -5,4 +5,18 @@
 
 void Console_Init(UART_HandleTypeDef *huart);
 
-#endif
+/*
+ * Wait until all queued console data has physically
+ * finished transmitting.
+ *
+ * Call only from normal/main context, not from an ISR.
+ */
+void Console_Flush(void);
+
+/*
+ * Returns non-zero when no console transmission
+ * is pending.
+ */
+int Console_IsIdle(void);
+
+#endif /* CONSOLE_H */
