@@ -7,14 +7,6 @@
 
 extern UART_HandleTypeDef huart1;
 
-static void uart_print(const char *text)
-{
-    HAL_UART_Transmit(&huart1,
-                      (uint8_t *)text,
-                      strlen(text),
-                      HAL_MAX_DELAY);
-}
-
 void FATFS_Test_ReadOnly(void)
 {
     FRESULT res;
@@ -22,7 +14,7 @@ void FATFS_Test_ReadOnly(void)
     FILINFO fno;
     char text[160];
 
-    uart_print("\r\n--- FATFS READ-ONLY TEST ---\r\n");
+    printf("\r\n--- FATFS READ-ONLY TEST ---\r\n");
 
     /*
      * Mount immediately.
@@ -36,11 +28,11 @@ void FATFS_Test_ReadOnly(void)
                  "FATFS ERROR: f_mount() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
-    uart_print("FAT32 mount OK\r\n");
+    printf("FAT32 mount OK\r\n");
 
     /*
      * Open root directory.
@@ -53,13 +45,13 @@ void FATFS_Test_ReadOnly(void)
                  "FATFS ERROR: f_opendir() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
 
         f_mount(NULL, (TCHAR const *)SDPath, 0);
         return;
     }
 
-    uart_print("\r\nRoot directory:\r\n");
+    printf("\r\nRoot directory:\r\n");
 
     while (1)
     {
@@ -71,7 +63,7 @@ void FATFS_Test_ReadOnly(void)
                      "FATFS ERROR: f_readdir() = %d\r\n",
                      (int)res);
 
-            uart_print(text);
+            printf("%s", text);
             break;
         }
 
@@ -95,12 +87,12 @@ void FATFS_Test_ReadOnly(void)
                      (unsigned long)fno.fsize);
         }
 
-        uart_print(text);
+        printf("%s", text);
     }
 
     f_closedir(&dir);
 
-    uart_print("\r\n--- FATFS READ TEST PASSED ---\r\n");
+    printf("\r\n--- FATFS READ TEST PASSED ---\r\n");
 }
 
 
@@ -118,7 +110,7 @@ void FATFS_Test_ReadWrite(void)
 
     char read_buffer[128];
 
-    uart_print("\r\n--- FATFS READ/WRITE TEST ---\r\n");
+    printf("\r\n--- FATFS READ/WRITE TEST ---\r\n");
 
 
     /* -----------------------------------------------------
@@ -133,11 +125,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_mount() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
-    uart_print("Filesystem mount OK\r\n");
+    printf("Filesystem mount OK\r\n");
 
 
     /* -----------------------------------------------------
@@ -158,11 +150,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_open(write) = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
-    uart_print("STM32TST.TXT opened for write\r\n");
+    printf("STM32TST.TXT opened for write\r\n");
 
 
     /* -----------------------------------------------------
@@ -182,7 +174,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_write() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
 
         f_close(&file);
         return;
@@ -192,12 +184,12 @@ void FATFS_Test_ReadWrite(void)
              "Written %u bytes\r\n",
              bytes_written);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     if (bytes_written != strlen(test_data))
     {
-        uart_print("FATFS ERROR: incomplete write\r\n");
+        printf("FATFS ERROR: incomplete write\r\n");
 
         f_close(&file);
         return;
@@ -214,7 +206,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_sync() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
 
         f_close(&file);
         return;
@@ -231,11 +223,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_close(write) = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
-    uart_print("File write/close OK\r\n");
+    printf("File write/close OK\r\n");
 
 
     /* -----------------------------------------------------
@@ -252,7 +244,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_open(read) = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
@@ -276,7 +268,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_read() = %d\r\n",
                  (int)res);
 
-        uart_print(text);
+        printf("%s", text);
 
         f_close(&file);
         return;
@@ -312,17 +304,16 @@ void FATFS_Test_ReadWrite(void)
                hour,
                minute,
                second);
-        uart_print(text);
+        printf("%s", text);
     }
 
     snprintf(text, sizeof(text),
              "Read back %u bytes\r\n",
              bytes_read);
 
-    uart_print(text);
+    printf("%s", text);
 
-    uart_print("Content: ");
-    uart_print(read_buffer);
+    printf("Content: %s", read_buffer);
 
 
 
@@ -335,11 +326,11 @@ void FATFS_Test_ReadWrite(void)
                 test_data,
                 strlen(test_data)) == 0))
     {
-        uart_print("\r\nFATFS VERIFY: PASS\r\n");
-        uart_print("--- FATFS READ/WRITE TEST PASSED ---\r\n");
+        printf("\r\nFATFS VERIFY: PASS\r\n");
+        printf("--- FATFS READ/WRITE TEST PASSED ---\r\n");
     }
     else
     {
-        uart_print("\r\nFATFS VERIFY: FAILED\r\n");
+        printf("\r\nFATFS VERIFY: FAILED\r\n");
     }
 }

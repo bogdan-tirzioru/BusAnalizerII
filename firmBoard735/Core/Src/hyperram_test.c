@@ -13,15 +13,6 @@ extern UART_HandleTypeDef huart1;
 #define HYPERRAM_TEST_REPEATS    10U
 
 
-static void uart_print(const char *text)
-{
-    HAL_UART_Transmit(&huart1,
-                      (uint8_t *)text,
-                      strlen(text),
-                      HAL_MAX_DELAY);
-}
-
-
 /*
  * Read one 16-bit HyperRAM register.
  *
@@ -108,7 +99,7 @@ void HyperRAM_Test_ID(void)
     uint32_t valid_count = 0U;
 
 
-    uart_print("\r\n--- HYPERRAM ID REPEAT TEST ---\r\n");
+    printf("\r\n--- HYPERRAM ID REPEAT TEST ---\r\n");
 
 
     /*
@@ -165,7 +156,7 @@ void HyperRAM_Test_ID(void)
                  status0,
                  status1);
 
-        uart_print(text);
+        printf("%s", text);
 
 
         /*
@@ -194,7 +185,7 @@ void HyperRAM_Test_ID(void)
     }
 
 
-    uart_print("\r\n");
+    printf("\r\n");
 
 
     /*
@@ -219,10 +210,8 @@ void HyperRAM_Test_ID(void)
                  status0,
                  status1);
 
-        uart_print(text);
-
-        uart_print(
-            "--- HYPERRAM ID TEST FAILED ---\r\n");
+        printf("%s", text);
+        printf("--- HYPERRAM ID TEST FAILED ---\r\n");
 
         return;
     }
@@ -258,7 +247,7 @@ void HyperRAM_Test_ID(void)
              raw1[0],
              raw1[1]);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     snprintf(text,
@@ -276,7 +265,7 @@ void HyperRAM_Test_ID(void)
              (unsigned long)die_address,
              (unsigned long)device_type);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     snprintf(text,
@@ -287,7 +276,7 @@ void HyperRAM_Test_ID(void)
              (unsigned long)valid_count,
              HYPERRAM_TEST_REPEATS);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     /*
@@ -299,19 +288,13 @@ void HyperRAM_Test_ID(void)
      */
     if (valid_count == HYPERRAM_TEST_REPEATS)
     {
-        uart_print(
-            "\r\nHYPERRAM ID VERIFY: PASS\r\n");
-
-        uart_print(
-            "--- HYPERRAM ID TEST PASSED ---\r\n");
+        printf("\r\nHYPERRAM ID VERIFY: PASS\r\n");
+        printf("--- HYPERRAM ID TEST PASSED ---\r\n");
     }
     else
     {
-        uart_print(
-            "\r\nHYPERRAM ID VERIFY: FAILED\r\n");
-
-        uart_print(
-            "--- HYPERRAM ID TEST FAILED ---\r\n");
+        printf("\r\nHYPERRAM ID VERIFY: FAILED\r\n");
+        printf("--- HYPERRAM ID TEST FAILED ---\r\n");
     }
 }
 
@@ -325,7 +308,7 @@ void HyperRAM_Test_Scope(void)
     uint32_t start;
     uint32_t count = 0;
 
-    uart_print("\r\n--- HYPERRAM SCOPE TEST ---\r\n");
+    printf("\r\n--- HYPERRAM SCOPE TEST ---\r\n");
 
     start = HAL_GetTick();
 
@@ -341,7 +324,7 @@ void HyperRAM_Test_Scope(void)
                                  &cmd,
                                  HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
         {
-            uart_print("HyperbusCmd ERROR\r\n");
+            printf("HyperbusCmd ERROR\r\n");
             return;
         }
 
@@ -349,7 +332,7 @@ void HyperRAM_Test_Scope(void)
                              buffer,
                              HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
         {
-            uart_print("Receive ERROR\r\n");
+            printf("Receive ERROR\r\n");
             return;
         }
 
@@ -362,7 +345,6 @@ void HyperRAM_Test_Scope(void)
              "Scope transactions: %lu\r\n",
              (unsigned long)count);
 
-    uart_print(text);
-
-    uart_print("--- HYPERRAM SCOPE TEST DONE ---\r\n");
+    printf("%s", text);
+    printf("--- HYPERRAM SCOPE TEST DONE ---\r\n");
 }

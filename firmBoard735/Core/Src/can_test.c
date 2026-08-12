@@ -146,13 +146,7 @@ void CAN_Test_Init(void)
 	      Error_Handler();
 	  }
 
-	  const char start[] =
-	      "CAN ping-pong started, period = 40 ms\r\n";
-
-	  HAL_UART_Transmit(&huart1,
-	                    (uint8_t *)start,
-	                    sizeof(start) - 1,
-	                    HAL_MAX_DELAY);
+  printf("CAN ping-pong started, period = 40 ms\r\n");
 }
 void CAN_Test_Process(void)
 {
@@ -278,21 +272,12 @@ void CAN_Test_Process(void)
 
 		      if ((can_counter % 25) == 0)
 		      {
-		    	  char report[128];
-
-		    	  int len = snprintf(report, sizeof(report),
-		    	                     "CAN=%lu | CAN1 TEC=%lu REC=%lu | CAN3 TEC=%lu REC=%lu\r\n",
-		    	                     can_counter,
-		    	                     fdcan1_errors.TxErrorCnt,
-		    	                     fdcan1_errors.RxErrorCnt,
-		    	                     fdcan3_errors.TxErrorCnt,
-		    	                     fdcan3_errors.RxErrorCnt);
-
-
-		          HAL_UART_Transmit(&huart1,
-		                            (uint8_t *)report,
-		                            len,
-		                            HAL_MAX_DELAY);
+		          printf("CAN=%lu | CAN1 TEC=%lu REC=%lu | CAN3 TEC=%lu REC=%lu\r\n",
+		                 (unsigned long)can_counter,
+		                 (unsigned long)fdcan1_errors.TxErrorCnt,
+		                 (unsigned long)fdcan1_errors.RxErrorCnt,
+		                 (unsigned long)fdcan3_errors.TxErrorCnt,
+		                 (unsigned long)fdcan3_errors.RxErrorCnt);
 		      }
 		  }
 

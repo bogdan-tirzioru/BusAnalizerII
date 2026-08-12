@@ -4,18 +4,6 @@
 #include <string.h>
 
 
-static void uart_print(UART_HandleTypeDef *huart,
-                       const char *text)
-{
-    HAL_UART_Transmit(
-        huart,
-        (uint8_t *)text,
-        strlen(text),
-        HAL_MAX_DELAY
-    );
-}
-
-
 static uint32_t rtc_seconds_of_day(const RTC_TimeTypeDef *time)
 {
     return ((uint32_t)time->Hours * 3600U) +
@@ -27,6 +15,8 @@ static uint32_t rtc_seconds_of_day(const RTC_TimeTypeDef *time)
 void RTC_Test(RTC_HandleTypeDef *hrtc,
               UART_HandleTypeDef *huart)
 {
+    (void)huart;
+
     char buffer[256];
 
     RTC_TimeTypeDef time1 = {0};
@@ -35,10 +25,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
     RTC_TimeTypeDef time2 = {0};
     RTC_DateTypeDef date2 = {0};
 
-    uart_print(huart,
-        "\r\n"
-        "--- RTC / LSE TEST ---\r\n"
-    );
+    printf("\r\n--- RTC / LSE TEST ---\r\n");
 
 
     /* ---------------------------------------------------------
@@ -47,13 +34,13 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
 
     if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSERDY) != RESET)
     {
-        uart_print(huart, "LSE status    : READY\r\n");
+        printf("LSE status    : READY\r\n");
     }
     else
     {
-        uart_print(huart, "LSE status    : NOT READY\r\n");
-        uart_print(huart, "RTC TEST      : FAIL\r\n");
-        uart_print(huart, "--- RTC / LSE TEST FAILED ---\r\n");
+        printf("LSE status    : NOT READY\r\n");
+        printf("RTC TEST      : FAIL\r\n");
+        printf("--- RTC / LSE TEST FAILED ---\r\n");
         return;
     }
 
@@ -66,8 +53,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
 
     if (rtc_source == RCC_RTCCLKSOURCE_LSE)
     {
-        uart_print(huart,
-                   "RTC source    : LSE 32768 Hz\r\n");
+        printf("RTC source    : LSE 32768 Hz\r\n");
     }
     else
     {
@@ -76,11 +62,8 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                  "RTC source    : NOT LSE (0x%08lX)\r\n",
                  (unsigned long)rtc_source);
 
-        uart_print(huart, buffer);
-
-        uart_print(huart,
-                   "RTC TEST      : FAIL\r\n"
-                   "--- RTC / LSE TEST FAILED ---\r\n");
+        printf("%s", buffer);
+        printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
 
         return;
     }
@@ -93,7 +76,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              (unsigned long)hrtc->Init.AsynchPrediv,
              (unsigned long)hrtc->Init.SynchPrediv);
 
-    uart_print(huart, buffer);
+    printf("%s", buffer);
 
 
     /* ---------------------------------------------------------
@@ -104,9 +87,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &time1,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        uart_print(huart,
-                   "RTC read #1   : FAIL\r\n"
-                   "RTC TEST      : FAIL\r\n");
+        printf("RTC read #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -117,9 +98,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &date1,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        uart_print(huart,
-                   "RTC date #1   : FAIL\r\n"
-                   "RTC TEST      : FAIL\r\n");
+        printf("RTC date #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -131,7 +110,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              time1.Minutes,
              time1.Seconds);
 
-    uart_print(huart, buffer);
+    printf("%s", buffer);
 
 
     /* Wait long enough to cross at least one RTC second */
@@ -147,9 +126,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &time2,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        uart_print(huart,
-                   "RTC read #2   : FAIL\r\n"
-                   "RTC TEST      : FAIL\r\n");
+        printf("RTC read #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -157,9 +134,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &date2,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        uart_print(huart,
-                   "RTC date #2   : FAIL\r\n"
-                   "RTC TEST      : FAIL\r\n");
+        printf("RTC date #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -171,7 +146,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              time2.Minutes,
              time2.Seconds);
 
-    uart_print(huart, buffer);
+    printf("%s", buffer);
 
 
     /* ---------------------------------------------------------
@@ -190,19 +165,15 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              "RTC advance    : %lu second(s)\r\n",
              (unsigned long)delta);
 
-    uart_print(huart, buffer);
+    printf("%s", buffer);
 
 
     if ((delta >= 1U) && (delta <= 2U))
     {
-        uart_print(huart,
-                   "RTC TEST      : PASS\r\n"
-                   "--- RTC / LSE TEST PASSED ---\r\n");
+        printf("RTC TEST      : PASS\r\n--- RTC / LSE TEST PASSED ---\r\n");
     }
     else
     {
-        uart_print(huart,
-                   "RTC TEST      : FAIL\r\n"
-                   "--- RTC / LSE TEST FAILED ---\r\n");
+        printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
     }
 }

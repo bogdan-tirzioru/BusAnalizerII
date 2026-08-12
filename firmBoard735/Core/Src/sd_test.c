@@ -16,21 +16,12 @@ extern UART_HandleTypeDef huart1;
 static uint8_t sd_sector[512] __attribute__((aligned(32)));
 
 
-static void uart_print(const char *text)
-{
-    HAL_UART_Transmit(&huart1,
-                      (uint8_t *)text,
-                      strlen(text),
-                      HAL_MAX_DELAY);
-}
-
-
 void SD_Test_ReadOnly(void)
 {
     HAL_SD_CardInfoTypeDef card_info;
     char text[160];
 
-    uart_print("\r\n--- SDMMC READ-ONLY TEST ---\r\n");
+    printf("\r\n--- SDMMC READ-ONLY TEST ---\r\n");
 
 
     /* =====================================================
@@ -43,7 +34,7 @@ void SD_Test_ReadOnly(void)
                  "SD ERROR: HAL_SD_GetCardInfo failed, ErrorCode=0x%08lX\r\n",
                  hsd1.ErrorCode);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
@@ -62,7 +53,7 @@ void SD_Test_ReadOnly(void)
              card_info.LogBlockNbr,
              card_info.LogBlockSize);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     uint32_t capacity_mib = card_info.LogBlockNbr / 2048U;
@@ -71,7 +62,7 @@ void SD_Test_ReadOnly(void)
              "Capacity MiB  : %lu\r\n",
              capacity_mib);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     /* =====================================================
@@ -89,7 +80,7 @@ void SD_Test_ReadOnly(void)
      *    Block size    = 512 bytes
      * ===================================================== */
 
-    uart_print("\r\nReading raw sector 0...\r\n");
+    printf("\r\nReading raw sector 0...\r\n");
 
     if (HAL_SD_ReadBlocks(&hsd1,
                           sd_sector,
@@ -101,7 +92,7 @@ void SD_Test_ReadOnly(void)
                  "SD ERROR: sector read failed, ErrorCode=0x%08lX\r\n",
                  hsd1.ErrorCode);
 
-        uart_print(text);
+        printf("%s", text);
         return;
     }
 
@@ -117,20 +108,20 @@ void SD_Test_ReadOnly(void)
     {
         if ((HAL_GetTick() - timeout) > 1000)
         {
-            uart_print("SD ERROR: card did not return to TRANSFER state\r\n");
+            printf("SD ERROR: card did not return to TRANSFER state\r\n");
             return;
         }
     }
 
 
-    uart_print("Sector 0 read OK\r\n");
+    printf("Sector 0 read OK\r\n");
 
 
     /* =====================================================
      * 4. Hex dump first 64 bytes
      * ===================================================== */
 
-    uart_print("\r\nSector 0 - first 64 bytes:\r\n");
+    printf("\r\nSector 0 - first 64 bytes:\r\n");
 
     for (uint32_t i = 0; i < 64; i += 16)
     {
@@ -151,7 +142,7 @@ void SD_Test_ReadOnly(void)
                  sizeof(text) - len,
                  "\r\n");
 
-        uart_print(text);
+        printf("%s", text);
     }
 
 
@@ -167,22 +158,22 @@ void SD_Test_ReadOnly(void)
              sd_sector[510],
              sd_sector[511]);
 
-    uart_print(text);
+    printf("%s", text);
 
 
     if ((sd_sector[510] == 0x55) &&
         (sd_sector[511] == 0xAA))
     {
-        uart_print("Boot-sector signature 55 AA found\r\n");
+        printf("Boot-sector signature 55 AA found\r\n");
     }
     else
     {
-        uart_print("No 55 AA signature - raw read still completed successfully\r\n");
+        printf("No 55 AA signature - raw read still completed successfully\r\n");
     }
 
     SD_CheckFilesystem();
 
-    uart_print("--- SDMMC READ TEST PASSED ---\r\n\r\n");
+    printf("--- SDMMC READ TEST PASSED ---\r\n\r\n");
 }
 static void SD_CheckFilesystem(void)
 {
@@ -195,7 +186,7 @@ static void SD_CheckFilesystem(void)
                           1,
                           2000) != HAL_OK)
     {
-        uart_print("FS CHECK: cannot read sector 0\r\n");
+        printf("FS CHECK: cannot read sector 0\r\n");
         return;
     }
 
@@ -203,7 +194,7 @@ static void SD_CheckFilesystem(void)
     if ((sd_sector[510] != 0x55) ||
         (sd_sector[511] != 0xAA))
     {
-        uart_print("FS CHECK: no 55 AA signature\r\n");
+        printf("FS CHECK: no 55 AA signature\r\n");
         return;
     }
 
@@ -223,7 +214,7 @@ static void SD_CheckFilesystem(void)
              partition_type,
              start_lba);
 
-    uart_print(text);
+    printf("%s", text);
 
     /*
      * If start_lba is zero, sector 0 may itself be the
@@ -237,19 +228,19 @@ static void SD_CheckFilesystem(void)
                               1,
                               2000) != HAL_OK)
         {
-            uart_print("FS CHECK: cannot read partition boot sector\r\n");
+            printf("FS CHECK: cannot read partition boot sector\r\n");
             return;
         }
     }
 
-    uart_print("Filesystem: ");
+    printf("Filesystem: ");
 
     /*
      * exFAT OEM name is at bytes 3..10.
      */
     if (memcmp(&sd_sector[3], "EXFAT   ", 8) == 0)
     {
-        uart_print("exFAT\r\n");
+        printf("exFAT\r\n");
     }
 
     /*
@@ -258,11 +249,11 @@ static void SD_CheckFilesystem(void)
      */
     else if (memcmp(&sd_sector[54], "FAT12   ", 8) == 0)
     {
-        uart_print("FAT12\r\n");
+        printf("FAT12\r\n");
     }
     else if (memcmp(&sd_sector[54], "FAT16   ", 8) == 0)
     {
-        uart_print("FAT16\r\n");
+        printf("FAT16\r\n");
     }
 
     /*
@@ -271,21 +262,21 @@ static void SD_CheckFilesystem(void)
      */
     else if (memcmp(&sd_sector[82], "FAT32   ", 8) == 0)
     {
-        uart_print("FAT32\r\n");
+        printf("FAT32\r\n");
     }
     else
     {
-        uart_print("unknown / not recognized\r\n");
+        printf("unknown / not recognized\r\n");
 
-        uart_print("Boot sector first 16 bytes: ");
+        printf("Boot sector first 16 bytes: ");
 
         for (uint32_t i = 0; i < 16; i++)
         {
             snprintf(text, sizeof(text), "%02X ", sd_sector[i]);
-            uart_print(text);
+            printf("%s", text);
         }
 
-        uart_print("\r\n");
+        printf("\r\n");
     }
 }
 
