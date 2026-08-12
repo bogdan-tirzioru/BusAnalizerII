@@ -314,3 +314,55 @@ void HyperRAM_Test_ID(void)
             "--- HYPERRAM ID TEST FAILED ---\r\n");
     }
 }
+
+
+void HyperRAM_Test_Scope(void)
+{
+    static uint8_t buffer[512];
+
+    OSPI_HyperbusCmdTypeDef cmd = {0};
+
+    uint32_t start;
+    uint32_t count = 0;
+
+    uart_print("\r\n--- HYPERRAM SCOPE TEST ---\r\n");
+
+    start = HAL_GetTick();
+
+    while ((HAL_GetTick() - start) < 5000U)
+    {
+        cmd.AddressSpace = HAL_OSPI_MEMORY_ADDRESS_SPACE;
+        cmd.AddressSize  = HAL_OSPI_ADDRESS_32_BITS;
+        cmd.Address      = 0x00000000U;
+        cmd.DQSMode      = HAL_OSPI_DQS_ENABLE;
+        cmd.NbData       = sizeof(buffer);
+
+        if (HAL_OSPI_HyperbusCmd(&hospi1,
+                                 &cmd,
+                                 HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+        {
+            uart_print("HyperbusCmd ERROR\r\n");
+            return;
+        }
+
+        if (HAL_OSPI_Receive(&hospi1,
+                             buffer,
+                             HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+        {
+            uart_print("Receive ERROR\r\n");
+            return;
+        }
+
+        count++;
+    }
+
+    char text[80];
+
+    snprintf(text, sizeof(text),
+             "Scope transactions: %lu\r\n",
+             (unsigned long)count);
+
+    uart_print(text);
+
+    uart_print("--- HYPERRAM SCOPE TEST DONE ---\r\n");
+}
