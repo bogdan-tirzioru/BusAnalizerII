@@ -151,9 +151,8 @@ int main(void)
   {
       CAN_Sniffer_Process();
 
-      /*
-       * Keep your CAN3 generator process here too.
-       */
+      CAN_Sniffer_StressConsume();
+
 
       uint32_t now = HAL_GetTick();
 
@@ -162,12 +161,17 @@ int main(void)
           can_stats_tick = now;
 
           printf(
-              "CAN rx=%lu buffered=%lu dropped=%lu errors=%lu\r\n",
+              "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
+              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
+              (unsigned long)CAN_Sniffer_GetConsumedCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
+              (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
+              (unsigned long)CAN_Sniffer_GetSequenceErrors(),
               (unsigned long)CAN_Sniffer_GetErrorCount());
-          CAN_Sniffer_DumpBufferedFrames(8);
+          //CAN_Sniffer_DumpBufferedFrames(8);
       }
   }
   /* USER CODE END 3 */

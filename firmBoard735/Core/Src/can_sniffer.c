@@ -39,6 +39,10 @@
 #define CAN_SNIFFER_RX_ANMF_MASK     0x80000000U
 
 
+
+//#define CAN3_GENERATOR_PERIOD_MS  10U
+
+
 extern FDCAN_HandleTypeDef hfdcan1;
 
 
@@ -54,6 +58,13 @@ extern FDCAN_HandleTypeDef hfdcan3;
 static FDCAN_TxHeaderTypeDef can3_tx_header;
 static uint32_t can3_tx_counter = 0;
 static uint32_t can3_tx_tick = 0;
+
+static uint32_t fifo_lost_events = 0U;
+static uint32_t max_fifo_fill = 0U;
+
+static uint32_t stress_consumed = 0U;
+static uint32_t stress_sequence_errors = 0U;
+static uint32_t stress_expected_counter = 0U;
 
 static void CAN3_Generator_Init(void);
 static void CAN3_Generator_Process(void);
@@ -141,6 +152,27 @@ void CAN_Sniffer_Process(void)
     uint8_t rx_length;
 
     CAN_SnifferFrame frame;
+
+    uint32_t fifo_fill =
+        HAL_FDCAN_GetRxFifoFillLevel(
+            &hfdcan1,
+            FDCAN_RX_FIFO0);
+
+    if (fifo_fill > max_fifo_fill)
+    {
+        max_fifo_fill = fifo_fill;
+    }
+
+    if (__HAL_FDCAN_GET_FLAG(
+            &hfdcan1,
+            FDCAN_FLAG_RX_FIFO0_MESSAGE_LOST))
+    {
+        fifo_lost_events++;
+
+        __HAL_FDCAN_CLEAR_FLAG(
+            &hfdcan1,
+            FDCAN_FLAG_RX_FIFO0_MESSAGE_LOST);
+    }
 
     /*
          * Temporary CAN3 test traffic generator.
@@ -489,14 +521,26 @@ static void CAN3_Generator_Init(void)
 
 static void CAN3_Generator_Process(void)
 {
-    uint32_t now = HAL_GetTick();
 
-    if ((now - can3_tx_tick) < 100U)
-    {
-        return;
-    }
 
-    can3_tx_tick = now;
+#if CAN3_GENERATOR_PERIOD_MS > 0
+	uint32_t now = HAL_GetTick();
+
+if ((now - can3_tx_tick) < CAN3_GENERATOR_PERIOD_MS)
+{
+    return;
+}
+
+can3_tx_tick = now;
+
+#else
+
+/*
+ * Maximum-rate mode.
+ * No artificial delay.
+ */
+
+#endif
 
     uint8_t data[8];
 
@@ -582,4 +626,55 @@ void CAN_Sniffer_DumpBufferedFrames(uint32_t count)
 
         printf("\r\n");
     }
+}
+
+
+uint32_t CAN_Sniffer_GetFifoLostEvents(void)
+{
+    return fifo_lost_events;
+}
+
+uint32_t CAN_Sniffer_GetMaxFifoFill(void)
+{
+    return max_fifo_fill;
+}
+
+
+void CAN_Sniffer_StressConsume(void)
+{
+    CAN_SnifferFrame frame;
+
+    while (CAN_CaptureBuffer_Pop(&frame))
+    {
+        uint32_t counter =
+              ((uint32_t)frame.data[0])
+            | ((uint32_t)frame.data[1] << 8)
+            | ((uint32_t)frame.data[2] << 16)
+            | ((uint32_t)frame.data[3] << 24);
+
+        if (counter != stress_expected_counter)
+        {
+            stress_sequence_errors++;
+
+            /*
+             * Resynchronise so a single missing frame
+             * does not make every later frame look wrong.
+             */
+            stress_expected_counter = counter;
+        }
+
+        stress_expected_counter++;
+        stress_consumed++;
+    }
+}
+
+uint32_t CAN_Sniffer_GetSequenceErrors(void)
+{
+    return stress_sequence_errors;
+}
+
+
+uint32_t CAN_Sniffer_GetConsumedCount(void)
+{
+    return stress_consumed;
 }
