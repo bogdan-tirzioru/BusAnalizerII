@@ -167,6 +167,7 @@ int main(void)
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
               (unsigned long)CAN_Sniffer_GetErrorCount());
+          CAN_Sniffer_DumpBufferedFrames(8);
       }
   }
   /* USER CODE END 3 */

@@ -554,3 +554,32 @@ uint32_t CAN_Sniffer_GetDroppedCount(void)
 {
     return CAN_CaptureBuffer_GetDroppedCount();
 }
+
+
+void CAN_Sniffer_DumpBufferedFrames(uint32_t count)
+{
+    CAN_SnifferFrame frame;
+
+    for (uint32_t n = 0U; n < count; n++)
+    {
+        if (!CAN_CaptureBuffer_Pop(&frame))
+        {
+            break;
+        }
+
+        printf(
+            "RAM[%lu] ID=%08lX DLC=%u FLAGS=%02X TS=%u DATA=",
+            (unsigned long)n,
+            (unsigned long)frame.id,
+            frame.dlc,
+            frame.flags,
+            frame.timestamp);
+
+        for (uint32_t i = 0U; i < 8U; i++)
+        {
+            printf("%02X ", frame.data[i]);
+        }
+
+        printf("\r\n");
+    }
+}

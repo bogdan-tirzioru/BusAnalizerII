@@ -10,6 +10,7 @@ uint32_t CAN_Sniffer_GetRxCount(void);
 uint32_t CAN_Sniffer_GetErrorCount(void);
 uint32_t CAN_Sniffer_GetBufferedCount(void);
 uint32_t CAN_Sniffer_GetDroppedCount(void);
+void CAN_Sniffer_DumpBufferedFrames(uint32_t count);
 
 
 #endif
