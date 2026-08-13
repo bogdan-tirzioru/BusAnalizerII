@@ -51,9 +51,17 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
         uint8_t pRxData[8],
         uint8_t *pDataLength);
 
+extern FDCAN_HandleTypeDef hfdcan3;
+static FDCAN_TxHeaderTypeDef can3_tx_header;
+static uint32_t can3_tx_counter = 0;
+static uint32_t can3_tx_tick = 0;
+
+static void CAN3_Generator_Init(void);
+static void CAN3_Generator_Process(void);
 
 void CAN_Sniffer_Init(void)
 {
+
     /*
      * No dedicated ID filters are configured.
      *
@@ -109,6 +117,8 @@ void CAN_Sniffer_Init(void)
     printf("RX FIFO0    : 64 frames\r\n");
     printf("CAN1 TX     : DISABLED\r\n");
     printf("--------------------\r\n");
+
+    CAN3_Generator_Init();
 }
 
 
@@ -182,6 +192,8 @@ void CAN_Sniffer_Process(void)
 
         printf("\r\n");
     }
+
+    CAN3_Generator_Process();
 }
 
 
@@ -406,4 +418,95 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
     hfdcan1.Instance->RXF0A = get_index;
 
     return HAL_OK;
+}
+
+static void CAN3_Generator_Init(void)
+{
+    /*
+     * We do not care about frames internally received by CAN3.
+     */
+    if (HAL_FDCAN_ConfigGlobalFilter(
+            &hfdcan3,
+            FDCAN_REJECT,
+            FDCAN_REJECT,
+            FDCAN_REJECT_REMOTE,
+            FDCAN_REJECT_REMOTE) != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    can3_tx_header.Identifier          = 0x123;
+    can3_tx_header.IdType              = FDCAN_STANDARD_ID;
+    can3_tx_header.TxFrameType         = FDCAN_DATA_FRAME;
+    can3_tx_header.DataLength          = FDCAN_DLC_BYTES_8;
+    can3_tx_header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    can3_tx_header.BitRateSwitch       = FDCAN_BRS_OFF;
+    can3_tx_header.FDFormat            = FDCAN_CLASSIC_CAN;
+    can3_tx_header.TxEventFifoControl  = FDCAN_NO_TX_EVENTS;
+    can3_tx_header.MessageMarker       = 0;
+
+    if (HAL_FDCAN_Start(&hfdcan3) != HAL_OK)
+    {
+        Error_Handler();
+    }
+
+    can3_tx_tick = HAL_GetTick();
+
+    printf("CAN3 generator started\r\n");
+}
+
+static void CAN3_Generator_Process(void)
+{
+    uint32_t now = HAL_GetTick();
+
+    if ((now - can3_tx_tick) < 100U)
+    {
+        return;
+    }
+
+    can3_tx_tick = now;
+
+    uint8_t data[8];
+
+    data[0] = (uint8_t)(can3_tx_counter);
+    data[1] = (uint8_t)(can3_tx_counter >> 8);
+    data[2] = (uint8_t)(can3_tx_counter >> 16);
+    data[3] = (uint8_t)(can3_tx_counter >> 24);
+
+    data[4] = 0x11;
+    data[5] = 0x22;
+    data[6] = 0x33;
+    data[7] = 0x44;
+
+    /*
+     * Vary the CAN ID deliberately.
+     *
+     * This proves CAN1 really is unrestricted.
+     */
+    switch (can3_tx_counter % 4U)
+    {
+        case 0:
+            can3_tx_header.Identifier = 0x123;
+            break;
+
+        case 1:
+            can3_tx_header.Identifier = 0x321;
+            break;
+
+        case 2:
+            can3_tx_header.Identifier = 0x555;
+            break;
+
+        default:
+            can3_tx_header.Identifier = 0x7AA;
+            break;
+    }
+
+    if (HAL_FDCAN_AddMessageToTxFifoQ(
+            &hfdcan3,
+            &can3_tx_header,
+            data) == HAL_OK)
+    {
+        can3_tx_counter++;
+    }
 }
