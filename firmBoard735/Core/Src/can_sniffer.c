@@ -83,8 +83,6 @@ static void CAN_Sniffer_CycleCounter_Init(void)
 }
 void CAN_Sniffer_Init(void)
 {
-	static uint64_t capture_cycles = 0U;
-	static uint32_t capture_measured_frames = 0U;
 
 	CAN_CaptureBuffer_Init();
 
@@ -177,6 +175,7 @@ void CAN_Sniffer_Process(void)
             &hfdcan1,
             FDCAN_RX_FIFO0);
 
+
     if (fifo_fill > max_fifo_fill)
     {
         max_fifo_fill = fifo_fill;
@@ -193,7 +192,10 @@ void CAN_Sniffer_Process(void)
             FDCAN_FLAG_RX_FIFO0_MESSAGE_LOST);
     }
 
-
+    if (fifo_fill == 0U)
+        {
+            return;
+        }
     uint32_t frames_before = rx_count;
     uint32_t cycle_start = DWT->CYCCNT;
 

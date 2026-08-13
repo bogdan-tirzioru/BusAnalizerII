@@ -128,6 +128,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Console_Init(&huart1);
   printf("\r\nBusAnalyzerII console ready\r\n");
+  printf("CPU clock    : %lu Hz\r\n",
+         (unsigned long)SystemCoreClock);
   BoardID_Init();
   BoardID_Print(&huart1);
 
