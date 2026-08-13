@@ -145,12 +145,29 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  uint32_t can_stats_tick = HAL_GetTick();
+
   while (1)
   {
-    /* USER CODE END WHILE */
+      CAN_Sniffer_Process();
 
-    /* USER CODE BEGIN 3 */
-	  CAN_Sniffer_Process();
+      /*
+       * Keep your CAN3 generator process here too.
+       */
+
+      uint32_t now = HAL_GetTick();
+
+      if ((now - can_stats_tick) >= 1000U)
+      {
+          can_stats_tick = now;
+
+          printf(
+              "CAN rx=%lu buffered=%lu dropped=%lu errors=%lu\r\n",
+              (unsigned long)CAN_Sniffer_GetRxCount(),
+              (unsigned long)CAN_Sniffer_GetBufferedCount(),
+              (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)CAN_Sniffer_GetErrorCount());
+      }
   }
   /* USER CODE END 3 */
 }

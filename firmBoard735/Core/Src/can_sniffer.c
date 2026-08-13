@@ -3,7 +3,9 @@
 #include "main.h"
 
 #include <stdio.h>
+#include "can_capture_buffer.h"
 
+#include <string.h>
 
 /*
  * Bosch M_CAN Rx FIFO element layout.
@@ -39,9 +41,6 @@
 
 extern FDCAN_HandleTypeDef hfdcan1;
 
-static FDCAN_RxHeaderTypeDef rx_header;
-static uint8_t rx_data[8];
-static uint8_t rx_length;
 
 static uint32_t rx_count = 0;
 static uint32_t error_count = 0;
@@ -61,6 +60,18 @@ static void CAN3_Generator_Process(void);
 
 void CAN_Sniffer_Init(void)
 {
+
+
+	CAN_CaptureBuffer_Init();
+
+	rx_count = 0U;
+	error_count = 0U;
+
+	printf("RAM buffer   : %lu frames / %lu bytes\r\n",
+	       (unsigned long)CAN_CAPTURE_BUFFER_CAPACITY,
+	       (unsigned long)(
+	           CAN_CAPTURE_BUFFER_CAPACITY *
+	           sizeof(CAN_SnifferFrame)));
 
     /*
      * No dedicated ID filters are configured.
@@ -124,6 +135,18 @@ void CAN_Sniffer_Init(void)
 
 void CAN_Sniffer_Process(void)
 {
+    FDCAN_RxHeaderTypeDef rx_header;
+
+    uint8_t rx_data[8];
+    uint8_t rx_length;
+
+    CAN_SnifferFrame frame;
+
+    /*
+         * Temporary CAN3 test traffic generator.
+         */
+    CAN3_Generator_Process();
+
     while (HAL_FDCAN_GetRxFifoFillLevel(
                &hfdcan1,
                FDCAN_RX_FIFO0) > 0U)
@@ -134,66 +157,75 @@ void CAN_Sniffer_Process(void)
                 &rx_length) != HAL_OK)
         {
             error_count++;
+
             return;
         }
 
-        rx_count++;
-
-        printf("%08lu  TS=%05lu  ",
-               (unsigned long)rx_count,
-               (unsigned long)rx_header.RxTimestamp);
-
-        if (rx_header.IdType == FDCAN_STANDARD_ID)
-        {
-            printf("STD %03lX ",
-                   (unsigned long)rx_header.Identifier);
-        }
-        else
-        {
-            printf("EXT %08lX ",
-                   (unsigned long)rx_header.Identifier);
-        }
-
         /*
-         * For RTR preserve and display the raw DLC.
+         * Convert ST/FDCAN representation into our own
+         * analyzer-independent frame representation.
          */
+
+        frame.id =
+            rx_header.Identifier;
+
+        frame.timestamp =
+            (uint16_t)rx_header.RxTimestamp;
+
+        frame.dlc =
+            (uint8_t)rx_header.DataLength;
+
+        frame.flags = 0U;
+
+        if (rx_header.IdType == FDCAN_EXTENDED_ID)
+        {
+            frame.flags |= CAN_FRAME_FLAG_EXTENDED;
+        }
+
         if (rx_header.RxFrameType == FDCAN_REMOTE_FRAME)
         {
-            printf("RTR DLC=%lu\r\n",
-                   (unsigned long)rx_header.DataLength);
+            frame.flags |= CAN_FRAME_FLAG_RTR;
+        }
 
-            continue;
+        if (rx_header.ErrorStateIndicator ==
+            FDCAN_ESI_PASSIVE)
+        {
+            frame.flags |= CAN_FRAME_FLAG_ESI;
         }
 
         /*
-         * Show both raw DLC and actual payload length.
-         *
-         * Usually:
-         *
-         * DLC=8 LEN=8
-         *
-         * But a legal Classic CAN DLC=15 frame becomes:
-         *
-         * DLC=15 LEN=8
+         * Make unused payload bytes deterministic.
          */
-        printf("DLC=%lu LEN=%u DATA=",
-               (unsigned long)rx_header.DataLength,
-               rx_length);
+        memset(
+            frame.data,
+            0,
+            sizeof(frame.data));
 
-        for (uint8_t i = 0U; i < rx_length; i++)
-        {
-            printf("%02X", rx_data[i]);
+        /*
+         * CAN_Sniffer_ReadClassicFrame() guarantees
+         * rx_length <= 8.
+         */
+        memcpy(
+            frame.data,
+            rx_data,
+            rx_length);
 
-            if ((i + 1U) < rx_length)
-            {
-                printf(" ");
-            }
-        }
+        /*
+         * Count every valid frame removed from the
+         * hardware FDCAN FIFO.
+         */
+        rx_count++;
 
-        printf("\r\n");
+        /*
+         * Store it.
+         *
+         * If RAM buffer is full Push() increments its
+         * own dropped counter.
+         *
+         * Most importantly: NO PRINTF HERE.
+         */
+        (void)CAN_CaptureBuffer_Push(&frame);
     }
-
-    CAN3_Generator_Process();
 }
 
 
@@ -509,4 +541,16 @@ static void CAN3_Generator_Process(void)
     {
         can3_tx_counter++;
     }
+}
+
+
+uint32_t CAN_Sniffer_GetBufferedCount(void)
+{
+    return CAN_CaptureBuffer_GetCount();
+}
+
+
+uint32_t CAN_Sniffer_GetDroppedCount(void)
+{
+    return CAN_CaptureBuffer_GetDroppedCount();
 }
