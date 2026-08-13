@@ -66,12 +66,25 @@ static uint32_t stress_consumed = 0U;
 static uint32_t stress_sequence_errors = 0U;
 static uint32_t stress_expected_counter = 0U;
 
+static uint64_t capture_cycles = 0U;
+static uint32_t capture_measured_frames = 0U;
+
 static void CAN3_Generator_Init(void);
 static void CAN3_Generator_Process(void);
 
+
+
+static void CAN_Sniffer_CycleCounter_Init(void)
+{
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+
+    DWT->CYCCNT = 0U;
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+}
 void CAN_Sniffer_Init(void)
 {
-
+	static uint64_t capture_cycles = 0U;
+	static uint32_t capture_measured_frames = 0U;
 
 	CAN_CaptureBuffer_Init();
 
@@ -153,6 +166,12 @@ void CAN_Sniffer_Process(void)
 
     CAN_SnifferFrame frame;
 
+
+    /*
+             * Temporary CAN3 test traffic generator.
+             */
+        CAN3_Generator_Process();
+
     uint32_t fifo_fill =
         HAL_FDCAN_GetRxFifoFillLevel(
             &hfdcan1,
@@ -174,10 +193,9 @@ void CAN_Sniffer_Process(void)
             FDCAN_FLAG_RX_FIFO0_MESSAGE_LOST);
     }
 
-    /*
-         * Temporary CAN3 test traffic generator.
-         */
-    CAN3_Generator_Process();
+
+    uint32_t frames_before = rx_count;
+    uint32_t cycle_start = DWT->CYCCNT;
 
     while (HAL_FDCAN_GetRxFifoFillLevel(
                &hfdcan1,
@@ -257,6 +275,19 @@ void CAN_Sniffer_Process(void)
          * Most importantly: NO PRINTF HERE.
          */
         (void)CAN_CaptureBuffer_Push(&frame);
+    }
+    uint32_t cycle_end = DWT->CYCCNT;
+
+    uint32_t frames_captured =
+        rx_count - frames_before;
+
+    if (frames_captured > 0U)
+    {
+        capture_cycles +=
+            (uint32_t)(cycle_end - cycle_start);
+
+        capture_measured_frames +=
+            frames_captured;
     }
 }
 
@@ -677,4 +708,15 @@ uint32_t CAN_Sniffer_GetSequenceErrors(void)
 uint32_t CAN_Sniffer_GetConsumedCount(void)
 {
     return stress_consumed;
+}
+
+
+uint64_t CAN_Sniffer_GetCaptureCycles(void)
+{
+    return capture_cycles;
+}
+
+uint32_t CAN_Sniffer_GetMeasuredFrames(void)
+{
+    return capture_measured_frames;
 }

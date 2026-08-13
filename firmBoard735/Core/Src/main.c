@@ -146,7 +146,8 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   uint32_t can_stats_tick = HAL_GetTick();
-
+  uint64_t previous_capture_cycles = 0U;
+  uint32_t previous_measured_frames = 0U;
   while (1)
   {
       CAN_Sniffer_Process();
@@ -159,10 +160,32 @@ int main(void)
       if ((now - can_stats_tick) >= 1000U)
       {
           can_stats_tick = now;
+          uint64_t total_capture_cycles =
+              CAN_Sniffer_GetCaptureCycles();
 
+          uint32_t total_measured_frames =
+              CAN_Sniffer_GetMeasuredFrames();
+
+          uint64_t delta_cycles =
+              total_capture_cycles - previous_capture_cycles;
+
+          uint32_t delta_frames =
+              total_measured_frames - previous_measured_frames;
+
+          previous_capture_cycles = total_capture_cycles;
+          previous_measured_frames = total_measured_frames;
+
+          uint32_t cycles_per_frame = 0U;
+
+          if (delta_frames > 0U)
+          {
+              cycles_per_frame =
+                  (uint32_t)(delta_cycles / delta_frames);
+          }
           printf(
               "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
-              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu\r\n",
+              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu "
+              "cpf=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
               (unsigned long)CAN_Sniffer_GetConsumedCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
@@ -170,8 +193,8 @@ int main(void)
               (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
               (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
               (unsigned long)CAN_Sniffer_GetSequenceErrors(),
-              (unsigned long)CAN_Sniffer_GetErrorCount());
-          //CAN_Sniffer_DumpBufferedFrames(8);
+              (unsigned long)CAN_Sniffer_GetErrorCount(),
+              (unsigned long)cycles_per_frame);
       }
   }
   /* USER CODE END 3 */
