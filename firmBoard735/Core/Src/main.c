@@ -28,6 +28,7 @@
 #include "sd_test.h"
 #include "fatfs_test.h"
 #include "hyperram_test.h"
+#include "hyperram_capture.h"
 #include "board_id.h"
 #include "rtc_test.h"
 /* USER CODE END Includes */
@@ -140,6 +141,7 @@ int main(void)
   FATFS_Test_ReadOnly();
   FATFS_Test_ReadWrite();
   CAN_Sniffer_Init();
+  HyperRAM_Capture_Init();
 
 
   /* USER CODE END 2 */
@@ -153,7 +155,7 @@ int main(void)
   {
       CAN_Sniffer_Process();
 
-      CAN_Sniffer_StressConsume();
+      HyperRAM_Capture_Process();
 
 
       uint32_t now = HAL_GetTick();
@@ -184,16 +186,18 @@ int main(void)
                   (uint32_t)(delta_cycles / delta_frames);
           }
           printf(
-              "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
-              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu "
-              "cpf=%lu\r\n",
+              "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
+              "hramErr=%lu hramLost=%lu wrap=%lu "
+              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
-              (unsigned long)CAN_Sniffer_GetConsumedCount(),
+              (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)HyperRAM_Capture_GetWriteErrors(),
+              (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
+              (unsigned long)HyperRAM_Capture_GetWrapCount(),
               (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
               (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
-              (unsigned long)CAN_Sniffer_GetSequenceErrors(),
               (unsigned long)CAN_Sniffer_GetErrorCount(),
               (unsigned long)cycles_per_frame);
       }
@@ -537,7 +541,7 @@ static void MX_USART1_UART_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
   {
     Error_Handler();
   }
@@ -672,7 +676,7 @@ void Error_Handler(void)
 }
 #ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
+  * @brief  Reports the name of the source file name and the source line number
   *         where the assert_param error has occurred.
   * @param  file: pointer to the source file name
   * @param  line: assert_param error line source number
