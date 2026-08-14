@@ -348,3 +348,90 @@ void HyperRAM_Test_Scope(void)
     printf("%s", text);
     printf("--- HYPERRAM SCOPE TEST DONE ---\r\n");
 }
+
+
+void HyperRAM_Test_Memory(void)
+{
+    uint8_t tx[64];
+    uint8_t rx[64];
+
+    OSPI_HyperbusCmdTypeDef cmd = {0};
+
+    printf("\r\n--- HYPERRAM 64-BYTE MEMORY TEST ---\r\n");
+
+    for (uint32_t i = 0; i < sizeof(tx); i++)
+    {
+        tx[i] = (uint8_t)(i ^ 0xA5U);
+        rx[i] = 0;
+    }
+
+    /* WRITE */
+    cmd.AddressSpace = HAL_OSPI_MEMORY_ADDRESS_SPACE;
+    cmd.AddressSize  = HAL_OSPI_ADDRESS_32_BITS;
+    cmd.Address      = 0x00000000U;
+    cmd.DQSMode      = HAL_OSPI_DQS_ENABLE;
+    cmd.NbData       = sizeof(tx);
+
+    if (HAL_OSPI_HyperbusCmd(&hospi1,
+                             &cmd,
+                             HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+    {
+        printf("WRITE command ERROR\r\n");
+        return;
+    }
+    printf("WRITE CMD : OK\r\n");
+    if (HAL_OSPI_Transmit(&hospi1,
+                          tx,
+                          HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+    {
+        printf("WRITE data ERROR\r\n");
+        return;
+    }
+    printf("WRITE DATA: OK\r\n");
+    /* READ */
+    cmd.Address      = 0x00000000U;
+    cmd.NbData       = sizeof(rx);
+
+    if (HAL_OSPI_HyperbusCmd(&hospi1,
+                             &cmd,
+                             HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+    {
+        printf("READ command ERROR\r\n");
+        return;
+    }
+    printf("READ CMD  : OK\r\n");
+    if (HAL_OSPI_Receive(&hospi1,
+                         rx,
+                         HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+    {
+        printf("READ data ERROR\r\n");
+        return;
+    }
+    printf("READ DATA : OK\r\n");
+    uint32_t errors = 0;
+
+    for (uint32_t i = 0; i < sizeof(tx); i++)
+    {
+        if (rx[i] != tx[i])
+        {
+            printf("%02lu: wrote=%02X read=%02X\r\n",
+                   (unsigned long)i,
+                   tx[i],
+                   rx[i]);
+
+            errors++;
+        }
+    }
+
+    if (errors == 0)
+    {
+        printf("HYPERRAM MEMORY TEST: PASS\r\n");
+    }
+    else
+    {
+        printf("HYPERRAM MEMORY TEST: FAIL (%lu errors)\r\n",
+               (unsigned long)errors);
+    }
+
+    printf("--- END ---\r\n");
+}

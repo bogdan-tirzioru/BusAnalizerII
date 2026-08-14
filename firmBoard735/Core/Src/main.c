@@ -136,7 +136,8 @@ int main(void)
   //RTC_Test(&hrtc, &huart1);
   //HAL_Delay(1);
   //HyperRAM_Test_Scope();
-  HyperRAM_Test_ID();
+  //HyperRAM_Test_ID();
+  HyperRAM_Test_Memory();
   //SD_Test_ReadOnly();
   //FATFS_Test_ReadOnly();
   //FATFS_Test_ReadWrite();
