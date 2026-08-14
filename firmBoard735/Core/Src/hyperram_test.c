@@ -70,8 +70,8 @@ static int HyperRAM_ReadRegister16(uint32_t address,
      *
      * Keep this explicit because we also print the raw bytes.
      */
-    *value = ((uint16_t)raw[1] << 8) |
-             ((uint16_t)raw[0]);
+    *value = ((uint16_t)raw[0] << 8) |
+             ((uint16_t)raw[1]);
 
     return 0;
 }

@@ -389,6 +389,8 @@ static void MX_OCTOSPI1_Init(void)
 
   /* USER CODE BEGIN OCTOSPI1_Init 1 */
 
+   sOspiManagerCfg.Req2AckTime = 1;
+
   /* USER CODE END OCTOSPI1_Init 1 */
   /* OCTOSPI1 parameter configuration*/
   hospi1.Instance = OCTOSPI1;
@@ -416,6 +418,7 @@ static void MX_OCTOSPI1_Init(void)
   sOspiManagerCfg.NCSPort = 1;
   sOspiManagerCfg.IOLowPort = HAL_OSPIM_IOPORT_1_LOW;
   sOspiManagerCfg.IOHighPort = HAL_OSPIM_IOPORT_1_HIGH;
+
   if (HAL_OSPIM_Config(&hospi1, &sOspiManagerCfg, HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
   {
     Error_Handler();
