@@ -40,7 +40,7 @@
 
 
 
-#define CAN3_GENERATOR_PERIOD_MS  1U
+//#define CAN3_GENERATOR_PERIOD_MS  1U
 
 
 extern FDCAN_HandleTypeDef hfdcan1;
