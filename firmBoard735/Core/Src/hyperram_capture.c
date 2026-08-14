@@ -23,13 +23,7 @@ extern FDCAN_HandleTypeDef hfdcan3;
 /* Write path: 32 x 16-byte records = one 512-byte HyperBus transaction. */
 #define HYPERRAM_CAPTURE_BATCH_FRAMES   32U
 
-/*
- * Verification deliberately uses a DIFFERENT transaction size.
- *
- * This is a diagnostic experiment:
- *   - errors on multiples of 31 -> read transaction start problem
- *   - errors on multiples of 32 -> stored write transaction problem
- */
+/* Verification deliberately uses a different transaction size. */
 #define HYPERRAM_VERIFY_BATCH_FRAMES    31U
 
 #define HYPERRAM_CAPTURE_FLUSH_MS       10U
@@ -51,6 +45,25 @@ static uint32_t last_flush_tick = 0U;
 static CAN_SnifferFrame batch[HYPERRAM_CAPTURE_BATCH_FRAMES];
 static CAN_SnifferFrame verify_batch[HYPERRAM_VERIFY_BATCH_FRAMES];
 
+/*
+ * Diagnostic monitor of the exact SRAM records immediately before they are
+ * handed to HAL_OSPI_Transmit(). This separates upstream CAN/SRAM errors from
+ * errors introduced by the HyperRAM storage/readback path.
+ */
+static bool prewrite_have_counter = false;
+static uint32_t prewrite_checked_count = 0U;
+static uint32_t prewrite_expected_counter = 0U;
+static uint32_t prewrite_first_counter = 0U;
+static uint32_t prewrite_last_counter = 0U;
+static uint32_t prewrite_sequence_errors = 0U;
+static uint32_t prewrite_missing_frames = 0U;
+static uint32_t prewrite_backward_events = 0U;
+static uint32_t prewrite_large_jump_events = 0U;
+static uint32_t prewrite_id_errors = 0U;
+static uint32_t prewrite_dlc_errors = 0U;
+static uint32_t prewrite_flags_errors = 0U;
+static uint32_t prewrite_payload_errors = 0U;
+
 static bool verify_started = false;
 static bool verify_scan_started = false;
 static bool verify_done = false;
@@ -64,7 +77,7 @@ static uint32_t verify_checked_count = 0U;
 static uint32_t verify_read_errors = 0U;
 static uint32_t verify_control_errors = 0U;
 static uint32_t verify_sequence_errors = 0U;
-static uint64_t verify_forward_gap_frames = 0U;
+static uint32_t verify_forward_gap_frames = 0U;
 static uint32_t verify_large_jump_events = 0U;
 static uint32_t verify_backward_events = 0U;
 static uint32_t verify_id_errors = 0U;
@@ -153,6 +166,76 @@ static uint32_t HyperRAM_Capture_ExpectedId(uint32_t counter)
     }
 }
 
+static void HyperRAM_Capture_MonitorPreWrite(const CAN_SnifferFrame *frame)
+{
+    uint32_t counter =
+          ((uint32_t)frame->data[0])
+        | ((uint32_t)frame->data[1] << 8)
+        | ((uint32_t)frame->data[2] << 16)
+        | ((uint32_t)frame->data[3] << 24);
+
+    if (!prewrite_have_counter)
+    {
+        prewrite_have_counter = true;
+        prewrite_first_counter = counter;
+        prewrite_expected_counter = counter;
+    }
+
+    uint32_t expected_before = prewrite_expected_counter;
+
+    if (counter != expected_before)
+    {
+        prewrite_sequence_errors++;
+
+        if (counter > expected_before)
+        {
+            uint32_t gap = counter - expected_before;
+
+            if (gap <= HYPERRAM_CAPTURE_VERIFY_FRAMES)
+            {
+                prewrite_missing_frames += gap;
+            }
+            else
+            {
+                prewrite_large_jump_events++;
+            }
+        }
+        else
+        {
+            prewrite_backward_events++;
+        }
+
+        prewrite_expected_counter = counter;
+    }
+
+    prewrite_expected_counter++;
+    prewrite_last_counter = counter;
+    prewrite_checked_count++;
+
+    if (frame->id != HyperRAM_Capture_ExpectedId(counter))
+    {
+        prewrite_id_errors++;
+    }
+
+    if (frame->dlc != 8U)
+    {
+        prewrite_dlc_errors++;
+    }
+
+    if (frame->flags != 0U)
+    {
+        prewrite_flags_errors++;
+    }
+
+    if ((frame->data[4] != 0x11U) ||
+        (frame->data[5] != 0x22U) ||
+        (frame->data[6] != 0x33U) ||
+        (frame->data[7] != 0x44U))
+    {
+        prewrite_payload_errors++;
+    }
+}
+
 static void HyperRAM_Capture_StoreProcess(void)
 {
     uint32_t available = CAN_CaptureBuffer_GetCount();
@@ -200,6 +283,12 @@ static void HyperRAM_Capture_StoreProcess(void)
     if (popped == 0U)
     {
         return;
+    }
+
+    /* Inspect the exact data image before any HyperRAM transaction starts. */
+    for (uint32_t i = 0U; i < popped; i++)
+    {
+        HyperRAM_Capture_MonitorPreWrite(&batch[i]);
     }
 
     uint32_t address =
@@ -314,6 +403,31 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
         verify_done = true;
     }
 
+    printf("\r\n--- PRE-WRITE SRAM SEQUENCE ---\r\n");
+    printf("Frames checked  : %lu\r\n",
+           (unsigned long)prewrite_checked_count);
+    printf("First counter   : %lu\r\n",
+           (unsigned long)prewrite_first_counter);
+    printf("Last counter    : %lu\r\n",
+           (unsigned long)prewrite_last_counter);
+    printf("Sequence errors : %lu\r\n",
+           (unsigned long)prewrite_sequence_errors);
+    printf("Missing frames  : %lu\r\n",
+           (unsigned long)prewrite_missing_frames);
+    printf("Large jumps     : %lu\r\n",
+           (unsigned long)prewrite_large_jump_events);
+    printf("Backward events : %lu\r\n",
+           (unsigned long)prewrite_backward_events);
+    printf("ID errors       : %lu\r\n",
+           (unsigned long)prewrite_id_errors);
+    printf("DLC errors      : %lu\r\n",
+           (unsigned long)prewrite_dlc_errors);
+    printf("Flags errors    : %lu\r\n",
+           (unsigned long)prewrite_flags_errors);
+    printf("Payload errors  : %lu\r\n",
+           (unsigned long)prewrite_payload_errors);
+    printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
+
     printf("Frames checked  : %lu / %lu\r\n",
            (unsigned long)verify_checked_count,
            (unsigned long)verify_target_count);
@@ -327,8 +441,8 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
            (unsigned long)verify_read_errors);
     printf("Sequence errors : %lu\r\n",
            (unsigned long)verify_sequence_errors);
-    printf("Forward gap     : %llu frame(s)\r\n",
-           (unsigned long long)verify_forward_gap_frames);
+    printf("Forward gap     : %lu frame(s)\r\n",
+           (unsigned long)verify_forward_gap_frames);
     printf("Large jumps     : %lu\r\n",
            (unsigned long)verify_large_jump_events);
     printf("Backward events : %lu\r\n",
@@ -549,6 +663,20 @@ void HyperRAM_Capture_Init(void)
     write_lost_frames = 0U;
     last_flush_tick = HAL_GetTick();
 
+    prewrite_have_counter = false;
+    prewrite_checked_count = 0U;
+    prewrite_expected_counter = 0U;
+    prewrite_first_counter = 0U;
+    prewrite_last_counter = 0U;
+    prewrite_sequence_errors = 0U;
+    prewrite_missing_frames = 0U;
+    prewrite_backward_events = 0U;
+    prewrite_large_jump_events = 0U;
+    prewrite_id_errors = 0U;
+    prewrite_dlc_errors = 0U;
+    prewrite_flags_errors = 0U;
+    prewrite_payload_errors = 0U;
+
     verify_started = false;
     verify_scan_started = false;
     verify_done = false;
@@ -582,6 +710,7 @@ void HyperRAM_Capture_Init(void)
     printf("HyperRAM verify: target=%lu frames, read batch=%u frames\r\n",
            (unsigned long)HYPERRAM_CAPTURE_VERIFY_FRAMES,
            HYPERRAM_VERIFY_BATCH_FRAMES);
+    printf("HyperRAM diagnostic: SRAM sequence checked before each write\r\n");
 }
 
 void HyperRAM_Capture_Process(void)
