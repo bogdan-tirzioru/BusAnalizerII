@@ -1,6 +1,7 @@
 #include "hyperram_test.h"
 #include "main.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
