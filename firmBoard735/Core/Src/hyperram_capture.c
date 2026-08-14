@@ -6,6 +6,8 @@
 #include <stdio.h>
 
 extern OSPI_HandleTypeDef hospi1;
+extern FDCAN_HandleTypeDef hfdcan1;
+extern FDCAN_HandleTypeDef hfdcan3;
 
 /* Physical S27KL0641 fitted on the board: 8 MiB. */
 #define HYPERRAM_SIZE_BYTES             (8U * 1024U * 1024U)
@@ -24,14 +26,14 @@ extern OSPI_HandleTypeDef hospi1;
 /* Flush a partial batch if traffic becomes sparse or stops. */
 #define HYPERRAM_CAPTURE_FLUSH_MS       10U
 
-/*
- * First functional readback milestone.
- *
- * Verification starts automatically once at least this many records have
- * been stored. It verifies a stable prefix of the capture while capture
- * continues in the background.
- */
+/* First functional readback milestone. */
 #define HYPERRAM_CAPTURE_VERIFY_FRAMES  100000U
+
+/* Allow the final CAN frame already in flight to arrive before scanning. */
+#define HYPERRAM_VERIFY_QUIET_MS        20U
+
+/* Keep serial output bounded even if the image is badly damaged. */
+#define HYPERRAM_VERIFY_MAX_DETAILS     12U
 
 _Static_assert(
     HYPERRAM_CAPTURE_VERIFY_FRAMES <= HYPERRAM_CAPTURE_CAPACITY,
@@ -48,19 +50,25 @@ static CAN_SnifferFrame batch[HYPERRAM_CAPTURE_BATCH_FRAMES];
 static CAN_SnifferFrame verify_batch[HYPERRAM_CAPTURE_BATCH_FRAMES];
 
 static bool verify_started = false;
+static bool verify_scan_started = false;
 static bool verify_done = false;
 static bool verify_passed = false;
 
+static uint32_t verify_stop_tick = 0U;
 static uint32_t verify_start_index = 0U;
 static uint32_t verify_target_count = 0U;
 static uint32_t verify_checked_count = 0U;
 
 static uint32_t verify_read_errors = 0U;
+static uint32_t verify_control_errors = 0U;
 static uint32_t verify_sequence_errors = 0U;
+static uint32_t verify_forward_gap_frames = 0U;
+static uint32_t verify_backward_events = 0U;
 static uint32_t verify_id_errors = 0U;
 static uint32_t verify_dlc_errors = 0U;
 static uint32_t verify_flags_errors = 0U;
 static uint32_t verify_payload_errors = 0U;
+static uint32_t verify_detail_count = 0U;
 
 static bool verify_have_counter = false;
 static uint32_t verify_expected_counter = 0U;
@@ -79,7 +87,8 @@ static HAL_StatusTypeDef HyperRAM_Capture_Read(
 
 static void HyperRAM_Capture_StoreProcess(void);
 static void HyperRAM_Capture_VerifyProcess(void);
-static void HyperRAM_Capture_StartVerification(void);
+static void HyperRAM_Capture_RequestVerification(void);
+static void HyperRAM_Capture_BeginVerificationScan(void);
 static void HyperRAM_Capture_PrintVerifyReport(void);
 static uint32_t HyperRAM_Capture_ExpectedId(uint32_t counter);
 
@@ -157,17 +166,23 @@ void HyperRAM_Capture_Init(void)
     last_flush_tick = HAL_GetTick();
 
     verify_started = false;
+    verify_scan_started = false;
     verify_done = false;
     verify_passed = false;
+    verify_stop_tick = 0U;
     verify_start_index = 0U;
     verify_target_count = 0U;
     verify_checked_count = 0U;
     verify_read_errors = 0U;
+    verify_control_errors = 0U;
     verify_sequence_errors = 0U;
+    verify_forward_gap_frames = 0U;
+    verify_backward_events = 0U;
     verify_id_errors = 0U;
     verify_dlc_errors = 0U;
     verify_flags_errors = 0U;
     verify_payload_errors = 0U;
+    verify_detail_count = 0U;
     verify_have_counter = false;
     verify_expected_counter = 0U;
     verify_first_counter = 0U;
@@ -200,11 +215,6 @@ static void HyperRAM_Capture_StoreProcess(void)
 
     uint32_t now = HAL_GetTick();
 
-    /*
-     * Prefer full 512-byte writes under continuous traffic.
-     * If traffic is sparse, flush the partial batch after a short delay
-     * so the final few frames do not remain indefinitely in SRAM.
-     */
     if ((available < HYPERRAM_CAPTURE_BATCH_FRAMES) &&
         ((now - last_flush_tick) < HYPERRAM_CAPTURE_FLUSH_MS))
     {
@@ -221,7 +231,6 @@ static void HyperRAM_Capture_StoreProcess(void)
         count = HYPERRAM_CAPTURE_BATCH_FRAMES;
     }
 
-    /* Never let a single HyperBus transaction cross the circular boundary. */
     if (count > remaining_to_end)
     {
         count = remaining_to_end;
@@ -284,35 +293,56 @@ static void HyperRAM_Capture_StoreProcess(void)
     }
 }
 
-static void HyperRAM_Capture_StartVerification(void)
+static void HyperRAM_Capture_RequestVerification(void)
 {
+    verify_started = true;
+    verify_scan_started = false;
+    verify_done = false;
+    verify_passed = false;
+    verify_stop_tick = HAL_GetTick();
+
     /*
-     * For this first milestone we intentionally start before the first wrap.
-     * That gives us a stable prefix at physical record 0 while capture keeps
-     * running. The verifier itself understands circular boundaries, which we
-     * will use later for the dedicated wrap test.
+     * Freeze our only test traffic source. CAN1 remains active so an already
+     * transmitted final frame can still be drained from FIFO0 into SRAM.
      */
+    if (HAL_FDCAN_Stop(&hfdcan3) != HAL_OK)
+    {
+        verify_control_errors++;
+        printf("HyperRAM verify: CAN3 stop ERROR\r\n");
+    }
+    else
+    {
+        printf("\r\nHyperRAM verify: CAN3 generator stopped\r\n");
+        printf("HyperRAM verify: draining CAN1 FIFO + SRAM...\r\n");
+    }
+}
+
+static void HyperRAM_Capture_BeginVerificationScan(void)
+{
     verify_start_index = 0U;
     verify_target_count = HYPERRAM_CAPTURE_VERIFY_FRAMES;
     verify_checked_count = 0U;
 
     verify_read_errors = 0U;
     verify_sequence_errors = 0U;
+    verify_forward_gap_frames = 0U;
+    verify_backward_events = 0U;
     verify_id_errors = 0U;
     verify_dlc_errors = 0U;
     verify_flags_errors = 0U;
     verify_payload_errors = 0U;
+    verify_detail_count = 0U;
 
     verify_have_counter = false;
     verify_expected_counter = 0U;
     verify_first_counter = 0U;
     verify_last_counter = 0U;
-
-    verify_started = true;
-    verify_done = false;
-    verify_passed = false;
+    verify_scan_started = true;
 
     printf("\r\n--- HYPERRAM CAPTURE READBACK VERIFY ---\r\n");
+    printf("Capture frozen  : YES\r\n");
+    printf("Stored frames   : %lu\r\n",
+           (unsigned long)stored_count);
     printf("Snapshot frames : %lu\r\n",
            (unsigned long)verify_target_count);
     printf("Snapshot start  : record %lu\r\n",
@@ -325,13 +355,10 @@ static uint32_t HyperRAM_Capture_ExpectedId(uint32_t counter)
     {
         case 0U:
             return 0x123U;
-
         case 1U:
             return 0x321U;
-
         case 2U:
             return 0x555U;
-
         default:
             return 0x7AAU;
     }
@@ -349,12 +376,35 @@ static void HyperRAM_Capture_VerifyProcess(void)
         if ((wrap_count == 0U) &&
             (stored_count >= HYPERRAM_CAPTURE_VERIFY_FRAMES))
         {
-            HyperRAM_Capture_StartVerification();
+            HyperRAM_Capture_RequestVerification();
         }
-        else
+
+        return;
+    }
+
+    if (!verify_scan_started)
+    {
+        uint32_t now = HAL_GetTick();
+
+        if ((now - verify_stop_tick) < HYPERRAM_VERIFY_QUIET_MS)
         {
             return;
         }
+
+        if (HAL_FDCAN_GetRxFifoFillLevel(
+                &hfdcan1,
+                FDCAN_RX_FIFO0) != 0U)
+        {
+            return;
+        }
+
+        if (CAN_CaptureBuffer_GetCount() != 0U)
+        {
+            return;
+        }
+
+        HyperRAM_Capture_BeginVerificationScan();
+        return;
     }
 
     uint32_t remaining =
@@ -408,6 +458,7 @@ static void HyperRAM_Capture_VerifyProcess(void)
     for (uint32_t i = 0U; i < count; i++)
     {
         const CAN_SnifferFrame *frame = &verify_batch[i];
+        uint32_t record_index = verify_checked_count + i;
 
         uint32_t counter =
               ((uint32_t)frame->data[0])
@@ -422,41 +473,76 @@ static void HyperRAM_Capture_VerifyProcess(void)
             verify_expected_counter = counter;
         }
 
-        if (counter != verify_expected_counter)
+        uint32_t expected_before = verify_expected_counter;
+        bool sequence_bad = (counter != expected_before);
+        bool id_bad =
+            (frame->id != HyperRAM_Capture_ExpectedId(counter));
+        bool dlc_bad = (frame->dlc != 8U);
+        bool flags_bad = (frame->flags != 0U);
+        bool payload_bad =
+            (frame->data[4] != 0x11U) ||
+            (frame->data[5] != 0x22U) ||
+            (frame->data[6] != 0x33U) ||
+            (frame->data[7] != 0x44U);
+
+        if (sequence_bad)
         {
             verify_sequence_errors++;
 
-            /*
-             * Resynchronise after a mismatch so one missing/corrupt frame
-             * does not turn every following record into another error.
-             */
+            if (counter > expected_before)
+            {
+                verify_forward_gap_frames +=
+                    counter - expected_before;
+            }
+            else
+            {
+                verify_backward_events++;
+            }
+
             verify_expected_counter = counter;
         }
 
         verify_expected_counter++;
         verify_last_counter = counter;
 
-        if (frame->id != HyperRAM_Capture_ExpectedId(counter))
+        if (id_bad)
         {
             verify_id_errors++;
         }
 
-        if (frame->dlc != 8U)
+        if (dlc_bad)
         {
             verify_dlc_errors++;
         }
 
-        if (frame->flags != 0U)
+        if (flags_bad)
         {
             verify_flags_errors++;
         }
 
-        if ((frame->data[4] != 0x11U) ||
-            (frame->data[5] != 0x22U) ||
-            (frame->data[6] != 0x33U) ||
-            (frame->data[7] != 0x44U))
+        if (payload_bad)
         {
             verify_payload_errors++;
+        }
+
+        if ((sequence_bad || id_bad || dlc_bad || flags_bad || payload_bad) &&
+            (verify_detail_count < HYPERRAM_VERIFY_MAX_DETAILS))
+        {
+            printf(
+                "Mismatch rec=%lu exp=%lu got=%lu ID=%03lX DLC=%u FL=%02X "
+                "DATA=%02X %02X %02X %02X %02X %02X %02X %02X\r\n",
+                (unsigned long)record_index,
+                (unsigned long)expected_before,
+                (unsigned long)counter,
+                (unsigned long)frame->id,
+                frame->dlc,
+                frame->flags,
+                frame->data[0], frame->data[1],
+                frame->data[2], frame->data[3],
+                frame->data[4], frame->data[5],
+                frame->data[6], frame->data[7]);
+
+            verify_detail_count++;
         }
     }
 
@@ -474,6 +560,7 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     {
         verify_passed =
             (verify_checked_count == verify_target_count) &&
+            (verify_control_errors == 0U) &&
             (verify_read_errors == 0U) &&
             (verify_sequence_errors == 0U) &&
             (verify_id_errors == 0U) &&
@@ -491,10 +578,16 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
            (unsigned long)verify_first_counter);
     printf("Last counter    : %lu\r\n",
            (unsigned long)verify_last_counter);
+    printf("Control errors  : %lu\r\n",
+           (unsigned long)verify_control_errors);
     printf("Read errors     : %lu\r\n",
            (unsigned long)verify_read_errors);
     printf("Sequence errors : %lu\r\n",
            (unsigned long)verify_sequence_errors);
+    printf("Forward gap     : %lu frame(s)\r\n",
+           (unsigned long)verify_forward_gap_frames);
+    printf("Backward events : %lu\r\n",
+           (unsigned long)verify_backward_events);
     printf("ID errors       : %lu\r\n",
            (unsigned long)verify_id_errors);
     printf("DLC errors      : %lu\r\n",
