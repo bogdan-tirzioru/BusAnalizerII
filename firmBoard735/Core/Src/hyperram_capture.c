@@ -21,11 +21,15 @@ extern OSPI_HandleTypeDef hospi1;
 /* 32 x 16-byte Classic CAN records = one 512-byte HyperBus transfer. */
 #define HYPERRAM_CAPTURE_BATCH_FRAMES   32U
 
+/* Flush a partial batch if traffic becomes sparse or stops. */
+#define HYPERRAM_CAPTURE_FLUSH_MS       10U
+
 static uint32_t write_index = 0U;
 static uint32_t stored_count = 0U;
 static uint32_t wrap_count = 0U;
 static uint32_t write_errors = 0U;
 static uint32_t write_lost_frames = 0U;
+static uint32_t last_flush_tick = 0U;
 
 static CAN_SnifferFrame batch[HYPERRAM_CAPTURE_BATCH_FRAMES];
 
@@ -68,6 +72,7 @@ void HyperRAM_Capture_Init(void)
     wrap_count = 0U;
     write_errors = 0U;
     write_lost_frames = 0U;
+    last_flush_tick = HAL_GetTick();
 
     printf("HyperRAM CAN : %lu frames / %lu bytes\r\n",
            (unsigned long)HYPERRAM_CAPTURE_CAPACITY,
@@ -82,6 +87,19 @@ void HyperRAM_Capture_Process(void)
     uint32_t available = CAN_CaptureBuffer_GetCount();
 
     if (available == 0U)
+    {
+        return;
+    }
+
+    uint32_t now = HAL_GetTick();
+
+    /*
+     * Prefer full 512-byte writes under continuous traffic.
+     * If traffic is sparse, flush the partial batch after a short delay
+     * so the final few frames do not remain indefinitely in SRAM.
+     */
+    if ((available < HYPERRAM_CAPTURE_BATCH_FRAMES) &&
+        ((now - last_flush_tick) < HYPERRAM_CAPTURE_FLUSH_MS))
     {
         return;
     }
@@ -130,10 +148,12 @@ void HyperRAM_Capture_Process(void)
     {
         write_errors++;
         write_lost_frames += popped;
+        last_flush_tick = now;
         return;
     }
 
     write_index += popped;
+    last_flush_tick = now;
 
     if (stored_count < HYPERRAM_CAPTURE_CAPACITY)
     {
@@ -165,6 +185,11 @@ uint32_t HyperRAM_Capture_GetStoredCount(void)
 uint32_t HyperRAM_Capture_GetWriteErrors(void)
 {
     return write_errors;
+}
+
+uint32_t HyperRAM_Capture_GetWriteLostFrames(void)
+{
+    return write_lost_frames;
 }
 
 uint32_t HyperRAM_Capture_GetWrapCount(void)
