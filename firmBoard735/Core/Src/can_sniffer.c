@@ -159,7 +159,7 @@ void CAN_Sniffer_Process(void)
 {
     FDCAN_RxHeaderTypeDef rx_header;
 
-    uint8_t rx_data[8];
+    uint8_t rx_data[64];
     uint8_t rx_length;
 
     CAN_SnifferFrame frame;
@@ -203,16 +203,34 @@ void CAN_Sniffer_Process(void)
                &hfdcan1,
                FDCAN_RX_FIFO0) > 0U)
     {
-        if (CAN_Sniffer_ReadClassicFrame(
-                &rx_header,
-                rx_data,
-                &rx_length) != HAL_OK)
-        {
-            error_count++;
+    	if (HAL_FDCAN_GetRxMessage(
+    	        &hfdcan1,
+    	        FDCAN_RX_FIFO0,
+    	        &rx_header,
+    	        rx_data) != HAL_OK)
+    	{
+    	    error_count++;
+    	    return;
+    	}
+    	/*
+    	 * HAL returns the raw DLC in DataLength in the HAL version
+    	 * used by this project.
+    	 *
+    	 * Classic CAN can physically contain at most 8 data bytes.
+    	 */
+    	if (rx_header.DataLength <= 8U)
+    	{
+    	    rx_length = (uint8_t)rx_header.DataLength;
+    	}
+    	else
+    	{
+    	    rx_length = 8U;
+    	}
 
-            return;
-        }
-
+    	if (rx_header.RxFrameType == FDCAN_REMOTE_FRAME)
+    	{
+    	    rx_length = 0U;
+    	}
         /*
          * Convert ST/FDCAN representation into our own
          * analyzer-independent frame representation.
