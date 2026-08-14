@@ -133,15 +133,13 @@ int main(void)
   BoardID_Init();
   BoardID_Print(&huart1);
 
-  //RTC_Test(&hrtc, &huart1);
-  //HAL_Delay(1);
-  //HyperRAM_Test_Scope();
-  //HyperRAM_Test_ID();
+  RTC_Test(&hrtc, &huart1);
+
   HyperRAM_Test_Memory();
-  //SD_Test_ReadOnly();
-  //FATFS_Test_ReadOnly();
-  //FATFS_Test_ReadWrite();
-  //CAN_Sniffer_Init();
+  SD_Test_ReadOnly();
+  FATFS_Test_ReadOnly();
+  FATFS_Test_ReadWrite();
+  CAN_Sniffer_Init();
 
 
   /* USER CODE END 2 */
@@ -153,52 +151,52 @@ int main(void)
   uint32_t previous_measured_frames = 0U;
   while (1)
   {
-//      CAN_Sniffer_Process();
-//
-//      CAN_Sniffer_StressConsume();
-//
-//
-//      uint32_t now = HAL_GetTick();
-//
-//      if ((now - can_stats_tick) >= 1000U)
-//      {
-//          can_stats_tick = now;
-//          uint64_t total_capture_cycles =
-//              CAN_Sniffer_GetCaptureCycles();
-//
-//          uint32_t total_measured_frames =
-//              CAN_Sniffer_GetMeasuredFrames();
-//
-//          uint64_t delta_cycles =
-//              total_capture_cycles - previous_capture_cycles;
-//
-//          uint32_t delta_frames =
-//              total_measured_frames - previous_measured_frames;
-//
-//          previous_capture_cycles = total_capture_cycles;
-//          previous_measured_frames = total_measured_frames;
-//
-//          uint32_t cycles_per_frame = 0U;
-//
-//          if (delta_frames > 0U)
-//          {
-//              cycles_per_frame =
-//                  (uint32_t)(delta_cycles / delta_frames);
-//          }
-//          printf(
-//              "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
-//              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu "
-//              "cpf=%lu\r\n",
-//              (unsigned long)CAN_Sniffer_GetRxCount(),
-//              (unsigned long)CAN_Sniffer_GetConsumedCount(),
-//              (unsigned long)CAN_Sniffer_GetBufferedCount(),
-//              (unsigned long)CAN_Sniffer_GetDroppedCount(),
-//              (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
-//              (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
-//              (unsigned long)CAN_Sniffer_GetSequenceErrors(),
-//              (unsigned long)CAN_Sniffer_GetErrorCount(),
-//              (unsigned long)cycles_per_frame);
-//      }
+      CAN_Sniffer_Process();
+
+      CAN_Sniffer_StressConsume();
+
+
+      uint32_t now = HAL_GetTick();
+
+      if ((now - can_stats_tick) >= 1000U)
+      {
+          can_stats_tick = now;
+          uint64_t total_capture_cycles =
+              CAN_Sniffer_GetCaptureCycles();
+
+          uint32_t total_measured_frames =
+              CAN_Sniffer_GetMeasuredFrames();
+
+          uint64_t delta_cycles =
+              total_capture_cycles - previous_capture_cycles;
+
+          uint32_t delta_frames =
+              total_measured_frames - previous_measured_frames;
+
+          previous_capture_cycles = total_capture_cycles;
+          previous_measured_frames = total_measured_frames;
+
+          uint32_t cycles_per_frame = 0U;
+
+          if (delta_frames > 0U)
+          {
+              cycles_per_frame =
+                  (uint32_t)(delta_cycles / delta_frames);
+          }
+          printf(
+              "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
+              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu "
+              "cpf=%lu\r\n",
+              (unsigned long)CAN_Sniffer_GetRxCount(),
+              (unsigned long)CAN_Sniffer_GetConsumedCount(),
+              (unsigned long)CAN_Sniffer_GetBufferedCount(),
+              (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
+              (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
+              (unsigned long)CAN_Sniffer_GetSequenceErrors(),
+              (unsigned long)CAN_Sniffer_GetErrorCount(),
+              (unsigned long)cycles_per_frame);
+      }
   }
   /* USER CODE END 3 */
 }
