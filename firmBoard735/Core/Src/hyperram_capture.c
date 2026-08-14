@@ -428,6 +428,68 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
            (unsigned long)prewrite_payload_errors);
     printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
 
+
+    /*
+     * FDCAN diagnostic snapshot after capture has been frozen.
+     */
+    FDCAN_ProtocolStatusTypeDef ps1 = {0};
+    FDCAN_ProtocolStatusTypeDef ps3 = {0};
+
+    FDCAN_ErrorCountersTypeDef ec1 = {0};
+    FDCAN_ErrorCountersTypeDef ec3 = {0};
+
+    HAL_StatusTypeDef st_ps1 =
+        HAL_FDCAN_GetProtocolStatus(&hfdcan1, &ps1);
+
+    HAL_StatusTypeDef st_ec1 =
+        HAL_FDCAN_GetErrorCounters(&hfdcan1, &ec1);
+
+    HAL_StatusTypeDef st_ps3 =
+        HAL_FDCAN_GetProtocolStatus(&hfdcan3, &ps3);
+
+    HAL_StatusTypeDef st_ec3 =
+        HAL_FDCAN_GetErrorCounters(&hfdcan3, &ec3);
+
+
+    printf("\r\n--- FDCAN DIAGNOSTIC ---\r\n");
+
+    printf(
+        "CAN1 HAL=%u/%u LEC=%lu DLEC=%lu "
+        "REC=%lu TEC=%lu LOG=%lu "
+        "EP=%lu WARN=%lu BO=%lu\r\n",
+        (unsigned int)st_ps1,
+        (unsigned int)st_ec1,
+        (unsigned long)ps1.LastErrorCode,
+        (unsigned long)ps1.DataLastErrorCode,
+        (unsigned long)ec1.RxErrorCnt,
+        (unsigned long)ec1.TxErrorCnt,
+        (unsigned long)ec1.ErrorLogging,
+        (unsigned long)ps1.ErrorPassive,
+        (unsigned long)ps1.Warning,
+        (unsigned long)ps1.BusOff);
+
+    printf(
+        "CAN3 HAL=%u/%u LEC=%lu DLEC=%lu "
+        "REC=%lu TEC=%lu LOG=%lu "
+        "EP=%lu WARN=%lu BO=%lu\r\n",
+        (unsigned int)st_ps3,
+        (unsigned int)st_ec3,
+        (unsigned long)ps3.LastErrorCode,
+        (unsigned long)ps3.DataLastErrorCode,
+        (unsigned long)ec3.RxErrorCnt,
+        (unsigned long)ec3.TxErrorCnt,
+        (unsigned long)ec3.ErrorLogging,
+        (unsigned long)ps3.ErrorPassive,
+        (unsigned long)ps3.Warning,
+        (unsigned long)ps3.BusOff);
+
+    printf("--- END FDCAN DIAGNOSTIC ---\r\n");
+
+
+    printf("Frames checked  : %lu / %lu\r\n",
+           (unsigned long)verify_checked_count,
+           (unsigned long)verify_target_count);
+
     printf("Frames checked  : %lu / %lu\r\n",
            (unsigned long)verify_checked_count,
            (unsigned long)verify_target_count);

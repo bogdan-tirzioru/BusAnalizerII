@@ -157,7 +157,10 @@ int main(void)
   uint32_t previous_measured_frames = 0U;
   while (1)
   {
-      CAN_Sniffer_Process();
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	CAN_Sniffer_Process();
 
       HyperRAM_Capture_Process();
 
@@ -290,7 +293,7 @@ static void MX_FDCAN1_Init(void)
   /* USER CODE END FDCAN1_Init 1 */
   hfdcan1.Instance = FDCAN1;
   hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
-  hfdcan1.Init.Mode = FDCAN_MODE_BUS_MONITORING;
+  hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
   hfdcan1.Init.AutoRetransmission = DISABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
@@ -425,7 +428,6 @@ static void MX_OCTOSPI1_Init(void)
   sOspiManagerCfg.NCSPort = 1;
   sOspiManagerCfg.IOLowPort = HAL_OSPIM_IOPORT_1_LOW;
   sOspiManagerCfg.IOHighPort = HAL_OSPIM_IOPORT_1_HIGH;
-
   if (HAL_OSPIM_Config(&hospi1, &sOspiManagerCfg, HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
   {
     Error_Handler();
