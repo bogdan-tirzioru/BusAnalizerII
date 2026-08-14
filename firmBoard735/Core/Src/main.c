@@ -137,6 +137,10 @@ int main(void)
   RTC_Test(&hrtc, &huart1);
 
   HyperRAM_Test_Memory();
+
+  HyperRAM_Test_ConfigRegisters();
+  HyperRAM_Test_BurstStress();
+
   SD_Test_ReadOnly();
   FATFS_Test_ReadOnly();
   FATFS_Test_ReadWrite();
