@@ -8,6 +8,7 @@ void HyperRAM_Capture_Process(void);
 
 uint32_t HyperRAM_Capture_GetStoredCount(void);
 uint32_t HyperRAM_Capture_GetWriteErrors(void);
+uint32_t HyperRAM_Capture_GetWriteLostFrames(void);
 uint32_t HyperRAM_Capture_GetWrapCount(void);
 
 #endif
