@@ -137,6 +137,7 @@ void CAN_Sniffer_Init(void)
     printf("EXT IDs     : ACCEPT ALL\r\n");
     printf("Remote      : ACCEPT\r\n");
     printf("RX FIFO0    : 64 frames\r\n");
+    printf("RX read path: DIRECT MESSAGE RAM\r\n");
     printf("CAN1 TX     : DISABLED\r\n");
     printf("CAN3        : DISABLED FOR THIS TEST\r\n");
     printf("--------------------\r\n");
@@ -186,19 +187,17 @@ void CAN_Sniffer_Process(void)
                &hfdcan1,
                FDCAN_RX_FIFO0) > 0U)
     {
-    	if (HAL_FDCAN_GetRxMessage(
-    	        &hfdcan1,
-    	        FDCAN_RX_FIFO0,
+    	if (CAN_Sniffer_ReadClassicFrame(
     	        &rx_header,
-    	        rx_data) != HAL_OK)
+    	        rx_data,
+    	        &rx_length) != HAL_OK)
     	{
     	    error_count++;
     	    return;
     	}
 
     	/*
-    	 * HAL returns the raw DLC in DataLength in the HAL version
-    	 * used by this project.
+    	 * The direct Message RAM reader returns the raw DLC in DataLength.
     	 *
     	 * Classic CAN can physically contain at most 8 data bytes.
     	 */
