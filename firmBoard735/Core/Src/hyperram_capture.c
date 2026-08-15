@@ -7,7 +7,6 @@
 
 extern OSPI_HandleTypeDef hospi1;
 extern FDCAN_HandleTypeDef hfdcan1;
-extern FDCAN_HandleTypeDef hfdcan3;
 
 /* Physical S27KL0641 fitted on the board: 8 MiB. */
 #define HYPERRAM_SIZE_BYTES             (8U * 1024U * 1024U)
@@ -49,6 +48,12 @@ static CAN_SnifferFrame verify_batch[HYPERRAM_VERIFY_BATCH_FRAMES];
  * Diagnostic monitor of the exact SRAM records immediately before they are
  * handed to HAL_OSPI_Transmit(). This separates upstream CAN/SRAM errors from
  * errors introduced by the HyperRAM storage/readback path.
+ *
+ * External generator format:
+ *   standard ID : 0x100
+ *   DLC         : 8
+ *   data[0..3]  : monotonically increasing little-endian counter
+ *   data[4..7]  : AA 55 12 34
  */
 static bool prewrite_have_counter = false;
 static uint32_t prewrite_checked_count = 0U;
@@ -157,13 +162,8 @@ static HAL_StatusTypeDef HyperRAM_Capture_Read(
 
 static uint32_t HyperRAM_Capture_ExpectedId(uint32_t counter)
 {
-    switch (counter & 3U)
-    {
-        case 0U: return 0x123U;
-        case 1U: return 0x321U;
-        case 2U: return 0x555U;
-        default: return 0x7AAU;
-    }
+    (void)counter;
+    return 0x100U;
 }
 
 static void HyperRAM_Capture_MonitorPreWrite(const CAN_SnifferFrame *frame)
@@ -227,10 +227,10 @@ static void HyperRAM_Capture_MonitorPreWrite(const CAN_SnifferFrame *frame)
         prewrite_flags_errors++;
     }
 
-    if ((frame->data[4] != 0x11U) ||
-        (frame->data[5] != 0x22U) ||
-        (frame->data[6] != 0x33U) ||
-        (frame->data[7] != 0x44U))
+    if ((frame->data[4] != 0xAAU) ||
+        (frame->data[5] != 0x55U) ||
+        (frame->data[6] != 0x12U) ||
+        (frame->data[7] != 0x34U))
     {
         prewrite_payload_errors++;
     }
@@ -339,16 +339,14 @@ static void HyperRAM_Capture_RequestVerification(void)
     verify_passed = false;
     verify_stop_tick = HAL_GetTick();
 
-    if (HAL_FDCAN_Stop(&hfdcan3) != HAL_OK)
-    {
-        verify_control_errors++;
-        printf("HyperRAM verify: CAN3 stop ERROR\r\n");
-    }
-    else
-    {
-        printf("\r\nHyperRAM verify: CAN3 generator stopped\r\n");
-        printf("HyperRAM verify: draining CAN1 FIFO + SRAM...\r\n");
-    }
+    /*
+     * The current test source is an external CAN generator. We cannot stop it
+     * from this MCU. Verification reads the first 100000 records while the
+     * capture continues. Those records remain stable as long as HyperRAM has
+     * not wrapped, which is explicitly checked before starting the scan.
+     */
+    printf("\r\nHyperRAM verify: external CAN generator remains active\r\n");
+    printf("HyperRAM verify: waiting for FIFO + SRAM drain point...\r\n");
 }
 
 static void HyperRAM_Capture_BeginVerificationScan(void)
@@ -375,7 +373,9 @@ static void HyperRAM_Capture_BeginVerificationScan(void)
     verify_scan_started = true;
 
     printf("\r\n--- HYPERRAM CAPTURE READBACK VERIFY ---\r\n");
-    printf("Capture frozen  : YES\r\n");
+    printf("Capture frozen  : NO (external generator active)\r\n");
+    printf("Snapshot stable : YES (no HyperRAM wrap)\r\n");
+    printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
     printf("Stored frames   : %lu\r\n",
            (unsigned long)stored_count);
     printf("Snapshot frames : %lu\r\n",
@@ -404,6 +404,7 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     }
 
     printf("\r\n--- PRE-WRITE SRAM SEQUENCE ---\r\n");
+    printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
     printf("Frames checked  : %lu\r\n",
            (unsigned long)prewrite_checked_count);
     printf("First counter   : %lu\r\n",
@@ -428,15 +429,9 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
            (unsigned long)prewrite_payload_errors);
     printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
 
-
-    /*
-     * FDCAN diagnostic snapshot after capture has been frozen.
-     */
+    /* FDCAN1 diagnostic snapshot. CAN3 is intentionally unused in this test. */
     FDCAN_ProtocolStatusTypeDef ps1 = {0};
-    FDCAN_ProtocolStatusTypeDef ps3 = {0};
-
     FDCAN_ErrorCountersTypeDef ec1 = {0};
-    FDCAN_ErrorCountersTypeDef ec3 = {0};
 
     HAL_StatusTypeDef st_ps1 =
         HAL_FDCAN_GetProtocolStatus(&hfdcan1, &ps1);
@@ -444,14 +439,7 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     HAL_StatusTypeDef st_ec1 =
         HAL_FDCAN_GetErrorCounters(&hfdcan1, &ec1);
 
-    HAL_StatusTypeDef st_ps3 =
-        HAL_FDCAN_GetProtocolStatus(&hfdcan3, &ps3);
-
-    HAL_StatusTypeDef st_ec3 =
-        HAL_FDCAN_GetErrorCounters(&hfdcan3, &ec3);
-
-
-    printf("\r\n--- FDCAN DIAGNOSTIC ---\r\n");
+    printf("\r\n--- FDCAN1 DIAGNOSTIC ---\r\n");
 
     printf(
         "CAN1 HAL=%u/%u LEC=%lu DLEC=%lu "
@@ -468,27 +456,7 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
         (unsigned long)ps1.Warning,
         (unsigned long)ps1.BusOff);
 
-    printf(
-        "CAN3 HAL=%u/%u LEC=%lu DLEC=%lu "
-        "REC=%lu TEC=%lu LOG=%lu "
-        "EP=%lu WARN=%lu BO=%lu\r\n",
-        (unsigned int)st_ps3,
-        (unsigned int)st_ec3,
-        (unsigned long)ps3.LastErrorCode,
-        (unsigned long)ps3.DataLastErrorCode,
-        (unsigned long)ec3.RxErrorCnt,
-        (unsigned long)ec3.TxErrorCnt,
-        (unsigned long)ec3.ErrorLogging,
-        (unsigned long)ps3.ErrorPassive,
-        (unsigned long)ps3.Warning,
-        (unsigned long)ps3.BusOff);
-
-    printf("--- END FDCAN DIAGNOSTIC ---\r\n");
-
-
-    printf("Frames checked  : %lu / %lu\r\n",
-           (unsigned long)verify_checked_count,
-           (unsigned long)verify_target_count);
+    printf("--- END FDCAN1 DIAGNOSTIC ---\r\n");
 
     printf("Frames checked  : %lu / %lu\r\n",
            (unsigned long)verify_checked_count,
@@ -554,6 +522,17 @@ static void HyperRAM_Capture_VerifyProcess(void)
 
         if ((now - verify_stop_tick) < HYPERRAM_VERIFY_QUIET_MS)
         {
+            return;
+        }
+
+        /* If the capture wrapped, the first 100000 records are no longer stable. */
+        if (wrap_count != 0U)
+        {
+            verify_control_errors++;
+            verify_done = true;
+            verify_passed = false;
+            printf("HyperRAM verify: ABORT - capture wrapped before scan\r\n");
+            HyperRAM_Capture_PrintVerifyReport();
             return;
         }
 
@@ -646,10 +625,10 @@ static void HyperRAM_Capture_VerifyProcess(void)
         bool dlc_bad = (frame->dlc != 8U);
         bool flags_bad = (frame->flags != 0U);
         bool payload_bad =
-            (frame->data[4] != 0x11U) ||
-            (frame->data[5] != 0x22U) ||
-            (frame->data[6] != 0x33U) ||
-            (frame->data[7] != 0x44U);
+            (frame->data[4] != 0xAAU) ||
+            (frame->data[5] != 0x55U) ||
+            (frame->data[6] != 0x12U) ||
+            (frame->data[7] != 0x34U);
 
         if (sequence_bad)
         {
@@ -772,6 +751,7 @@ void HyperRAM_Capture_Init(void)
     printf("HyperRAM verify: target=%lu frames, read batch=%u frames\r\n",
            (unsigned long)HYPERRAM_CAPTURE_VERIFY_FRAMES,
            HYPERRAM_VERIFY_BATCH_FRAMES);
+    printf("HyperRAM diagnostic: external pattern ID=100 tail=AA 55 12 34\r\n");
     printf("HyperRAM diagnostic: SRAM sequence checked before each write\r\n");
 }
 
