@@ -28,6 +28,7 @@
 #include "sd_test.h"
 #include "fatfs_test.h"
 #include "hyperram_test.h"
+#include "hyperram_capture.h"
 #include "board_id.h"
 #include "rtc_test.h"
 /* USER CODE END Includes */
@@ -136,10 +137,15 @@ int main(void)
   RTC_Test(&hrtc, &huart1);
 
   HyperRAM_Test_Memory();
+
+  HyperRAM_Test_ConfigRegisters();
+  HyperRAM_Test_BurstStress();
+
   SD_Test_ReadOnly();
   FATFS_Test_ReadOnly();
   FATFS_Test_ReadWrite();
   CAN_Sniffer_Init();
+  HyperRAM_Capture_Init();
 
 
   /* USER CODE END 2 */
@@ -151,9 +157,12 @@ int main(void)
   uint32_t previous_measured_frames = 0U;
   while (1)
   {
-      CAN_Sniffer_Process();
+    /* USER CODE END WHILE */
 
-      CAN_Sniffer_StressConsume();
+    /* USER CODE BEGIN 3 */
+	CAN_Sniffer_Process();
+
+      HyperRAM_Capture_Process();
 
 
       uint32_t now = HAL_GetTick();
@@ -184,16 +193,18 @@ int main(void)
                   (uint32_t)(delta_cycles / delta_frames);
           }
           printf(
-              "CAN rx=%lu consumed=%lu buf=%lu drop=%lu "
-              "fifoLost=%lu maxFIFO=%lu seqErr=%lu errors=%lu "
-              "cpf=%lu\r\n",
+              "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
+              "hramErr=%lu hramLost=%lu wrap=%lu "
+              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
-              (unsigned long)CAN_Sniffer_GetConsumedCount(),
+              (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)HyperRAM_Capture_GetWriteErrors(),
+              (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
+              (unsigned long)HyperRAM_Capture_GetWrapCount(),
               (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
               (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
-              (unsigned long)CAN_Sniffer_GetSequenceErrors(),
               (unsigned long)CAN_Sniffer_GetErrorCount(),
               (unsigned long)cycles_per_frame);
       }
@@ -335,8 +346,8 @@ static void MX_FDCAN3_Init(void)
   /* USER CODE END FDCAN3_Init 1 */
   hfdcan3.Instance = FDCAN3;
   hfdcan3.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
-  hfdcan3.Init.Mode = FDCAN_MODE_EXTERNAL_LOOPBACK;
-  hfdcan3.Init.AutoRetransmission = DISABLE;
+  hfdcan3.Init.Mode = FDCAN_MODE_NORMAL;
+  hfdcan3.Init.AutoRetransmission = ENABLE;
   hfdcan3.Init.TransmitPause = DISABLE;
   hfdcan3.Init.ProtocolException = DISABLE;
   hfdcan3.Init.NominalPrescaler = 1;
@@ -417,7 +428,6 @@ static void MX_OCTOSPI1_Init(void)
   sOspiManagerCfg.NCSPort = 1;
   sOspiManagerCfg.IOLowPort = HAL_OSPIM_IOPORT_1_LOW;
   sOspiManagerCfg.IOHighPort = HAL_OSPIM_IOPORT_1_HIGH;
-
   if (HAL_OSPIM_Config(&hospi1, &sOspiManagerCfg, HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
   {
     Error_Handler();
