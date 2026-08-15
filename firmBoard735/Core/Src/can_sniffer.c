@@ -39,10 +39,6 @@
 #define CAN_SNIFFER_RX_ANMF_MASK     0x80000000U
 
 
-
-//#define CAN3_GENERATOR_PERIOD_MS  1U
-
-
 extern FDCAN_HandleTypeDef hfdcan1;
 
 
@@ -54,11 +50,6 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
         uint8_t pRxData[8],
         uint8_t *pDataLength);
 
-extern FDCAN_HandleTypeDef hfdcan3;
-static FDCAN_TxHeaderTypeDef can3_tx_header;
-static uint32_t can3_tx_counter = 0;
-static uint32_t can3_tx_tick = 0;
-
 static uint32_t fifo_lost_events = 0U;
 static uint32_t max_fifo_fill = 0U;
 
@@ -68,10 +59,6 @@ static uint32_t stress_expected_counter = 0U;
 
 static uint64_t capture_cycles = 0U;
 static uint32_t capture_measured_frames = 0U;
-
-static void CAN3_Generator_Init(void);
-static void CAN3_Generator_Process(void);
-
 
 
 static void CAN_Sniffer_CycleCounter_Init(void)
@@ -144,14 +131,15 @@ void CAN_Sniffer_Init(void)
     printf("--- CAN1 SNIFFER ---\r\n");
     printf("Mode        : BUS MONITORING\r\n");
     printf("Bitrate     : 500 kbit/s\r\n");
+    printf("Source      : EXTERNAL CAN GENERATOR\r\n");
+    printf("Test pattern: ID=100 DLC=8 tail=AA 55 12 34\r\n");
     printf("STD IDs     : ACCEPT ALL\r\n");
     printf("EXT IDs     : ACCEPT ALL\r\n");
     printf("Remote      : ACCEPT\r\n");
     printf("RX FIFO0    : 64 frames\r\n");
     printf("CAN1 TX     : DISABLED\r\n");
+    printf("CAN3        : DISABLED FOR THIS TEST\r\n");
     printf("--------------------\r\n");
-
-    CAN3_Generator_Init();
 }
 
 
@@ -163,12 +151,6 @@ void CAN_Sniffer_Process(void)
     uint8_t rx_length;
 
     CAN_SnifferFrame frame;
-
-
-    /*
-             * Temporary CAN3 test traffic generator.
-             */
-        CAN3_Generator_Process();
 
     uint32_t fifo_fill =
         HAL_FDCAN_GetRxFifoFillLevel(
@@ -193,9 +175,10 @@ void CAN_Sniffer_Process(void)
     }
 
     if (fifo_fill == 0U)
-        {
-            return;
-        }
+    {
+        return;
+    }
+
     uint32_t frames_before = rx_count;
     uint32_t cycle_start = DWT->CYCCNT;
 
@@ -212,6 +195,7 @@ void CAN_Sniffer_Process(void)
     	    error_count++;
     	    return;
     	}
+
     	/*
     	 * HAL returns the raw DLC in DataLength in the HAL version
     	 * used by this project.
@@ -231,20 +215,14 @@ void CAN_Sniffer_Process(void)
     	{
     	    rx_length = 0U;
     	}
+
         /*
          * Convert ST/FDCAN representation into our own
          * analyzer-independent frame representation.
          */
-
-        frame.id =
-            rx_header.Identifier;
-
-        frame.timestamp =
-            (uint16_t)rx_header.RxTimestamp;
-
-        frame.dlc =
-            (uint8_t)rx_header.DataLength;
-
+        frame.id = rx_header.Identifier;
+        frame.timestamp = (uint16_t)rx_header.RxTimestamp;
+        frame.dlc = (uint8_t)rx_header.DataLength;
         frame.flags = 0U;
 
         if (rx_header.IdType == FDCAN_EXTENDED_ID)
@@ -257,57 +235,34 @@ void CAN_Sniffer_Process(void)
             frame.flags |= CAN_FRAME_FLAG_RTR;
         }
 
-        if (rx_header.ErrorStateIndicator ==
-            FDCAN_ESI_PASSIVE)
+        if (rx_header.ErrorStateIndicator == FDCAN_ESI_PASSIVE)
         {
             frame.flags |= CAN_FRAME_FLAG_ESI;
         }
 
-        /*
-         * Make unused payload bytes deterministic.
-         */
-        memset(
-            frame.data,
-            0,
-            sizeof(frame.data));
+        /* Make unused payload bytes deterministic. */
+        memset(frame.data, 0, sizeof(frame.data));
 
-        /*
-         * CAN_Sniffer_ReadClassicFrame() guarantees
-         * rx_length <= 8.
-         */
-        memcpy(
-            frame.data,
-            rx_data,
-            rx_length);
+        memcpy(frame.data, rx_data, rx_length);
 
-        /*
-         * Count every valid frame removed from the
-         * hardware FDCAN FIFO.
-         */
+        /* Count every valid frame removed from the hardware FDCAN FIFO. */
         rx_count++;
 
         /*
-         * Store it.
-         *
-         * If RAM buffer is full Push() increments its
-         * own dropped counter.
-         *
-         * Most importantly: NO PRINTF HERE.
+         * Store it. If RAM buffer is full Push() increments its own dropped
+         * counter. Most importantly: NO PRINTF HERE.
          */
         (void)CAN_CaptureBuffer_Push(&frame);
     }
+
     uint32_t cycle_end = DWT->CYCCNT;
 
-    uint32_t frames_captured =
-        rx_count - frames_before;
+    uint32_t frames_captured = rx_count - frames_before;
 
     if (frames_captured > 0U)
     {
-        capture_cycles +=
-            (uint32_t)(cycle_end - cycle_start);
-
-        capture_measured_frames +=
-            frames_captured;
+        capture_cycles += (uint32_t)(cycle_end - cycle_start);
+        capture_measured_frames += frames_captured;
     }
 }
 
@@ -349,74 +304,41 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
 
     *pDataLength = 0U;
 
-    /*
-     * FDCAN must already have been started.
-     */
+    /* FDCAN must already have been started. */
     if (hfdcan1.State != HAL_FDCAN_STATE_BUSY)
     {
         return HAL_ERROR;
     }
 
-    /*
-     * Make sure RX FIFO0 is actually configured.
-     */
+    /* Make sure RX FIFO0 is actually configured. */
     if ((hfdcan1.Instance->RXF0C & FDCAN_RXF0C_F0S) == 0U)
     {
         return HAL_ERROR;
     }
 
-    /*
-     * Read FIFO0 status once.
-     */
     fifo_status = hfdcan1.Instance->RXF0S;
 
-    /*
-     * FIFO empty?
-     */
     if ((fifo_status & FDCAN_RXF0S_F0FL) == 0U)
     {
         return HAL_ERROR;
     }
 
-    /*
-     * Index of oldest unread FIFO element.
-     */
     get_index =
         (fifo_status & FDCAN_RXF0S_F0GI) >>
         FDCAN_RXF0S_F0GI_Pos;
 
-    /*
-     * Calculate address in FDCAN Message RAM.
-     *
-     * RxFifo0ElmtSize is expressed in 32-bit words.
-     * For our 8-byte RX element this value is 4:
-     *
-     *   word 0 : header
-     *   word 1 : header
-     *   word 2 : data[0..3]
-     *   word 3 : data[4..7]
-     */
     rx_element =
         (volatile const uint32_t *)(uintptr_t)
         (
             hfdcan1.msgRam.RxFIFO0SA +
-            (get_index *
-             hfdcan1.Init.RxFifo0ElmtSize *
-             4U)
+            (get_index * hfdcan1.Init.RxFifo0ElmtSize * 4U)
         );
 
     word0 = rx_element[0];
     word1 = rx_element[1];
 
-    /*
-     * Decode identifier type.
-     */
-    pRxHeader->IdType =
-        word0 & CAN_SNIFFER_RX_XTD_MASK;
+    pRxHeader->IdType = word0 & CAN_SNIFFER_RX_XTD_MASK;
 
-    /*
-     * Decode identifier.
-     */
     if (pRxHeader->IdType == FDCAN_STANDARD_ID)
     {
         pRxHeader->Identifier =
@@ -424,71 +346,31 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
     }
     else
     {
-        pRxHeader->Identifier =
-            word0 & CAN_SNIFFER_RX_EXTID_MASK;
+        pRxHeader->Identifier = word0 & CAN_SNIFFER_RX_EXTID_MASK;
     }
 
-    /*
-     * Decode remaining first-word fields.
-     */
-    pRxHeader->RxFrameType =
-        word0 & CAN_SNIFFER_RX_RTR_MASK;
+    pRxHeader->RxFrameType = word0 & CAN_SNIFFER_RX_RTR_MASK;
+    pRxHeader->ErrorStateIndicator = word0 & CAN_SNIFFER_RX_ESI_MASK;
+    pRxHeader->RxTimestamp = word1 & CAN_SNIFFER_RX_TS_MASK;
 
-    pRxHeader->ErrorStateIndicator =
-        word0 & CAN_SNIFFER_RX_ESI_MASK;
-
-    /*
-     * Second header word.
-     */
-    pRxHeader->RxTimestamp =
-        word1 & CAN_SNIFFER_RX_TS_MASK;
-
-    /*
-     * IMPORTANT:
-     *
-     * Preserve the RAW 4-bit DLC from the CAN frame.
-     *
-     * 0..15 is therefore deliberately stored here,
-     * not converted through ST's CAN-FD DLC table.
-     */
     raw_dlc =
         (uint8_t)
         ((word1 & CAN_SNIFFER_RX_DLC_MASK) >> 16U);
 
     pRxHeader->DataLength = raw_dlc;
-
-    pRxHeader->BitRateSwitch =
-        word1 & CAN_SNIFFER_RX_BRS_MASK;
-
-    pRxHeader->FDFormat =
-        word1 & CAN_SNIFFER_RX_FDF_MASK;
-
+    pRxHeader->BitRateSwitch = word1 & CAN_SNIFFER_RX_BRS_MASK;
+    pRxHeader->FDFormat = word1 & CAN_SNIFFER_RX_FDF_MASK;
     pRxHeader->FilterIndex =
         (word1 & CAN_SNIFFER_RX_FIDX_MASK) >> 24U;
-
     pRxHeader->IsFilterMatchingFrame =
         (word1 & CAN_SNIFFER_RX_ANMF_MASK) >> 31U;
 
-    /*
-     * This reader deliberately supports Classic CAN only.
-     *
-     * Normally this cannot happen because CAN1 is configured
-     * in Classic CAN mode, but never leave an unexpected
-     * FIFO element unacknowledged.
-     */
     if (pRxHeader->FDFormat != FDCAN_CLASSIC_CAN)
     {
         hfdcan1.Instance->RXF0A = get_index;
-
         return HAL_ERROR;
     }
 
-    /*
-     * Classical CAN DLC mapping:
-     *
-     * DLC 0..8  -> 0..8 bytes
-     * DLC 9..15 -> 8 bytes
-     */
     if (raw_dlc <= 8U)
     {
         data_length = raw_dlc;
@@ -498,26 +380,13 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
         data_length = 8U;
     }
 
-    /*
-     * RTR frames do not contain a data field.
-     *
-     * Preserve raw DLC because for an RTR frame it describes
-     * the requested data length, but copy zero payload bytes.
-     */
     if (pRxHeader->RxFrameType == FDCAN_REMOTE_FRAME)
     {
         data_length = 0U;
     }
 
-    /*
-     * Payload starts after the two 32-bit header words.
-     */
-    rx_payload =
-        (volatile const uint8_t *)&rx_element[2];
+    rx_payload = (volatile const uint8_t *)&rx_element[2];
 
-    /*
-     * Safe copy: never more than 8 bytes.
-     */
     for (uint8_t i = 0U; i < data_length; i++)
     {
         pRxData[i] = rx_payload[i];
@@ -525,117 +394,9 @@ static HAL_StatusTypeDef CAN_Sniffer_ReadClassicFrame(
 
     *pDataLength = data_length;
 
-    /*
-     * Tell M_CAN that this FIFO0 element has been consumed.
-     *
-     * Hardware advances FIFO0's GetIndex after this write.
-     */
     hfdcan1.Instance->RXF0A = get_index;
 
     return HAL_OK;
-}
-
-static void CAN3_Generator_Init(void)
-{
-    /*
-     * We do not care about frames internally received by CAN3.
-     */
-    if (HAL_FDCAN_ConfigGlobalFilter(
-            &hfdcan3,
-            FDCAN_REJECT,
-            FDCAN_REJECT,
-            FDCAN_REJECT_REMOTE,
-            FDCAN_REJECT_REMOTE) != HAL_OK)
-    {
-        Error_Handler();
-    }
-
-    can3_tx_header.Identifier          = 0x123;
-    can3_tx_header.IdType              = FDCAN_STANDARD_ID;
-    can3_tx_header.TxFrameType         = FDCAN_DATA_FRAME;
-    can3_tx_header.DataLength          = FDCAN_DLC_BYTES_8;
-    can3_tx_header.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-    can3_tx_header.BitRateSwitch       = FDCAN_BRS_OFF;
-    can3_tx_header.FDFormat            = FDCAN_CLASSIC_CAN;
-    can3_tx_header.TxEventFifoControl  = FDCAN_NO_TX_EVENTS;
-    can3_tx_header.MessageMarker       = 0;
-
-    if (HAL_FDCAN_Start(&hfdcan3) != HAL_OK)
-    {
-        Error_Handler();
-    }
-
-    can3_tx_tick = HAL_GetTick();
-
-    printf("CAN3 generator started\r\n");
-}
-
-static void CAN3_Generator_Process(void)
-{
-
-
-#if CAN3_GENERATOR_PERIOD_MS > 0
-	uint32_t now = HAL_GetTick();
-
-if ((now - can3_tx_tick) < CAN3_GENERATOR_PERIOD_MS)
-{
-    return;
-}
-
-can3_tx_tick = now;
-
-#else
-
-/*
- * Maximum-rate mode.
- * No artificial delay.
- */
-
-#endif
-
-    uint8_t data[8];
-
-    data[0] = (uint8_t)(can3_tx_counter);
-    data[1] = (uint8_t)(can3_tx_counter >> 8);
-    data[2] = (uint8_t)(can3_tx_counter >> 16);
-    data[3] = (uint8_t)(can3_tx_counter >> 24);
-
-    data[4] = 0x11;
-    data[5] = 0x22;
-    data[6] = 0x33;
-    data[7] = 0x44;
-
-    /*
-     * Vary the CAN ID deliberately.
-     *
-     * This proves CAN1 really is unrestricted.
-     */
-    switch (can3_tx_counter % 4U)
-    {
-        case 0:
-            can3_tx_header.Identifier = 0x123;
-            break;
-
-        case 1:
-            can3_tx_header.Identifier = 0x321;
-            break;
-
-        case 2:
-            can3_tx_header.Identifier = 0x555;
-            break;
-
-        default:
-            can3_tx_header.Identifier = 0x7AA;
-            break;
-    }
-
-    if (HAL_FDCAN_AddMessageToTxFifoQ(
-            &hfdcan3,
-            &can3_tx_header,
-            data) == HAL_OK)
-    {
-        can3_tx_counter++;
-    }
 }
 
 
