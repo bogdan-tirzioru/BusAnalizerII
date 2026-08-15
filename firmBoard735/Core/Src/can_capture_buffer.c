@@ -42,10 +42,16 @@ static uint32_t dropped_count = 0U;
 
 
 /*
- * Temporary diagnostic for the controlled CAN3 generator test.
+ * Temporary diagnostic for the external CAN generator test.
+ *
+ * External generator format:
+ *   standard ID : 0x100
+ *   DLC         : 8
+ *   data[0..3]  : monotonically increasing little-endian counter
+ *   data[4..7]  : AA 55 12 34
  *
  * This monitor sees each decoded CAN1 frame immediately BEFORE it is copied
- * into the SRAM ring.  Comparing this report with the later pre-write and
+ * into the SRAM ring. Comparing this report with the later pre-write and
  * HyperRAM reports tells us whether corruption/loss already exists at the
  * FDCAN -> software-frame boundary or is introduced by the SRAM ring/storage
  * path.
@@ -72,19 +78,15 @@ static uint32_t input_diag_payload_errors = 0U;
 
 static uint32_t CAN_CaptureBuffer_DiagExpectedId(uint32_t counter)
 {
-    switch (counter & 3U)
-    {
-        case 0U: return 0x123U;
-        case 1U: return 0x321U;
-        case 2U: return 0x555U;
-        default: return 0x7AAU;
-    }
+    (void)counter;
+    return 0x100U;
 }
 
 
 static void CAN_CaptureBuffer_PrintInputDiagnostic(void)
 {
     printf("\r\n--- CAN1 INPUT BEFORE SRAM RING ---\r\n");
+    printf("Expected       : ID=100 DLC=8 tail=AA 55 12 34\r\n");
     printf("Frames checked  : %lu\r\n",
            (unsigned long)input_diag_checked);
     printf("First counter   : %lu\r\n",
@@ -172,10 +174,10 @@ static void CAN_CaptureBuffer_MonitorInput(
         input_diag_flags_errors++;
     }
 
-    if ((frame->data[4] != 0x11U) ||
-        (frame->data[5] != 0x22U) ||
-        (frame->data[6] != 0x33U) ||
-        (frame->data[7] != 0x44U))
+    if ((frame->data[4] != 0xAAU) ||
+        (frame->data[5] != 0x55U) ||
+        (frame->data[6] != 0x12U) ||
+        (frame->data[7] != 0x34U))
     {
         input_diag_payload_errors++;
     }
