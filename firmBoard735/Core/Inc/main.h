@@ -69,13 +69,12 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 /*
- * Temporary protocol v0.1 bring-up switch.
+ * Protocol v0.1 self-test is kept in the project for regression testing,
+ * but is intentionally disabled during normal boot.
  *
- * hyperram_capture.h uses this only when included after main.h (the normal
- * main.c include order) to run BAII_Protocol_SelfTest() immediately after
- * HyperRAM_Capture_Init(). Remove/comment this define after protocol bring-up.
+ * To enable it temporarily, define:
+ *   BAII_PROTOCOL_SELFTEST_ON_BOOT
  */
-#define BAII_PROTOCOL_SELFTEST_ON_BOOT  1
 
 /* USER CODE END Private defines */
 
