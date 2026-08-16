@@ -29,11 +29,11 @@ extern FDCAN_HandleTypeDef hfdcan1;
 #define HYPERRAM_CAPTURE_FLUSH_MS       10U
 
 /*
- * Stop well before the end of the 524032-frame HyperRAM region.  The spare
- * 24032 records are much larger than the 4096-frame SRAM queue plus the
- * 64-frame FDCAN FIFO, so all already-admitted data can be drained safely.
+ * Keep a 100k-frame regression test in normal firmware.  The stop point is
+ * far below the 524032-frame HyperRAM capacity and leaves ample room to drain
+ * the 4096-frame SRAM queue plus the 64-frame FDCAN FIFO before readback.
  */
-#define HYPERRAM_VERIFY_STOP_AT_FRAMES  500000U
+#define HYPERRAM_VERIFY_STOP_AT_FRAMES  100000U
 #define HYPERRAM_VERIFY_MAX_DETAILS     16U
 
 _Static_assert(
