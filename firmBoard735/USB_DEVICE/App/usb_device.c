@@ -27,7 +27,8 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include "console.h"
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -47,7 +48,7 @@ USBD_HandleTypeDef hUsbDeviceHS;
  * -- Insert your variables declaration here --
  */
 /* USER CODE BEGIN 0 */
-
+extern UART_HandleTypeDef huart1;
 /* USER CODE END 0 */
 
 /*
@@ -64,6 +65,12 @@ USBD_HandleTypeDef hUsbDeviceHS;
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
+  /*
+   * USB bring-up diagnostics need printf() before the USB stack starts.
+   * USART1 and its DMA are already initialized by main() at this point.
+   */
+  Console_Init(&huart1);
+  printf("USB: starting HS/ULPI initialization\r\n");
 
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
@@ -87,6 +94,7 @@ void MX_USB_DEVICE_Init(void)
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
   HAL_PWREx_EnableUSBVoltageDetector();
+  printf("USB: HS/ULPI initialization complete\r\n");
 
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
 }
@@ -98,4 +106,3 @@ void MX_USB_DEVICE_Init(void)
 /**
   * @}
   */
-
