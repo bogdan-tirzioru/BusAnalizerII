@@ -85,6 +85,36 @@ void MX_USB_DEVICE_Init(void)
   printf("USB: PC2_C/PC3_C analog switches forced closed, PMCR=0x%08lX\r\n",
          (unsigned long)SYSCFG->PMCR);
 
+  /*
+   * Diagnostic for the OTG core soft-reset timeout.
+   *
+   * The H7 OTG core needs the selected PHY clock to be established before
+   * CSRST is asserted.  Pre-enable the HS/ULPI clocks and put GUSBCFG into
+   * the same external-ULPI state that USB_CoreInit() will select.  Then wait
+   * comfortably longer than the minimum 10 ULPI clock cycles before the HAL
+   * performs its normal core reset.
+   *
+   * Keep this in USER CODE rather than modifying the STM32 HAL driver while
+   * we establish whether reset timing is the cause of the bring-up failure.
+   */
+  __HAL_RCC_USB_OTG_HS_CLK_ENABLE();
+  __HAL_RCC_USB_OTG_HS_ULPI_CLK_ENABLE();
+
+  USB_OTG_HS->GCCFG &= ~(USB_OTG_GCCFG_PWRDWN);
+  USB_OTG_HS->GUSBCFG &= ~(USB_OTG_GUSBCFG_TSDPS |
+                            USB_OTG_GUSBCFG_ULPIFSLS |
+                            USB_OTG_GUSBCFG_PHYSEL |
+                            USB_OTG_GUSBCFG_ULPIEVBUSD |
+                            USB_OTG_GUSBCFG_ULPIEVBUSI);
+
+  for (volatile uint32_t delay = 0U; delay < 200U; delay++)
+  {
+    __NOP();
+  }
+
+  printf("USB: ULPI reset timing delay applied, GRSTCTL=0x%08lX\r\n",
+         (unsigned long)USB_OTG_HS->GRSTCTL);
+
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
   /* Init Device Library, add supported class and start the library. */
