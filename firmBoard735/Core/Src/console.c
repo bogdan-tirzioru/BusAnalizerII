@@ -198,6 +198,18 @@ void Console_Init(UART_HandleTypeDef *huart)
 
     primask = Console_EnterCritical();
 
+    /*
+     * USB bring-up initializes the console before the USB stack.
+     * main() calls Console_Init() again later in Cube-generated flow.
+     * Do not reset an active DMA/ring buffer when it is already bound
+     * to the same UART.
+     */
+    if ((console_uart != NULL) && (console_uart == huart))
+    {
+        Console_ExitCritical(primask);
+        return;
+    }
+
     console_uart = huart;
 
     console_tx_head = 0U;
