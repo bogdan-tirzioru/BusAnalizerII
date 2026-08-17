@@ -68,10 +68,10 @@
 #define USBD_MAX_NUM_CONFIGURATION     1U
 /*---------- -----------*/
 #define USBD_MAX_STR_DESC_SIZ     512U
-/*---------- -----------*/
-#define USBD_DEBUG_LEVEL     0U
-/*---------- -----------*/
-#define USBD_LPM_ENABLED     1U
+/*---------- USB bring-up diagnostics -----------*/
+#define USBD_DEBUG_LEVEL     3U
+/*---------- Keep LPM disabled until basic HS enumeration is proven -----------*/
+#define USBD_LPM_ENABLED     0U
 /*---------- -----------*/
 #define USBD_SELF_POWERED     1U
 
@@ -136,7 +136,7 @@
   */
 
 /** @defgroup USBD_CONF_Exported_Types USBD_CONF_Exported_Types
-  * @brief Types.
+  * @brief Defines for configuration of the Usb device.
   * @{
   */
 
@@ -145,21 +145,11 @@
   */
 
 /** @defgroup USBD_CONF_Exported_FunctionsPrototype USBD_CONF_Exported_FunctionsPrototype
-  * @brief Declaration of public functions for Usb device.
+  * @brief Declaration of public functions for USB device.
   * @{
   */
-
-/* Exported functions -------------------------------------------------------*/
 void *USBD_static_malloc(uint32_t size);
 void USBD_static_free(void *p);
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /**
   * @}
@@ -170,4 +160,3 @@ void USBD_static_free(void *p);
 #endif
 
 #endif /* __USBD_CONF__H__ */
-
