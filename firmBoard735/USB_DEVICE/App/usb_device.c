@@ -38,6 +38,7 @@
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
+static uint32_t USB_ULPI_CLK_MeasureHz(void);
 
 /* USER CODE END PFP */
 
@@ -56,6 +57,72 @@ extern UART_HandleTypeDef huart1;
  */
 /* USER CODE BEGIN 1 */
 
+/**
+  * @brief  Measure USB3300 ULPI CLKOUT on PA5 without using an oscilloscope.
+  * @note   PA5 is temporarily switched from ULPI_CLK (AF10) to TIM2_ETR (AF1).
+  *         TIM2 counts external rising edges for 10 ms, then PA5 and TIM2 are
+  *         released so HAL_PCD_MspInit() can configure the normal ULPI AF.
+  * @retval Measured CLKOUT frequency in Hz.
+  */
+static uint32_t USB_ULPI_CLK_MeasureHz(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  uint32_t tick;
+  uint32_t edges;
+
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_TIM2_CLK_ENABLE();
+  __HAL_RCC_TIM2_FORCE_RESET();
+  __HAL_RCC_TIM2_RELEASE_RESET();
+
+  /* PA5 = TIM2_CH1/TIM2_ETR, AF1. */
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* TIM2 external clock mode 2: counter clocked directly from ETR rising edges. */
+  TIM2->CR1 = 0U;
+  TIM2->CR2 = 0U;
+  TIM2->SMCR = 0U;
+  TIM2->DIER = 0U;
+  TIM2->CCMR1 = 0U;
+  TIM2->CCMR2 = 0U;
+  TIM2->CCER = 0U;
+  TIM2->PSC = 0U;
+  TIM2->ARR = 0xFFFFFFFFU;
+  TIM2->CNT = 0U;
+  TIM2->SMCR = TIM_SMCR_ECE;
+  TIM2->EGR = TIM_EGR_UG;
+  TIM2->CNT = 0U;
+  TIM2->CR1 = TIM_CR1_CEN;
+
+  /* Align the 10 ms measurement window to a SysTick edge. */
+  tick = HAL_GetTick();
+  while (HAL_GetTick() == tick)
+  {
+  }
+
+  TIM2->CNT = 0U;
+  tick = HAL_GetTick();
+  while ((HAL_GetTick() - tick) < 10U)
+  {
+  }
+
+  edges = TIM2->CNT;
+
+  TIM2->CR1 = 0U;
+  HAL_GPIO_DeInit(GPIOA, GPIO_PIN_5);
+  __HAL_RCC_TIM2_FORCE_RESET();
+  __HAL_RCC_TIM2_RELEASE_RESET();
+  __HAL_RCC_TIM2_CLK_DISABLE();
+
+  /* 10 ms window: Hz = edges * 100. */
+  return edges * 100U;
+}
+
 /* USER CODE END 1 */
 
 /**
@@ -65,12 +132,23 @@ extern UART_HandleTypeDef huart1;
 void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
+  uint32_t ulpi_clk_hz;
+
   /*
    * USB bring-up diagnostics need printf() before the USB stack starts.
    * USART1 and its DMA are already initialized by main() at this point.
    */
   Console_Init(&huart1);
   printf("USB: starting HS/ULPI initialization\r\n");
+
+  /*
+   * Measure USB3300 CLKOUT with TIM2 before the OTG peripheral claims PA5.
+   * This avoids relying on the damaged oscilloscope for a simple present/
+   * absent and frequency check.
+   */
+  ulpi_clk_hz = USB_ULPI_CLK_MeasureHz();
+  printf("USB: ULPI CLKOUT measured by TIM2 = %lu Hz\r\n",
+         (unsigned long)ulpi_clk_hz);
 
   /*
    * STM32H735 PC2_C and PC3_C reach the digital PC2/PC3 functions through
