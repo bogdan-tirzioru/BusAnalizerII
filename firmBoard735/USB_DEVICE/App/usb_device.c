@@ -29,6 +29,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "console.h"
+#include "usb_diag.h"
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -114,6 +115,15 @@ void MX_USB_DEVICE_Init(void)
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
   HAL_PWREx_EnableUSBVoltageDetector();
+
+  /*
+   * Diagnostic branch only: observe the first three seconds after the device
+   * controller starts. USB IRQs remain enabled during HAL_Delay(), therefore
+   * a connected Linux host can reset and enumerate the device while the
+   * snapshots are collected.
+   */
+  USB_Diag_RunStartupWindow(&hUsbDeviceHS, 3000U, 500U);
+
   printf("USB: HS/ULPI initialization complete\r\n");
 
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
