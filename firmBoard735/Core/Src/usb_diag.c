@@ -53,16 +53,16 @@ static const char *USB_Diag_EnumSpeedName(uint32_t enum_speed)
     switch (enum_speed & 0x3U)
     {
         case 0U:
-            return "HS";
+            return "HS-if-enumerated";
 
         case 1U:
-            return "FS-30/60MHz-PHY";
+            return "FS-30/60MHz-PHY-if-enumerated";
 
         case 2U:
-            return "LS-6MHz-PHY";
+            return "LS-6MHz-PHY-if-enumerated";
 
         case 3U:
-            return "FS-48MHz-PHY";
+            return "FS-48MHz-PHY-if-enumerated";
 
         default:
             return "UNKNOWN";
@@ -121,10 +121,11 @@ void USB_Diag_Dump(const char *reason, const USBD_HandleTypeDef *pdev)
            (unsigned long)gintsts,
            (unsigned long)gintmsk);
 
-    printf("DEV : DCFG=0x%08lX DCTL=0x%08lX DSTS=0x%08lX enum=%s suspend=%lu\r\n",
+    printf("DEV : DCFG=0x%08lX DCTL=0x%08lX DSTS=0x%08lX enumField=%lu(%s) suspend=%lu\r\n",
            (unsigned long)dcfg,
            (unsigned long)dctl,
            (unsigned long)dsts,
+           (unsigned long)enum_speed,
            USB_Diag_EnumSpeedName(enum_speed),
            (unsigned long)suspend);
 
