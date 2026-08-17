@@ -79,18 +79,25 @@ void MX_USB_DEVICE_Init(void)
   {
     Error_Handler();
   }
+  printf("USB: USBD_Init OK\r\n");
+
   if (USBD_RegisterClass(&hUsbDeviceHS, &USBD_CDC) != USBD_OK)
   {
     Error_Handler();
   }
+  printf("USB: USBD_RegisterClass OK\r\n");
+
   if (USBD_CDC_RegisterInterface(&hUsbDeviceHS, &USBD_Interface_fops_HS) != USBD_OK)
   {
     Error_Handler();
   }
+  printf("USB: USBD_CDC_RegisterInterface OK\r\n");
+
   if (USBD_Start(&hUsbDeviceHS) != USBD_OK)
   {
     Error_Handler();
   }
+  printf("USB: USBD_Start OK\r\n");
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
   HAL_PWREx_EnableUSBVoltageDetector();
