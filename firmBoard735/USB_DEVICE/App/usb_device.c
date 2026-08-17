@@ -72,6 +72,19 @@ void MX_USB_DEVICE_Init(void)
   Console_Init(&huart1);
   printf("USB: starting HS/ULPI initialization\r\n");
 
+  /*
+   * STM32H735 PC2_C and PC3_C reach the digital PC2/PC3 functions through
+   * internal analog switches. ULPI DIR and NXT use these two _C pads on this
+   * package, so explicitly close both switches for deterministic bring-up.
+   * CLOSE is encoded as 0 in the H7 HAL. This is harmless if the package
+   * reset state already has the switches closed.
+   */
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  HAL_SYSCFG_AnalogSwitchConfig(SYSCFG_SWITCH_PC2, SYSCFG_SWITCH_PC2_CLOSE);
+  HAL_SYSCFG_AnalogSwitchConfig(SYSCFG_SWITCH_PC3, SYSCFG_SWITCH_PC3_CLOSE);
+  printf("USB: PC2_C/PC3_C analog switches forced closed, PMCR=0x%08lX\r\n",
+         (unsigned long)SYSCFG->PMCR);
+
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
   /* Init Device Library, add supported class and start the library. */
