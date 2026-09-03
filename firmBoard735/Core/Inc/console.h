@@ -19,4 +19,11 @@ void Console_Flush(void);
  */
 int Console_IsIdle(void);
 
+/* Number of messages dropped because the queue was full, a message exceeded
+ * the maximum length, or UART/DMA transmission failed. */
+uint32_t Console_GetDroppedCount(void);
+
+/* Number of UART/DMA start or transmission errors. */
+uint32_t Console_GetUartErrorCount(void);
+
 #endif /* CONSOLE_H */
