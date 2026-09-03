@@ -201,7 +201,8 @@ int main(void)
           printf(
               "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
-              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu\r\n",
+              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu "
+              "logdrop=%lu logerr=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
               (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
@@ -212,7 +213,9 @@ int main(void)
               (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
               (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
               (unsigned long)CAN_Sniffer_GetErrorCount(),
-              (unsigned long)cycles_per_frame);
+              (unsigned long)cycles_per_frame,
+              (unsigned long)Console_GetDroppedCount(),
+              (unsigned long)Console_GetUartErrorCount());
       }
   }
   /* USER CODE END 3 */
@@ -607,7 +610,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 
 }
