@@ -1,5 +1,6 @@
 #include "can_sniffer.h"
 
+#include "console.h"
 #include "main.h"
 
 #include <stdio.h>
@@ -275,31 +276,31 @@ static void CAN_Sniffer_RawDiagPrintIfPending(void)
     raw_diag_report_pending = 0U;
     raw_diag_report_printed = 1U;
 
-    printf("\r\n--- RAW FDCAN MESSAGE RAM BEFORE DECODE ---\r\n");
-    printf("Expected       : W0 STD ID=100, DLC=8, W3=341255AA\r\n");
-    printf("Frames checked : %lu\r\n",
+    Console_Printf("\r\n--- RAW FDCAN MESSAGE RAM BEFORE DECODE ---\r\n");
+    Console_Printf("Expected       : W0 STD ID=100, DLC=8, W3=341255AA\r\n");
+    Console_Printf("Frames checked : %lu\r\n",
            (unsigned long)raw_diag_checked);
-    printf("First counter  : %lu\r\n",
+    Console_Printf("First counter  : %lu\r\n",
            (unsigned long)raw_diag_first_counter);
-    printf("Last counter   : %lu\r\n",
+    Console_Printf("Last counter   : %lu\r\n",
            (unsigned long)raw_diag_last_counter);
-    printf("Sequence errors: %lu\r\n",
+    Console_Printf("Sequence errors: %lu\r\n",
            (unsigned long)raw_diag_sequence_errors);
-    printf("Forward gap    : %lu frame(s)\r\n",
+    Console_Printf("Forward gap    : %lu frame(s)\r\n",
            (unsigned long)raw_diag_forward_gap);
-    printf("Backward events: %lu\r\n",
+    Console_Printf("Backward events: %lu\r\n",
            (unsigned long)raw_diag_backward_events);
-    printf("ID errors      : %lu\r\n",
+    Console_Printf("ID errors      : %lu\r\n",
            (unsigned long)raw_diag_id_errors);
-    printf("Flags errors   : %lu\r\n",
+    Console_Printf("Flags errors   : %lu\r\n",
            (unsigned long)raw_diag_flags_errors);
-    printf("DLC errors     : %lu\r\n",
+    Console_Printf("DLC errors     : %lu\r\n",
            (unsigned long)raw_diag_dlc_errors);
-    printf("Control errors : %lu\r\n",
+    Console_Printf("Control errors : %lu\r\n",
            (unsigned long)raw_diag_control_errors);
-    printf("Payload errors : %lu\r\n",
+    Console_Printf("Payload errors : %lu\r\n",
            (unsigned long)raw_diag_payload_errors);
-    printf("Saved anomalies: %lu / %u\r\n",
+    Console_Printf("Saved anomalies: %lu / %u\r\n",
            (unsigned long)raw_diag_saved_count,
            (unsigned int)CAN_RAW_DIAG_SAVED_ANOMALIES);
 
@@ -307,7 +308,7 @@ static void CAN_Sniffer_RawDiagPrintIfPending(void)
     {
         const CAN_RawAnomaly *saved = &raw_diag_anomalies[i];
 
-        printf(
+        Console_Printf(
             "RAW[%lu] rec=%lu GI=%lu exp=%lu got=%lu "
             "W0=%08lX W1=%08lX W2=%08lX W3=%08lX\r\n",
             (unsigned long)i,
@@ -321,7 +322,7 @@ static void CAN_Sniffer_RawDiagPrintIfPending(void)
             (unsigned long)saved->word3);
     }
 
-    printf("--- END RAW FDCAN MESSAGE RAM BEFORE DECODE ---\r\n\r\n");
+    Console_Printf("--- END RAW FDCAN MESSAGE RAM BEFORE DECODE ---\r\n\r\n");
 }
 
 
@@ -338,7 +339,7 @@ void CAN_Sniffer_Init(void)
     capture_measured_frames = 0U;
     CAN_Sniffer_RawDiagReset();
 
-	printf("RAM buffer   : %lu frames / %lu bytes\r\n",
+	Console_Printf("RAM buffer   : %lu frames / %lu bytes\r\n",
 	       (unsigned long)CAN_CAPTURE_BUFFER_CAPACITY,
 	       (unsigned long)(
 	           CAN_CAPTURE_BUFFER_CAPACITY *
@@ -389,21 +390,21 @@ void CAN_Sniffer_Init(void)
         Error_Handler();
     }
 
-    printf("\r\n");
-    printf("--- CAN1 SNIFFER ---\r\n");
-    printf("Mode        : BUS MONITORING\r\n");
-    printf("Bitrate     : 500 kbit/s\r\n");
-    printf("Source      : EXTERNAL CAN GENERATOR\r\n");
-    printf("Test pattern: ID=100 DLC=8 tail=AA 55 12 34\r\n");
-    printf("STD IDs     : ACCEPT ALL\r\n");
-    printf("EXT IDs     : ACCEPT ALL\r\n");
-    printf("Remote      : ACCEPT\r\n");
-    printf("RX FIFO0    : 64 frames\r\n");
-    printf("RX read path: DIRECT MESSAGE RAM\r\n");
-    printf("RAW verify  : 100000 frames before decode / FIFO ACK\r\n");
-    printf("CAN1 TX     : DISABLED\r\n");
-    printf("CAN3        : DISABLED FOR THIS TEST\r\n");
-    printf("--------------------\r\n");
+    Console_Printf("\r\n");
+    Console_Printf("--- CAN1 SNIFFER ---\r\n");
+    Console_Printf("Mode        : BUS MONITORING\r\n");
+    Console_Printf("Bitrate     : 500 kbit/s\r\n");
+    Console_Printf("Source      : EXTERNAL CAN GENERATOR\r\n");
+    Console_Printf("Test pattern: ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("STD IDs     : ACCEPT ALL\r\n");
+    Console_Printf("EXT IDs     : ACCEPT ALL\r\n");
+    Console_Printf("Remote      : ACCEPT\r\n");
+    Console_Printf("RX FIFO0    : 64 frames\r\n");
+    Console_Printf("RX read path: DIRECT MESSAGE RAM\r\n");
+    Console_Printf("RAW verify  : 100000 frames before decode / FIFO ACK\r\n");
+    Console_Printf("CAN1 TX     : DISABLED\r\n");
+    Console_Printf("CAN3        : DISABLED FOR THIS TEST\r\n");
+    Console_Printf("--------------------\r\n");
 }
 
 
@@ -706,20 +707,16 @@ void CAN_Sniffer_DumpBufferedFrames(uint32_t count)
             break;
         }
 
-        printf(
-            "RAM[%lu] ID=%08lX DLC=%u FLAGS=%02X TS=%u DATA=",
+        Console_Printf(
+            "RAM[%lu] ID=%08lX DLC=%u FLAGS=%02X TS=%u "
+            "DATA=%02X %02X %02X %02X %02X %02X %02X %02X\r\n",
             (unsigned long)n,
             (unsigned long)frame.id,
             frame.dlc,
             frame.flags,
-            frame.timestamp);
-
-        for (uint32_t i = 0U; i < 8U; i++)
-        {
-            printf("%02X ", frame.data[i]);
-        }
-
-        printf("\r\n");
+            frame.timestamp,
+            frame.data[0], frame.data[1], frame.data[2], frame.data[3],
+            frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
     }
 }
 

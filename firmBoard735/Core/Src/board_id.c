@@ -1,4 +1,5 @@
 #include "board_id.h"
+#include "console.h"
 
 #include <stdio.h>
 
@@ -123,6 +124,6 @@ void BoardID_Print(UART_HandleTypeDef *huart)
         }
 
         buffer[len] = '\0';
-        printf("%s", buffer);
+        Console_Write(buffer);
     }
 }

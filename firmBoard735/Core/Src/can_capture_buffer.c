@@ -1,4 +1,5 @@
 #include "can_capture_buffer.h"
+#include "console.h"
 
 #include <stddef.h>
 #include <stdio.h>
@@ -85,29 +86,29 @@ static uint32_t CAN_CaptureBuffer_DiagExpectedId(uint32_t counter)
 
 static void CAN_CaptureBuffer_PrintInputDiagnostic(void)
 {
-    printf("\r\n--- CAN1 INPUT BEFORE SRAM RING ---\r\n");
-    printf("Expected       : ID=100 DLC=8 tail=AA 55 12 34\r\n");
-    printf("Frames checked  : %lu\r\n",
+    Console_Printf("\r\n--- CAN1 INPUT BEFORE SRAM RING ---\r\n");
+    Console_Printf("Expected       : ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("Frames checked  : %lu\r\n",
            (unsigned long)input_diag_checked);
-    printf("First counter   : %lu\r\n",
+    Console_Printf("First counter   : %lu\r\n",
            (unsigned long)input_diag_first_counter);
-    printf("Last counter    : %lu\r\n",
+    Console_Printf("Last counter    : %lu\r\n",
            (unsigned long)input_diag_last_counter);
-    printf("Sequence errors : %lu\r\n",
+    Console_Printf("Sequence errors : %lu\r\n",
            (unsigned long)input_diag_sequence_errors);
-    printf("Large jumps     : %lu\r\n",
+    Console_Printf("Large jumps     : %lu\r\n",
            (unsigned long)input_diag_large_jumps);
-    printf("Backward events : %lu\r\n",
+    Console_Printf("Backward events : %lu\r\n",
            (unsigned long)input_diag_backward_events);
-    printf("ID errors       : %lu\r\n",
+    Console_Printf("ID errors       : %lu\r\n",
            (unsigned long)input_diag_id_errors);
-    printf("DLC errors      : %lu\r\n",
+    Console_Printf("DLC errors      : %lu\r\n",
            (unsigned long)input_diag_dlc_errors);
-    printf("Flags errors    : %lu\r\n",
+    Console_Printf("Flags errors    : %lu\r\n",
            (unsigned long)input_diag_flags_errors);
-    printf("Payload errors  : %lu\r\n",
+    Console_Printf("Payload errors  : %lu\r\n",
            (unsigned long)input_diag_payload_errors);
-    printf("--- END CAN1 INPUT BEFORE SRAM RING ---\r\n\r\n");
+    Console_Printf("--- END CAN1 INPUT BEFORE SRAM RING ---\r\n\r\n");
 }
 
 

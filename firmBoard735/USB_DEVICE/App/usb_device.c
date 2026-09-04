@@ -27,7 +27,6 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
 #include "console.h"
 /* USER CODE END Includes */
 
@@ -66,11 +65,11 @@ void MX_USB_DEVICE_Init(void)
 {
   /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
   /*
-   * USB bring-up diagnostics need printf() before the USB stack starts.
+   * USB bring-up diagnostics need the DMA console before the USB stack starts.
    * USART1 and its DMA are already initialized by main() at this point.
    */
   Console_Init(&huart1);
-  printf("USB: starting HS/ULPI initialization\r\n");
+  Console_Printf("USB: starting HS/ULPI initialization\r\n");
 
   /*
    * STM32H735 PC2_C and PC3_C reach the digital PC2/PC3 functions through
@@ -82,8 +81,8 @@ void MX_USB_DEVICE_Init(void)
   __HAL_RCC_SYSCFG_CLK_ENABLE();
   HAL_SYSCFG_AnalogSwitchConfig(SYSCFG_SWITCH_PC2, SYSCFG_SWITCH_PC2_CLOSE);
   HAL_SYSCFG_AnalogSwitchConfig(SYSCFG_SWITCH_PC3, SYSCFG_SWITCH_PC3_CLOSE);
-  printf("USB: PC2_C/PC3_C analog switches forced closed, PMCR=0x%08lX\r\n",
-         (unsigned long)SYSCFG->PMCR);
+  Console_Printf("USB: PC2_C/PC3_C analog switches forced closed, PMCR=0x%08lX\r\n",
+                 (unsigned long)SYSCFG->PMCR);
 
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
@@ -92,29 +91,30 @@ void MX_USB_DEVICE_Init(void)
   {
     Error_Handler();
   }
-  printf("USB: USBD_Init OK\r\n");
+  Console_Printf("USB: USBD_Init OK\r\n");
 
   if (USBD_RegisterClass(&hUsbDeviceHS, &USBD_CDC) != USBD_OK)
   {
     Error_Handler();
   }
-  printf("USB: USBD_RegisterClass OK\r\n");
+  Console_Printf("USB: USBD_RegisterClass OK\r\n");
 
   if (USBD_CDC_RegisterInterface(&hUsbDeviceHS, &USBD_Interface_fops_HS) != USBD_OK)
   {
     Error_Handler();
   }
-  printf("USB: USBD_CDC_RegisterInterface OK\r\n");
+  Console_Printf("USB: USBD_CDC_RegisterInterface OK\r\n");
 
   if (USBD_Start(&hUsbDeviceHS) != USBD_OK)
   {
     Error_Handler();
   }
-  printf("USB: USBD_Start OK\r\n");
+  Console_Printf("USB: USBD_Start OK\r\n");
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
   HAL_PWREx_EnableUSBVoltageDetector();
-  printf("USB: HS/ULPI initialization complete\r\n");
+  Console_Printf("USB: HS/ULPI initialization complete\r\n");
+  Console_Flush();
 
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
 }

@@ -384,27 +384,27 @@ static uint8_t BAII_SelfTest_CheckCanTiming(
 
 static void BAII_SelfTest_PrintCanConfig(const BAII_CanConfig *config)
 {
-    printf("Channel       : %u\r\n", (unsigned int)config->channel);
-    printf("Mode          : %s\r\n",
+    BAII_SelfTest_Printf("Channel       : %u\r\n", (unsigned int)config->channel);
+    BAII_SelfTest_Printf("Mode          : %s\r\n",
            (config->mode == BAII_CAN_MODE_LISTEN_ONLY) ?
            "LISTEN_ONLY" : "NORMAL");
-    printf("Format        : %s\r\n",
+    BAII_SelfTest_Printf("Format        : %s\r\n",
            (config->frame_format == BAII_CAN_FORMAT_CLASSIC) ?
            "CLASSIC" : "OTHER");
-    printf("FDCAN clock   : %lu Hz\r\n",
+    BAII_SelfTest_Printf("FDCAN clock   : %lu Hz\r\n",
            (unsigned long)config->fdcan_clock_hz);
-    printf("Bitrate       : %lu bit/s\r\n",
+    BAII_SelfTest_Printf("Bitrate       : %lu bit/s\r\n",
            (unsigned long)config->nominal_bitrate);
-    printf("Sample point  : %u.%u %%\r\n",
+    BAII_SelfTest_Printf("Sample point  : %u.%u %%\r\n",
            (unsigned int)(config->nominal_sample_point_permille / 10U),
            (unsigned int)(config->nominal_sample_point_permille % 10U));
-    printf("Prescaler     : %u\r\n",
+    BAII_SelfTest_Printf("Prescaler     : %u\r\n",
            (unsigned int)config->nominal_prescaler);
-    printf("TSEG1         : %u\r\n",
+    BAII_SelfTest_Printf("TSEG1         : %u\r\n",
            (unsigned int)config->nominal_time_seg1);
-    printf("TSEG2         : %u\r\n",
+    BAII_SelfTest_Printf("TSEG2         : %u\r\n",
            (unsigned int)config->nominal_time_seg2);
-    printf("SJW           : %u\r\n",
+    BAII_SelfTest_Printf("SJW           : %u\r\n",
            (unsigned int)config->nominal_sjw);
 }
 
@@ -470,13 +470,13 @@ void BAII_Protocol_SelfTest(void)
     uint8_t test6_pass = 0U;
     uint32_t transaction_id = 1U;
 
-    printf("\r\n");
-    printf("========================================\r\n");
-    printf(" BAII BINARY PROTOCOL v0.1 SELF TEST\r\n");
-    printf("========================================\r\n");
-    printf("NOTE: Test 3 sets RTC to 2026-08-16 05:30:00 UTC.\r\n");
-    printf("NOTE: For test 5, external CAN generator must be 250 kbit/s.\r\n");
-    printf("NOTE: Test 6 gives 8 seconds to switch generator to 500 kbit/s.\r\n\r\n");
+    BAII_SelfTest_Printf("\r\n");
+    BAII_SelfTest_Printf("========================================\r\n");
+    BAII_SelfTest_Printf(" BAII BINARY PROTOCOL v0.1 SELF TEST\r\n");
+    BAII_SelfTest_Printf("========================================\r\n");
+    BAII_SelfTest_Printf("NOTE: Test 3 sets RTC to 2026-08-16 05:30:00 UTC.\r\n");
+    BAII_SelfTest_Printf("NOTE: For test 5, external CAN generator must be 250 kbit/s.\r\n");
+    BAII_SelfTest_Printf("NOTE: Test 6 gives 8 seconds to switch generator to 500 kbit/s.\r\n\r\n");
 
     BAII_Protocol_Init();
 
@@ -487,7 +487,7 @@ void BAII_Protocol_SelfTest(void)
         uint8_t payload[4] = {0};
         BAII_SelfTestResponse response;
 
-        printf("[1] GET_INFO\r\n");
+        BAII_SelfTest_Printf("[1] GET_INFO\r\n");
         BAII_SelfTest_PutU16(&payload[0], BAII_CMD_GET_INFO);
 
         if ((BAII_SelfTest_Exchange(
@@ -510,24 +510,24 @@ void BAII_Protocol_SelfTest(void)
             uint8_t can_channels = response.payload[24];
             uint8_t rtc_valid = response.payload[25];
 
-            printf("Protocol       : %u.%u\r\n",
+            BAII_SelfTest_Printf("Protocol       : %u.%u\r\n",
                    (unsigned int)response.header.version_major,
                    (unsigned int)response.header.version_minor);
-            printf("Firmware       : %u.%u.%u\r\n",
+            BAII_SelfTest_Printf("Firmware       : %u.%u.%u\r\n",
                    (unsigned int)fw_major,
                    (unsigned int)fw_minor,
                    (unsigned int)fw_patch);
-            printf("Capabilities   : 0x%08lX\r\n",
+            BAII_SelfTest_Printf("Capabilities   : 0x%08lX\r\n",
                    (unsigned long)capabilities);
-            printf("FDCAN clock    : %lu Hz\r\n",
+            BAII_SelfTest_Printf("FDCAN clock    : %lu Hz\r\n",
                    (unsigned long)fdcan_clock);
-            printf("HyperRAM       : %lu bytes\r\n",
+            BAII_SelfTest_Printf("HyperRAM       : %lu bytes\r\n",
                    (unsigned long)hyperram_bytes);
-            printf("Device ID      : 0x%03lX\r\n",
+            BAII_SelfTest_Printf("Device ID      : 0x%03lX\r\n",
                    (unsigned long)device_id);
-            printf("CAN channels   : %u\r\n",
+            BAII_SelfTest_Printf("CAN channels   : %u\r\n",
                    (unsigned int)can_channels);
-            printf("RTC valid      : %s\r\n",
+            BAII_SelfTest_Printf("RTC valid      : %s\r\n",
                    (rtc_valid != 0U) ? "YES" : "NO");
 
             test1_pass =
@@ -539,7 +539,7 @@ void BAII_Protocol_SelfTest(void)
                  (rtc_valid != 0U)) ? 1U : 0U;
         }
 
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test1_pass != 0U) ? "PASS" : "FAIL");
     }
 
@@ -551,7 +551,7 @@ void BAII_Protocol_SelfTest(void)
         uint64_t rtc2 = 0U;
         uint64_t delta = 0U;
 
-        printf("[2] GET_RTC_TIME\r\n");
+        BAII_SelfTest_Printf("[2] GET_RTC_TIME\r\n");
 
         if (BAII_SelfTest_GetRtc(transaction_id++, &rtc1) != 0U)
         {
@@ -570,13 +570,13 @@ void BAII_Protocol_SelfTest(void)
             }
         }
 
-        printf("Time #1        : %llu us\r\n",
+        BAII_SelfTest_Printf("Time #1        : %llu us\r\n",
                (unsigned long long)rtc1);
-        printf("Time #2        : %llu us\r\n",
+        BAII_SelfTest_Printf("Time #2        : %llu us\r\n",
                (unsigned long long)rtc2);
-        printf("Delta          : %llu us\r\n",
+        BAII_SelfTest_Printf("Delta          : %llu us\r\n",
                (unsigned long long)delta);
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test2_pass != 0U) ? "PASS" : "FAIL");
     }
 
@@ -589,7 +589,7 @@ void BAII_Protocol_SelfTest(void)
         uint64_t applied_error = UINT64_MAX;
         uint64_t readback_error = UINT64_MAX;
 
-        printf("[3] SET_RTC_TIME\r\n");
+        BAII_SelfTest_Printf("[3] SET_RTC_TIME\r\n");
 
         if (BAII_SelfTest_SetRtc(
                 transaction_id++,
@@ -614,13 +614,13 @@ void BAII_Protocol_SelfTest(void)
             }
         }
 
-        printf("Requested      : %llu us\r\n",
+        BAII_SelfTest_Printf("Requested      : %llu us\r\n",
                (unsigned long long)BAII_SELFTEST_RTC_VALUE_US);
-        printf("Applied        : %llu us\r\n",
+        BAII_SelfTest_Printf("Applied        : %llu us\r\n",
                (unsigned long long)applied);
-        printf("Readback       : %llu us\r\n",
+        BAII_SelfTest_Printf("Readback       : %llu us\r\n",
                (unsigned long long)readback);
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test3_pass != 0U) ? "PASS" : "FAIL");
     }
 
@@ -636,7 +636,7 @@ void BAII_Protocol_SelfTest(void)
         memset(&applied, 0, sizeof(applied));
         memset(&readback, 0, sizeof(readback));
 
-        printf("[4] SET_CAN_CONFIG 250000\r\n");
+        BAII_SelfTest_Printf("[4] SET_CAN_CONFIG 250000\r\n");
 
         set_ok = BAII_SelfTest_SetCan(
                 transaction_id++,
@@ -659,9 +659,9 @@ void BAII_Protocol_SelfTest(void)
              (BAII_SelfTest_CheckCanTiming(&readback, 250000UL, 24U) != 0U)) ?
             1U : 0U;
 
-        printf("GET readback   : %s\r\n",
+        BAII_SelfTest_Printf("GET readback   : %s\r\n",
                (get_ok != 0U) ? "OK" : "FAIL");
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test4_pass != 0U) ? "PASS" : "FAIL");
     }
 
@@ -674,9 +674,9 @@ void BAII_Protocol_SelfTest(void)
         uint32_t read_errors = 0U;
         uint32_t frames_per_second = 0U;
 
-        printf("[5] CAN1 RECEIVE @ 250000\r\n");
-        printf("External generator must be transmitting at 250 kbit/s now.\r\n");
-        printf("Measuring for %lu ms...\r\n",
+        BAII_SelfTest_Printf("[5] CAN1 RECEIVE @ 250000\r\n");
+        BAII_SelfTest_Printf("External generator must be transmitting at 250 kbit/s now.\r\n");
+        BAII_SelfTest_Printf("Measuring for %lu ms...\r\n",
                (unsigned long)BAII_SELFTEST_CAN_WINDOW_MS);
 
         test5_pass = BAII_SelfTest_MeasureCanTraffic(
@@ -691,12 +691,12 @@ void BAII_Protocol_SelfTest(void)
                 (frames * 1000UL) / BAII_SELFTEST_CAN_WINDOW_MS;
         }
 
-        printf("Frames         : %lu\r\n", (unsigned long)frames);
-        printf("Approx rate    : %lu frame/s\r\n",
+        BAII_SelfTest_Printf("Frames         : %lu\r\n", (unsigned long)frames);
+        BAII_SelfTest_Printf("Approx rate    : %lu frame/s\r\n",
                (unsigned long)frames_per_second);
-        printf("FIFO lost      : %lu\r\n", (unsigned long)fifo_lost);
-        printf("Read errors    : %lu\r\n", (unsigned long)read_errors);
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("FIFO lost      : %lu\r\n", (unsigned long)fifo_lost);
+        BAII_SelfTest_Printf("Read errors    : %lu\r\n", (unsigned long)read_errors);
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test5_pass != 0U) ? "PASS" : "FAIL / NO 250k TRAFFIC");
     }
 
@@ -718,9 +718,9 @@ void BAII_Protocol_SelfTest(void)
         memset(&applied, 0, sizeof(applied));
         memset(&readback, 0, sizeof(readback));
 
-        printf("[6] SET_CAN_CONFIG 500000 + RECEIVE\r\n");
-        printf("Switch the external generator to 500 kbit/s now.\r\n");
-        printf("Keeping CAN service alive for %lu ms before reconfiguration...\r\n",
+        BAII_SelfTest_Printf("[6] SET_CAN_CONFIG 500000 + RECEIVE\r\n");
+        BAII_SelfTest_Printf("Switch the external generator to 500 kbit/s now.\r\n");
+        BAII_SelfTest_Printf("Keeping CAN service alive for %lu ms before reconfiguration...\r\n",
                (unsigned long)BAII_SELFTEST_CAN_SWITCH_DELAY_MS);
 
         BAII_SelfTest_PumpCan(BAII_SELFTEST_CAN_SWITCH_DELAY_MS);
@@ -746,7 +746,7 @@ void BAII_Protocol_SelfTest(void)
             BAII_SelfTest_PrintCanConfig(&applied);
         }
 
-        printf("Measuring for %lu ms...\r\n",
+        BAII_SelfTest_Printf("Measuring for %lu ms...\r\n",
                (unsigned long)BAII_SELFTEST_CAN_WINDOW_MS);
 
         traffic_ok = BAII_SelfTest_MeasureCanTraffic(
@@ -761,31 +761,31 @@ void BAII_Protocol_SelfTest(void)
                 (frames * 1000UL) / BAII_SELFTEST_CAN_WINDOW_MS;
         }
 
-        printf("Frames         : %lu\r\n", (unsigned long)frames);
-        printf("Approx rate    : %lu frame/s\r\n",
+        BAII_SelfTest_Printf("Frames         : %lu\r\n", (unsigned long)frames);
+        BAII_SelfTest_Printf("Approx rate    : %lu frame/s\r\n",
                (unsigned long)frames_per_second);
-        printf("FIFO lost      : %lu\r\n", (unsigned long)fifo_lost);
-        printf("Read errors    : %lu\r\n", (unsigned long)read_errors);
+        BAII_SelfTest_Printf("FIFO lost      : %lu\r\n", (unsigned long)fifo_lost);
+        BAII_SelfTest_Printf("Read errors    : %lu\r\n", (unsigned long)read_errors);
 
         test6_pass =
             ((timing_ok != 0U) && (traffic_ok != 0U)) ? 1U : 0U;
 
-        printf("Timing         : %s\r\n",
+        BAII_SelfTest_Printf("Timing         : %s\r\n",
                (timing_ok != 0U) ? "PASS" : "FAIL");
-        printf("Traffic        : %s\r\n",
+        BAII_SelfTest_Printf("Traffic        : %s\r\n",
                (traffic_ok != 0U) ? "PASS" : "FAIL / NO 500k TRAFFIC");
-        printf("RESULT         : %s\r\n\r\n",
+        BAII_SelfTest_Printf("RESULT         : %s\r\n\r\n",
                (test6_pass != 0U) ? "PASS" : "FAIL");
     }
 
-    printf("----------------------------------------\r\n");
-    printf(" TEST 1 GET_INFO             : %s\r\n", test1_pass ? "PASS" : "FAIL");
-    printf(" TEST 2 GET_RTC_TIME         : %s\r\n", test2_pass ? "PASS" : "FAIL");
-    printf(" TEST 3 SET_RTC_TIME         : %s\r\n", test3_pass ? "PASS" : "FAIL");
-    printf(" TEST 4 SET_CAN_CONFIG 250k  : %s\r\n", test4_pass ? "PASS" : "FAIL");
-    printf(" TEST 5 RX @ 250k            : %s\r\n", test5_pass ? "PASS" : "FAIL");
-    printf(" TEST 6 SET/RX @ 500k        : %s\r\n", test6_pass ? "PASS" : "FAIL");
-    printf("----------------------------------------\r\n");
+    BAII_SelfTest_Printf("----------------------------------------\r\n");
+    BAII_SelfTest_Printf(" TEST 1 GET_INFO             : %s\r\n", test1_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf(" TEST 2 GET_RTC_TIME         : %s\r\n", test2_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf(" TEST 3 SET_RTC_TIME         : %s\r\n", test3_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf(" TEST 4 SET_CAN_CONFIG 250k  : %s\r\n", test4_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf(" TEST 5 RX @ 250k            : %s\r\n", test5_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf(" TEST 6 SET/RX @ 500k        : %s\r\n", test6_pass ? "PASS" : "FAIL");
+    BAII_SelfTest_Printf("----------------------------------------\r\n");
 
     if ((test1_pass != 0U) &&
         (test2_pass != 0U) &&
@@ -794,12 +794,12 @@ void BAII_Protocol_SelfTest(void)
         (test5_pass != 0U) &&
         (test6_pass != 0U))
     {
-        printf(" PROTOCOL + HARDWARE SELF TEST: PASS\r\n");
+        BAII_SelfTest_Printf(" PROTOCOL + HARDWARE SELF TEST: PASS\r\n");
     }
     else
     {
-        printf(" PROTOCOL + HARDWARE SELF TEST: FAIL\r\n");
+        BAII_SelfTest_Printf(" PROTOCOL + HARDWARE SELF TEST: FAIL\r\n");
     }
 
-    printf("----------------------------------------\r\n\r\n");
+    BAII_SelfTest_Printf("----------------------------------------\r\n\r\n");
 }

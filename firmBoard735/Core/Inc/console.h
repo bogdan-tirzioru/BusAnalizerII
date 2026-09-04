@@ -5,6 +5,12 @@
 
 void Console_Init(UART_HandleTypeDef *huart);
 
+/* Queue one complete diagnostic message for DMA transmission. */
+void Console_Write(const char *message);
+
+/* Format and queue one complete diagnostic message atomically. */
+void Console_Printf(const char *format, ...);
+
 /*
  * Wait until all queued console data has physically
  * finished transmitting.

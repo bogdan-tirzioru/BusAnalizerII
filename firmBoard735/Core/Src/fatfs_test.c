@@ -1,4 +1,5 @@
 #include "fatfs_test.h"
+#include "console.h"
 #include "main.h"
 #include "fatfs.h"
 
@@ -14,7 +15,7 @@ void FATFS_Test_ReadOnly(void)
     FILINFO fno;
     char text[160];
 
-    printf("\r\n--- FATFS READ-ONLY TEST ---\r\n");
+    Console_Printf("\r\n--- FATFS READ-ONLY TEST ---\r\n");
 
     /*
      * Mount immediately.
@@ -28,11 +29,11 @@ void FATFS_Test_ReadOnly(void)
                  "FATFS ERROR: f_mount() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
-    printf("FAT32 mount OK\r\n");
+    Console_Printf("FAT32 mount OK\r\n");
 
     /*
      * Open root directory.
@@ -45,13 +46,13 @@ void FATFS_Test_ReadOnly(void)
                  "FATFS ERROR: f_opendir() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
 
         f_mount(NULL, (TCHAR const *)SDPath, 0);
         return;
     }
 
-    printf("\r\nRoot directory:\r\n");
+    Console_Printf("\r\nRoot directory:\r\n");
 
     while (1)
     {
@@ -63,7 +64,7 @@ void FATFS_Test_ReadOnly(void)
                      "FATFS ERROR: f_readdir() = %d\r\n",
                      (int)res);
 
-            printf("%s", text);
+            Console_Write(text);
             break;
         }
 
@@ -87,12 +88,12 @@ void FATFS_Test_ReadOnly(void)
                      (unsigned long)fno.fsize);
         }
 
-        printf("%s", text);
+        Console_Write(text);
     }
 
     f_closedir(&dir);
 
-    printf("\r\n--- FATFS READ TEST PASSED ---\r\n");
+    Console_Printf("\r\n--- FATFS READ TEST PASSED ---\r\n");
 }
 
 
@@ -110,7 +111,7 @@ void FATFS_Test_ReadWrite(void)
 
     char read_buffer[128];
 
-    printf("\r\n--- FATFS READ/WRITE TEST ---\r\n");
+    Console_Printf("\r\n--- FATFS READ/WRITE TEST ---\r\n");
 
 
     /* -----------------------------------------------------
@@ -125,11 +126,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_mount() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
-    printf("Filesystem mount OK\r\n");
+    Console_Printf("Filesystem mount OK\r\n");
 
 
     /* -----------------------------------------------------
@@ -150,11 +151,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_open(write) = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
-    printf("BusAnalyzerII_FatFs_Long_Filename_Test.txt opened for write\r\n");
+    Console_Printf("BusAnalyzerII_FatFs_Long_Filename_Test.txt opened for write\r\n");
 
 
     /* -----------------------------------------------------
@@ -174,7 +175,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_write() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
 
         f_close(&file);
         return;
@@ -184,12 +185,12 @@ void FATFS_Test_ReadWrite(void)
              "Written %u bytes\r\n",
              bytes_written);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     if (bytes_written != strlen(test_data))
     {
-        printf("FATFS ERROR: incomplete write\r\n");
+        Console_Printf("FATFS ERROR: incomplete write\r\n");
 
         f_close(&file);
         return;
@@ -206,7 +207,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_sync() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
 
         f_close(&file);
         return;
@@ -223,11 +224,11 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_close(write) = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
-    printf("File write/close OK\r\n");
+    Console_Printf("File write/close OK\r\n");
 
 
     /* -----------------------------------------------------
@@ -244,7 +245,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_open(read) = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
@@ -268,7 +269,7 @@ void FATFS_Test_ReadWrite(void)
                  "FATFS ERROR: f_read() = %d\r\n",
                  (int)res);
 
-        printf("%s", text);
+        Console_Write(text);
 
         f_close(&file);
         return;
@@ -304,16 +305,16 @@ void FATFS_Test_ReadWrite(void)
                hour,
                minute,
                second);
-        printf("%s", text);
+        Console_Write(text);
     }
 
     snprintf(text, sizeof(text),
              "Read back %u bytes\r\n",
              bytes_read);
 
-    printf("%s", text);
+    Console_Write(text);
 
-    printf("Content: %s", read_buffer);
+    Console_Printf("Content: %s", read_buffer);
 
 
 
@@ -326,11 +327,11 @@ void FATFS_Test_ReadWrite(void)
                 test_data,
                 strlen(test_data)) == 0))
     {
-        printf("\r\nFATFS VERIFY: PASS\r\n");
-        printf("--- FATFS READ/WRITE TEST PASSED ---\r\n");
+        Console_Printf("\r\nFATFS VERIFY: PASS\r\n");
+        Console_Printf("--- FATFS READ/WRITE TEST PASSED ---\r\n");
     }
     else
     {
-        printf("\r\nFATFS VERIFY: FAILED\r\n");
+        Console_Printf("\r\nFATFS VERIFY: FAILED\r\n");
     }
 }

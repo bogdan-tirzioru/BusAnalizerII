@@ -134,24 +134,34 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   Console_Init(&huart1);
-  printf("\r\nBusAnalyzerII console ready\r\n");
-  printf("CPU clock    : %lu Hz\r\n",
+  Console_Printf("\r\nBusAnalyzerII console ready\r\n");
+  Console_Printf("CPU clock    : %lu Hz\r\n",
          (unsigned long)SystemCoreClock);
   BoardID_Init();
   BoardID_Print(&huart1);
+  Console_Flush();
 
   RTC_Test(&hrtc, &huart1);
+  Console_Flush();
 
   HyperRAM_Test_Memory();
+  Console_Flush();
 
   HyperRAM_Test_ConfigRegisters();
+  Console_Flush();
   HyperRAM_Test_BurstStress();
+  Console_Flush();
 
   SD_Test_ReadOnly();
+  Console_Flush();
   FATFS_Test_ReadOnly();
+  Console_Flush();
   FATFS_Test_ReadWrite();
+  Console_Flush();
   CAN_Sniffer_Init();
+  Console_Flush();
   HyperRAM_Capture_Init();
+  Console_Flush();
 
 
   /* USER CODE END 2 */
@@ -198,7 +208,7 @@ int main(void)
               cycles_per_frame =
                   (uint32_t)(delta_cycles / delta_frames);
           }
-          printf(
+          Console_Printf(
               "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
               "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu "
@@ -730,7 +740,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: Console_Printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

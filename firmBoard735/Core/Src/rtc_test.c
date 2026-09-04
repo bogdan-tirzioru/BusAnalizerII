@@ -1,4 +1,5 @@
 #include "rtc_test.h"
+#include "console.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -25,7 +26,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
     RTC_TimeTypeDef time2 = {0};
     RTC_DateTypeDef date2 = {0};
 
-    printf("\r\n--- RTC / LSE TEST ---\r\n");
+    Console_Printf("\r\n--- RTC / LSE TEST ---\r\n");
 
 
     /* ---------------------------------------------------------
@@ -34,13 +35,13 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
 
     if (__HAL_RCC_GET_FLAG(RCC_FLAG_LSERDY) != RESET)
     {
-        printf("LSE status    : READY\r\n");
+        Console_Printf("LSE status    : READY\r\n");
     }
     else
     {
-        printf("LSE status    : NOT READY\r\n");
-        printf("RTC TEST      : FAIL\r\n");
-        printf("--- RTC / LSE TEST FAILED ---\r\n");
+        Console_Printf("LSE status    : NOT READY\r\n");
+        Console_Printf("RTC TEST      : FAIL\r\n");
+        Console_Printf("--- RTC / LSE TEST FAILED ---\r\n");
         return;
     }
 
@@ -53,7 +54,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
 
     if (rtc_source == RCC_RTCCLKSOURCE_LSE)
     {
-        printf("RTC source    : LSE 32768 Hz\r\n");
+        Console_Printf("RTC source    : LSE 32768 Hz\r\n");
     }
     else
     {
@@ -62,8 +63,8 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                  "RTC source    : NOT LSE (0x%08lX)\r\n",
                  (unsigned long)rtc_source);
 
-        printf("%s", buffer);
-        printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
+        Console_Write(buffer);
+        Console_Printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
 
         return;
     }
@@ -76,7 +77,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              (unsigned long)hrtc->Init.AsynchPrediv,
              (unsigned long)hrtc->Init.SynchPrediv);
 
-    printf("%s", buffer);
+    Console_Write(buffer);
 
 
     /* ---------------------------------------------------------
@@ -87,7 +88,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &time1,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        printf("RTC read #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
+        Console_Printf("RTC read #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -98,7 +99,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &date1,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        printf("RTC date #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
+        Console_Printf("RTC date #1   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -110,7 +111,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              time1.Minutes,
              time1.Seconds);
 
-    printf("%s", buffer);
+    Console_Write(buffer);
 
 
     /* Wait long enough to cross at least one RTC second */
@@ -126,7 +127,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &time2,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        printf("RTC read #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
+        Console_Printf("RTC read #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -134,7 +135,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
                         &date2,
                         RTC_FORMAT_BIN) != HAL_OK)
     {
-        printf("RTC date #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
+        Console_Printf("RTC date #2   : FAIL\r\nRTC TEST      : FAIL\r\n");
         return;
     }
 
@@ -146,7 +147,7 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              time2.Minutes,
              time2.Seconds);
 
-    printf("%s", buffer);
+    Console_Write(buffer);
 
 
     /* ---------------------------------------------------------
@@ -165,15 +166,15 @@ void RTC_Test(RTC_HandleTypeDef *hrtc,
              "RTC advance    : %lu second(s)\r\n",
              (unsigned long)delta);
 
-    printf("%s", buffer);
+    Console_Write(buffer);
 
 
     if ((delta >= 1U) && (delta <= 2U))
     {
-        printf("RTC TEST      : PASS\r\n--- RTC / LSE TEST PASSED ---\r\n");
+        Console_Printf("RTC TEST      : PASS\r\n--- RTC / LSE TEST PASSED ---\r\n");
     }
     else
     {
-        printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
+        Console_Printf("RTC TEST      : FAIL\r\n--- RTC / LSE TEST FAILED ---\r\n");
     }
 }

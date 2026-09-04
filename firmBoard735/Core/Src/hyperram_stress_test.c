@@ -1,5 +1,6 @@
 #include "hyperram_test.h"
 #include "main.h"
+#include "console.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -151,25 +152,25 @@ void HyperRAM_Test_ConfigRegisters(void)
     uint8_t raw0[2] = {0U, 0U};
     uint8_t raw1[2] = {0U, 0U};
 
-    printf("\r\n--- HYPERRAM CONFIG REGISTER TEST ---\r\n");
+    Console_Printf("\r\n--- HYPERRAM CONFIG REGISTER TEST ---\r\n");
 
     HAL_StatusTypeDef st0 = HyperRAM_Stress_ReadRegister16(
         HYPERRAM_CR0_ADDRESS, &cr0, raw0);
     HAL_StatusTypeDef st1 = HyperRAM_Stress_ReadRegister16(
         HYPERRAM_CR1_ADDRESS, &cr1, raw1);
 
-    printf("CR0 address : 0x%08lX status=%d value=0x%04X raw=%02X %02X\r\n",
+    Console_Printf("CR0 address : 0x%08lX status=%d value=0x%04X raw=%02X %02X\r\n",
            (unsigned long)HYPERRAM_CR0_ADDRESS,
            (int)st0,
            cr0,
            raw0[0], raw0[1]);
-    printf("CR1 address : 0x%08lX status=%d value=0x%04X raw=%02X %02X\r\n",
+    Console_Printf("CR1 address : 0x%08lX status=%d value=0x%04X raw=%02X %02X\r\n",
            (unsigned long)HYPERRAM_CR1_ADDRESS,
            (int)st1,
            cr1,
            raw1[0], raw1[1]);
 
-    printf("--- END HYPERRAM CONFIG REGISTER TEST ---\r\n");
+    Console_Printf("--- END HYPERRAM CONFIG REGISTER TEST ---\r\n");
 }
 
 void HyperRAM_Test_BurstStress(void)
@@ -180,10 +181,10 @@ void HyperRAM_Test_BurstStress(void)
     uint32_t byte_errors = 0U;
     uint32_t detail_count = 0U;
 
-    printf("\r\n--- HYPERRAM 512-BYTE BURST STRESS ---\r\n");
-    printf("Blocks       : %u\r\n", HYPERRAM_STRESS_BLOCKS);
-    printf("Write size   : %u bytes\r\n", HYPERRAM_STRESS_BLOCK_BYTES);
-    printf("Read split   : %u + %u bytes\r\n",
+    Console_Printf("\r\n--- HYPERRAM 512-BYTE BURST STRESS ---\r\n");
+    Console_Printf("Blocks       : %u\r\n", HYPERRAM_STRESS_BLOCKS);
+    Console_Printf("Write size   : %u bytes\r\n", HYPERRAM_STRESS_BLOCK_BYTES);
+    Console_Printf("Read split   : %u + %u bytes\r\n",
            HYPERRAM_STRESS_READ1_BYTES,
            HYPERRAM_STRESS_READ2_BYTES);
 
@@ -237,7 +238,7 @@ void HyperRAM_Test_BurstStress(void)
 
                 if (detail_count < HYPERRAM_STRESS_MAX_DETAILS)
                 {
-                    printf(
+                    Console_Printf(
                         "Burst mismatch block=%lu addr=0x%08lX byte=%lu "
                         "wrote=%02X read=%02X\r\n",
                         (unsigned long)block,
@@ -256,22 +257,22 @@ void HyperRAM_Test_BurstStress(void)
         }
     }
 
-    printf("Blocks checked : %u\r\n", HYPERRAM_STRESS_BLOCKS);
-    printf("Bad blocks     : %lu\r\n", (unsigned long)bad_blocks);
-    printf("Byte errors    : %lu\r\n", (unsigned long)byte_errors);
-    printf("Write HAL err  : %lu\r\n", (unsigned long)write_errors);
-    printf("Read HAL err   : %lu\r\n", (unsigned long)read_errors);
+    Console_Printf("Blocks checked : %u\r\n", HYPERRAM_STRESS_BLOCKS);
+    Console_Printf("Bad blocks     : %lu\r\n", (unsigned long)bad_blocks);
+    Console_Printf("Byte errors    : %lu\r\n", (unsigned long)byte_errors);
+    Console_Printf("Write HAL err  : %lu\r\n", (unsigned long)write_errors);
+    Console_Printf("Read HAL err   : %lu\r\n", (unsigned long)read_errors);
 
     if ((bad_blocks == 0U) &&
         (write_errors == 0U) &&
         (read_errors == 0U))
     {
-        printf("HYPERRAM BURST STRESS: PASS\r\n");
+        Console_Printf("HYPERRAM BURST STRESS: PASS\r\n");
     }
     else
     {
-        printf("HYPERRAM BURST STRESS: FAIL\r\n");
+        Console_Printf("HYPERRAM BURST STRESS: FAIL\r\n");
     }
 
-    printf("--- END HYPERRAM 512-BYTE BURST STRESS ---\r\n");
+    Console_Printf("--- END HYPERRAM 512-BYTE BURST STRESS ---\r\n");
 }

@@ -2,6 +2,7 @@
 
 #include "can_capture_buffer.h"
 #include "can_sniffer.h"
+#include "console.h"
 #include "main.h"
 
 #include <stdio.h>
@@ -365,9 +366,9 @@ static void HyperRAM_Capture_RequestVerification(void)
     verify_fifo_lost_at_stop = CAN_Sniffer_GetFifoLostEvents();
     verify_sniffer_errors_at_stop = CAN_Sniffer_GetErrorCount();
 
-    printf("\r\nHyperRAM verify: stop point reached (%lu stored frames)\r\n",
+    Console_Printf("\r\nHyperRAM verify: stop point reached (%lu stored frames)\r\n",
            (unsigned long)stored_count);
-    printf("HyperRAM verify: stopping FDCAN1 to freeze acquisition...\r\n");
+    Console_Printf("HyperRAM verify: stopping FDCAN1 to freeze acquisition...\r\n");
 
     if (HAL_FDCAN_Stop(&hfdcan1) != HAL_OK)
     {
@@ -375,16 +376,16 @@ static void HyperRAM_Capture_RequestVerification(void)
         verify_target_count = stored_count;
         verify_done = true;
         verify_passed = false;
-        printf("HyperRAM verify: ABORT - HAL_FDCAN_Stop failed\r\n");
+        Console_Printf("HyperRAM verify: ABORT - HAL_FDCAN_Stop failed\r\n");
         HyperRAM_Capture_PrintVerifyReport();
         return;
     }
 
     verify_fdcan_stopped = true;
 
-    printf("HyperRAM verify: FDCAN1 stopped, RX snapshot=%lu\r\n",
+    Console_Printf("HyperRAM verify: FDCAN1 stopped, RX snapshot=%lu\r\n",
            (unsigned long)verify_rx_count_at_stop);
-    printf("HyperRAM verify: draining SRAM queue to HyperRAM...\r\n");
+    Console_Printf("HyperRAM verify: draining SRAM queue to HyperRAM...\r\n");
 }
 
 static void HyperRAM_Capture_BeginVerificationScan(void)
@@ -440,29 +441,29 @@ static void HyperRAM_Capture_BeginVerificationScan(void)
 
     verify_scan_started = true;
 
-    printf("\r\n--- HYPERRAM CAPTURE READBACK VERIFY ---\r\n");
-    printf("Capture frozen  : %s\r\n",
+    Console_Printf("\r\n--- HYPERRAM CAPTURE READBACK VERIFY ---\r\n");
+    Console_Printf("Capture frozen  : %s\r\n",
            verify_fdcan_stopped ? "YES (FDCAN1 stopped)" : "NO");
-    printf("Snapshot stable : %s\r\n",
+    Console_Printf("Snapshot stable : %s\r\n",
            (wrap_count == 0U) ? "YES (no HyperRAM wrap)" : "NO");
-    printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
-    printf("RX at stop      : %lu\r\n",
+    Console_Printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("RX at stop      : %lu\r\n",
            (unsigned long)verify_rx_count_at_stop);
-    printf("Stored frames   : %lu\r\n",
+    Console_Printf("Stored frames   : %lu\r\n",
            (unsigned long)stored_count);
-    printf("SRAM pending    : %lu\r\n",
+    Console_Printf("SRAM pending    : %lu\r\n",
            (unsigned long)CAN_CaptureBuffer_GetCount());
-    printf("Snapshot frames : %lu\r\n",
+    Console_Printf("Snapshot frames : %lu\r\n",
            (unsigned long)verify_target_count);
-    printf("Write batch     : %u records\r\n",
+    Console_Printf("Write batch     : %u records\r\n",
            HYPERRAM_CAPTURE_BATCH_FRAMES);
-    printf("Read batch      : %u records\r\n",
+    Console_Printf("Read batch      : %u records\r\n",
            HYPERRAM_VERIFY_BATCH_FRAMES);
-    printf("Pre-stop drop   : %lu\r\n",
+    Console_Printf("Pre-stop drop   : %lu\r\n",
            (unsigned long)verify_drop_count_at_stop);
-    printf("Pre-stop fifoLost: %lu\r\n",
+    Console_Printf("Pre-stop fifoLost: %lu\r\n",
            (unsigned long)verify_fifo_lost_at_stop);
-    printf("Pre-stop errors : %lu\r\n",
+    Console_Printf("Pre-stop errors : %lu\r\n",
            (unsigned long)verify_sniffer_errors_at_stop);
 }
 
@@ -497,31 +498,31 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
         verify_done = true;
     }
 
-    printf("\r\n--- PRE-WRITE SRAM SEQUENCE ---\r\n");
-    printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
-    printf("Frames checked  : %lu\r\n",
+    Console_Printf("\r\n--- PRE-WRITE SRAM SEQUENCE ---\r\n");
+    Console_Printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("Frames checked  : %lu\r\n",
            (unsigned long)prewrite_checked_count);
-    printf("First counter   : %lu\r\n",
+    Console_Printf("First counter   : %lu\r\n",
            (unsigned long)prewrite_first_counter);
-    printf("Last counter    : %lu\r\n",
+    Console_Printf("Last counter    : %lu\r\n",
            (unsigned long)prewrite_last_counter);
-    printf("Sequence errors : %lu\r\n",
+    Console_Printf("Sequence errors : %lu\r\n",
            (unsigned long)prewrite_sequence_errors);
-    printf("Missing frames  : %lu\r\n",
+    Console_Printf("Missing frames  : %lu\r\n",
            (unsigned long)prewrite_missing_frames);
-    printf("Large jumps     : %lu\r\n",
+    Console_Printf("Large jumps     : %lu\r\n",
            (unsigned long)prewrite_large_jump_events);
-    printf("Backward events : %lu\r\n",
+    Console_Printf("Backward events : %lu\r\n",
            (unsigned long)prewrite_backward_events);
-    printf("ID errors       : %lu\r\n",
+    Console_Printf("ID errors       : %lu\r\n",
            (unsigned long)prewrite_id_errors);
-    printf("DLC errors      : %lu\r\n",
+    Console_Printf("DLC errors      : %lu\r\n",
            (unsigned long)prewrite_dlc_errors);
-    printf("Flags errors    : %lu\r\n",
+    Console_Printf("Flags errors    : %lu\r\n",
            (unsigned long)prewrite_flags_errors);
-    printf("Payload errors  : %lu\r\n",
+    Console_Printf("Payload errors  : %lu\r\n",
            (unsigned long)prewrite_payload_errors);
-    printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
+    Console_Printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
 
     FDCAN_ProtocolStatusTypeDef ps1 = {0};
     FDCAN_ErrorCountersTypeDef ec1 = {0};
@@ -532,8 +533,8 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     HAL_StatusTypeDef st_ec1 =
         HAL_FDCAN_GetErrorCounters(&hfdcan1, &ec1);
 
-    printf("\r\n--- FDCAN1 DIAGNOSTIC ---\r\n");
-    printf(
+    Console_Printf("\r\n--- FDCAN1 DIAGNOSTIC ---\r\n");
+    Console_Printf(
         "CAN1 HAL=%u/%u LEC=%lu DLEC=%lu "
         "REC=%lu TEC=%lu LOG=%lu "
         "EP=%lu WARN=%lu BO=%lu\r\n",
@@ -547,46 +548,46 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
         (unsigned long)ps1.ErrorPassive,
         (unsigned long)ps1.Warning,
         (unsigned long)ps1.BusOff);
-    printf("--- END FDCAN1 DIAGNOSTIC ---\r\n");
+    Console_Printf("--- END FDCAN1 DIAGNOSTIC ---\r\n");
 
-    printf("Frames checked  : %lu / %lu\r\n",
+    Console_Printf("Frames checked  : %lu / %lu\r\n",
            (unsigned long)verify_checked_count,
            (unsigned long)verify_target_count);
-    printf("First counter   : %lu\r\n",
+    Console_Printf("First counter   : %lu\r\n",
            (unsigned long)verify_first_counter);
-    printf("Last counter    : %lu\r\n",
+    Console_Printf("Last counter    : %lu\r\n",
            (unsigned long)verify_last_counter);
-    printf("Control errors  : %lu\r\n",
+    Console_Printf("Control errors  : %lu\r\n",
            (unsigned long)verify_control_errors);
-    printf("Read errors     : %lu\r\n",
+    Console_Printf("Read errors     : %lu\r\n",
            (unsigned long)verify_read_errors);
-    printf("Sequence errors : %lu\r\n",
+    Console_Printf("Sequence errors : %lu\r\n",
            (unsigned long)verify_sequence_errors);
-    printf("Forward gap     : %lu frame(s)\r\n",
+    Console_Printf("Forward gap     : %lu frame(s)\r\n",
            (unsigned long)verify_forward_gap_frames);
-    printf("Large jumps     : %lu\r\n",
+    Console_Printf("Large jumps     : %lu\r\n",
            (unsigned long)verify_large_jump_events);
-    printf("Backward events : %lu\r\n",
+    Console_Printf("Backward events : %lu\r\n",
            (unsigned long)verify_backward_events);
-    printf("ID errors       : %lu\r\n",
+    Console_Printf("ID errors       : %lu\r\n",
            (unsigned long)verify_id_errors);
-    printf("DLC errors      : %lu\r\n",
+    Console_Printf("DLC errors      : %lu\r\n",
            (unsigned long)verify_dlc_errors);
-    printf("Flags errors    : %lu\r\n",
+    Console_Printf("Flags errors    : %lu\r\n",
            (unsigned long)verify_flags_errors);
-    printf("Payload errors  : %lu\r\n",
+    Console_Printf("Payload errors  : %lu\r\n",
            (unsigned long)verify_payload_errors);
 
     if (verify_passed)
     {
-        printf("HYPERRAM CAPTURE VERIFY: PASS\r\n");
+        Console_Printf("HYPERRAM CAPTURE VERIFY: PASS\r\n");
     }
     else
     {
-        printf("HYPERRAM CAPTURE VERIFY: FAIL\r\n");
+        Console_Printf("HYPERRAM CAPTURE VERIFY: FAIL\r\n");
     }
 
-    printf("--- END HYPERRAM CAPTURE VERIFY ---\r\n\r\n");
+    Console_Printf("--- END HYPERRAM CAPTURE VERIFY ---\r\n\r\n");
 }
 
 static void HyperRAM_Capture_VerifyFrame(
@@ -650,7 +651,7 @@ static void HyperRAM_Capture_VerifyFrame(
     if ((sequence_bad || id_bad || dlc_bad || flags_bad || payload_bad) &&
         (verify_detail_count < HYPERRAM_VERIFY_MAX_DETAILS))
     {
-        printf(
+        Console_Printf(
             "Mismatch rec=%lu RB=%u WB=%u exp=%lu got=%lu "
             "ID=%03lX DLC=%u FL=%02X "
             "DATA=%02X %02X %02X %02X %02X %02X %02X %02X\r\n",
@@ -710,7 +711,7 @@ static void HyperRAM_Capture_VerifyProcess(void)
             verify_target_count = stored_count;
             verify_done = true;
             verify_passed = false;
-            printf("HyperRAM verify: ABORT - capture wrapped while draining\r\n");
+            Console_Printf("HyperRAM verify: ABORT - capture wrapped while draining\r\n");
             HyperRAM_Capture_PrintVerifyReport();
             return;
         }
@@ -839,18 +840,18 @@ void HyperRAM_Capture_Init(void)
     verify_first_counter = 0U;
     verify_last_counter = 0U;
 
-    printf("HyperRAM CAN : %lu frames / %lu bytes\r\n",
+    Console_Printf("HyperRAM CAN : %lu frames / %lu bytes\r\n",
            (unsigned long)HYPERRAM_CAPTURE_CAPACITY,
            (unsigned long)HYPERRAM_CAPTURE_SIZE_BYTES);
-    printf("HyperRAM CAN : base=0x%08lX, write batch=%u frames\r\n",
+    Console_Printf("HyperRAM CAN : base=0x%08lX, write batch=%u frames\r\n",
            (unsigned long)HYPERRAM_CAPTURE_BASE_ADDRESS,
            HYPERRAM_CAPTURE_BATCH_FRAMES);
-    printf("HyperRAM verify: stop at >=%lu frames, then freeze + drain + scan\r\n",
+    Console_Printf("HyperRAM verify: stop at >=%lu frames, then freeze + drain + scan\r\n",
            (unsigned long)HYPERRAM_VERIFY_STOP_AT_FRAMES);
-    printf("HyperRAM verify: read batch=%u frames\r\n",
+    Console_Printf("HyperRAM verify: read batch=%u frames\r\n",
            HYPERRAM_VERIFY_BATCH_FRAMES);
-    printf("HyperRAM diagnostic: external pattern ID=100 tail=AA 55 12 34\r\n");
-    printf("HyperRAM diagnostic: SRAM sequence checked before each write\r\n");
+    Console_Printf("HyperRAM diagnostic: external pattern ID=100 tail=AA 55 12 34\r\n");
+    Console_Printf("HyperRAM diagnostic: SRAM sequence checked before each write\r\n");
 }
 
 void HyperRAM_Capture_Process(void)
