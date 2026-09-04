@@ -210,11 +210,27 @@ int main(void)
                   (uint32_t)(delta_cycles / delta_frames);
           }
           Console_Printf(
-              "CAN rx=%lu hram=%lu sram=%lu hi=%lu drop=%lu "
+              "CAN1 rx=%lu lost=%lu max=%lu err=%lu | "
+              "CAN2 rx=%lu lost=%lu max=%lu err=%lu | "
+              "hram=%lu sram=%lu hi=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
-              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu "
-              "logdrop=%lu logerr=%lu\r\n",
-              (unsigned long)CAN_Sniffer_GetRxCount(),
+              "cpf=%lu logdrop=%lu logerr=%lu\r\n",
+              (unsigned long)CAN_Sniffer_GetChannelRxCount(
+                  CAN_SNIFFER_CHANNEL_1),
+              (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
+                  CAN_SNIFFER_CHANNEL_1),
+              (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
+                  CAN_SNIFFER_CHANNEL_1),
+              (unsigned long)CAN_Sniffer_GetChannelErrorCount(
+                  CAN_SNIFFER_CHANNEL_1),
+              (unsigned long)CAN_Sniffer_GetChannelRxCount(
+                  CAN_SNIFFER_CHANNEL_2),
+              (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
+                  CAN_SNIFFER_CHANNEL_2),
+              (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
+                  CAN_SNIFFER_CHANNEL_2),
+              (unsigned long)CAN_Sniffer_GetChannelErrorCount(
+                  CAN_SNIFFER_CHANNEL_2),
               (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_CaptureBuffer_GetAndResetHighWater(),
@@ -222,9 +238,6 @@ int main(void)
               (unsigned long)HyperRAM_Capture_GetWriteErrors(),
               (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
               (unsigned long)HyperRAM_Capture_GetWrapCount(),
-              (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
-              (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
-              (unsigned long)CAN_Sniffer_GetErrorCount(),
               (unsigned long)cycles_per_frame,
               (unsigned long)Console_GetDroppedCount(),
               (unsigned long)Console_GetUartErrorCount());

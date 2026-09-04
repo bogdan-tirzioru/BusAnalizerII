@@ -31,7 +31,8 @@ enum
   CAN_FRAME_FLAG_FD        = (1U << 2),
   CAN_FRAME_FLAG_BRS       = (1U << 3),
   CAN_FRAME_FLAG_ESI       = (1U << 4),
-  CAN_FRAME_FLAG_CHANNEL_1 = (1U << 5)
+  /* Set for logical CAN channel 2 (FDCAN3); clear for channel 1 (FDCAN1). */
+  CAN_FRAME_FLAG_CHANNEL_2 = (1U << 5)
 };
 
 void CAN_CaptureBuffer_Init(void);

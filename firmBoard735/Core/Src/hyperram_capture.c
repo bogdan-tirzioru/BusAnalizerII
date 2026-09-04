@@ -9,6 +9,7 @@
 
 extern OSPI_HandleTypeDef hospi1;
 extern FDCAN_HandleTypeDef hfdcan1;
+extern FDCAN_HandleTypeDef hfdcan3;
 
 /* Physical S27KL0641 fitted on the board: 8 MiB. */
 #define HYPERRAM_SIZE_BYTES             (8U * 1024U * 1024U)
@@ -38,8 +39,8 @@ extern FDCAN_HandleTypeDef hfdcan1;
 
 /*
  * Keep a 100k-frame regression test in normal firmware.  The stop point is
- * far below the 524032-frame HyperRAM capacity and leaves ample room to drain
- * the 4096-frame SRAM queue plus the 64-frame FDCAN FIFO before readback.
+ * below the full-record HyperRAM capacity and leaves room to drain the
+ * 4096-frame SRAM queue plus both 64-frame FDCAN FIFOs before readback.
  */
 #define HYPERRAM_VERIFY_STOP_AT_FRAMES  100000U
 #define HYPERRAM_VERIFY_MAX_DETAILS     16U
@@ -50,7 +51,7 @@ _Static_assert(
 
 _Static_assert(
     (HYPERRAM_CAPTURE_CAPACITY - HYPERRAM_VERIFY_STOP_AT_FRAMES) >
-        (CAN_CAPTURE_BUFFER_CAPACITY + 64U),
+        (CAN_CAPTURE_BUFFER_CAPACITY + (2U * 64U)),
     "HyperRAM verify stop point does not leave enough drain margin");
 
 static uint32_t write_index = 0U;
@@ -70,17 +71,16 @@ static CAN_SnifferFrame verify_batch[HYPERRAM_VERIFY_BATCH_FRAMES]
  * handed to HAL_OSPI_Transmit(). This separates upstream CAN/SRAM errors from
  * errors introduced by the HyperRAM storage/readback path.
  *
- * External generator format:
- *   standard ID : 0x100
- *   DLC         : 8
- *   data[0..3]  : monotonically increasing little-endian counter
- *   data[4..7]  : AA 55 12 34
+ * Supported external generator formats use standard ID 0x100 and a
+ * monotonically increasing little-endian counter in data[0..3]:
+ *   Classic : DLC 8,  data[4..7] = AA 55 12 34
+ *   CAN FD  : DLC 15, data[4..63] = (counter + byte index) & 0xff
  */
-static bool prewrite_have_counter = false;
+static bool prewrite_have_counter[CAN_SNIFFER_CHANNEL_COUNT];
 static uint32_t prewrite_checked_count = 0U;
-static uint32_t prewrite_expected_counter = 0U;
-static uint32_t prewrite_first_counter = 0U;
-static uint32_t prewrite_last_counter = 0U;
+static uint32_t prewrite_expected_counter[CAN_SNIFFER_CHANNEL_COUNT];
+static uint32_t prewrite_first_counter[CAN_SNIFFER_CHANNEL_COUNT];
+static uint32_t prewrite_last_counter[CAN_SNIFFER_CHANNEL_COUNT];
 static uint32_t prewrite_sequence_errors = 0U;
 static uint32_t prewrite_missing_frames = 0U;
 static uint32_t prewrite_backward_events = 0U;
@@ -117,10 +117,10 @@ static uint32_t verify_flags_errors = 0U;
 static uint32_t verify_payload_errors = 0U;
 static uint32_t verify_detail_count = 0U;
 
-static bool verify_have_counter = false;
-static uint32_t verify_expected_counter = 0U;
-static uint32_t verify_first_counter = 0U;
-static uint32_t verify_last_counter = 0U;
+static bool verify_have_counter[CAN_SNIFFER_CHANNEL_COUNT];
+static uint32_t verify_expected_counter[CAN_SNIFFER_CHANNEL_COUNT];
+static uint32_t verify_first_counter[CAN_SNIFFER_CHANNEL_COUNT];
+static uint32_t verify_last_counter[CAN_SNIFFER_CHANNEL_COUNT];
 
 static void HyperRAM_Capture_PrintVerifyReport(void);
 
@@ -203,18 +203,71 @@ static uint32_t HyperRAM_Capture_ReadCounter(const CAN_SnifferFrame *frame)
         | ((uint32_t)frame->data[3] << 24);
 }
 
+static uint32_t HyperRAM_Capture_ChannelIndex(const CAN_SnifferFrame *frame)
+{
+    return ((frame->flags & CAN_FRAME_FLAG_CHANNEL_2) != 0U) ? 1U : 0U;
+}
+
+static void HyperRAM_Capture_CheckGeneratorPattern(
+        const CAN_SnifferFrame *frame,
+        uint32_t counter,
+        bool *id_bad,
+        bool *dlc_bad,
+        bool *flags_bad,
+        bool *payload_bad)
+{
+    uint8_t bus_flags =
+        frame->flags & (uint8_t)~CAN_FRAME_FLAG_CHANNEL_2;
+    bool is_fd = (bus_flags & CAN_FRAME_FLAG_FD) != 0U;
+
+    *id_bad = (frame->id != HyperRAM_Capture_ExpectedId(counter));
+    *flags_bad =
+        ((bus_flags &
+          (uint8_t)~(CAN_FRAME_FLAG_FD | CAN_FRAME_FLAG_BRS)) != 0U) ||
+        (((bus_flags & CAN_FRAME_FLAG_BRS) != 0U) && !is_fd);
+    *payload_bad = false;
+
+    if (is_fd)
+    {
+        *dlc_bad = (frame->dlc != 15U);
+
+        for (uint32_t i = 4U; i < sizeof(frame->data); i++)
+        {
+            if (frame->data[i] != (uint8_t)(counter + i))
+            {
+                *payload_bad = true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        *dlc_bad = (frame->dlc != 8U);
+        *payload_bad =
+            (frame->data[4] != 0xAAU) ||
+            (frame->data[5] != 0x55U) ||
+            (frame->data[6] != 0x12U) ||
+            (frame->data[7] != 0x34U);
+    }
+}
+
 static void HyperRAM_Capture_MonitorPreWrite(const CAN_SnifferFrame *frame)
 {
+    uint32_t channel_index = HyperRAM_Capture_ChannelIndex(frame);
     uint32_t counter = HyperRAM_Capture_ReadCounter(frame);
+    bool id_bad;
+    bool dlc_bad;
+    bool flags_bad;
+    bool payload_bad;
 
-    if (!prewrite_have_counter)
+    if (!prewrite_have_counter[channel_index])
     {
-        prewrite_have_counter = true;
-        prewrite_first_counter = counter;
-        prewrite_expected_counter = counter;
+        prewrite_have_counter[channel_index] = true;
+        prewrite_first_counter[channel_index] = counter;
+        prewrite_expected_counter[channel_index] = counter;
     }
 
-    uint32_t expected_before = prewrite_expected_counter;
+    uint32_t expected_before = prewrite_expected_counter[channel_index];
 
     if (counter != expected_before)
     {
@@ -238,35 +291,20 @@ static void HyperRAM_Capture_MonitorPreWrite(const CAN_SnifferFrame *frame)
             prewrite_backward_events++;
         }
 
-        prewrite_expected_counter = counter;
+        prewrite_expected_counter[channel_index] = counter;
     }
 
-    prewrite_expected_counter++;
-    prewrite_last_counter = counter;
+    prewrite_expected_counter[channel_index]++;
+    prewrite_last_counter[channel_index] = counter;
     prewrite_checked_count++;
 
-    if (frame->id != HyperRAM_Capture_ExpectedId(counter))
-    {
-        prewrite_id_errors++;
-    }
+    HyperRAM_Capture_CheckGeneratorPattern(
+        frame, counter, &id_bad, &dlc_bad, &flags_bad, &payload_bad);
 
-    if (frame->dlc != 8U)
-    {
-        prewrite_dlc_errors++;
-    }
-
-    if (frame->flags != 0U)
-    {
-        prewrite_flags_errors++;
-    }
-
-    if ((frame->data[4] != 0xAAU) ||
-        (frame->data[5] != 0x55U) ||
-        (frame->data[6] != 0x12U) ||
-        (frame->data[7] != 0x34U))
-    {
-        prewrite_payload_errors++;
-    }
+    if (id_bad)      { prewrite_id_errors++; }
+    if (dlc_bad)     { prewrite_dlc_errors++; }
+    if (flags_bad)   { prewrite_flags_errors++; }
+    if (payload_bad) { prewrite_payload_errors++; }
 }
 
 static void HyperRAM_Capture_StoreProcess(void)
@@ -377,22 +415,28 @@ static void HyperRAM_Capture_RequestVerification(void)
 
     Console_Printf("\r\nHyperRAM verify: stop point reached (%lu stored frames)\r\n",
            (unsigned long)stored_count);
-    Console_Printf("HyperRAM verify: stopping FDCAN1 to freeze acquisition...\r\n");
+    Console_Printf("HyperRAM verify: stopping both FDCAN channels to freeze acquisition...\r\n");
 
-    if (HAL_FDCAN_Stop(&hfdcan1) != HAL_OK)
+    HAL_StatusTypeDef stop1 = HAL_FDCAN_Stop(&hfdcan1);
+    HAL_StatusTypeDef stop2 = HAL_FDCAN_Stop(&hfdcan3);
+
+    if ((stop1 != HAL_OK) || (stop2 != HAL_OK))
     {
         verify_control_errors++;
         verify_target_count = stored_count;
         verify_done = true;
         verify_passed = false;
-        Console_Printf("HyperRAM verify: ABORT - HAL_FDCAN_Stop failed\r\n");
+        Console_Printf(
+            "HyperRAM verify: ABORT - HAL_FDCAN_Stop failed (%u/%u)\r\n",
+            (unsigned int)stop1,
+            (unsigned int)stop2);
         HyperRAM_Capture_PrintVerifyReport();
         return;
     }
 
     verify_fdcan_stopped = true;
 
-    Console_Printf("HyperRAM verify: FDCAN1 stopped, RX snapshot=%lu\r\n",
+    Console_Printf("HyperRAM verify: both channels stopped, RX snapshot=%lu\r\n",
            (unsigned long)verify_rx_count_at_stop);
     Console_Printf("HyperRAM verify: draining SRAM queue to HyperRAM...\r\n");
 }
@@ -414,10 +458,15 @@ static void HyperRAM_Capture_BeginVerificationScan(void)
     verify_payload_errors = 0U;
     verify_detail_count = 0U;
 
-    verify_have_counter = false;
-    verify_expected_counter = 0U;
-    verify_first_counter = 0U;
-    verify_last_counter = 0U;
+    for (uint32_t channel = 0U;
+         channel < CAN_SNIFFER_CHANNEL_COUNT;
+         channel++)
+    {
+        verify_have_counter[channel] = false;
+        verify_expected_counter[channel] = 0U;
+        verify_first_counter[channel] = 0U;
+        verify_last_counter[channel] = 0U;
+    }
 
     if (!verify_fdcan_stopped)
     {
@@ -452,10 +501,10 @@ static void HyperRAM_Capture_BeginVerificationScan(void)
 
     Console_Printf("\r\n--- HYPERRAM CAPTURE READBACK VERIFY ---\r\n");
     Console_Printf("Capture frozen  : %s\r\n",
-           verify_fdcan_stopped ? "YES (FDCAN1 stopped)" : "NO");
+           verify_fdcan_stopped ? "YES (FDCAN1/FDCAN3 stopped)" : "NO");
     Console_Printf("Snapshot stable : %s\r\n",
            (wrap_count == 0U) ? "YES (no HyperRAM wrap)" : "NO");
-    Console_Printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("Expected        : ID=100 legacy Classic or BA1 CAN FD pattern\r\n");
     Console_Printf("RX at stop      : %lu\r\n",
            (unsigned long)verify_rx_count_at_stop);
     Console_Printf("Stored frames   : %lu\r\n",
@@ -508,13 +557,15 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     }
 
     Console_Printf("\r\n--- PRE-WRITE SRAM SEQUENCE ---\r\n");
-    Console_Printf("Expected        : ID=100 DLC=8 tail=AA 55 12 34\r\n");
+    Console_Printf("Expected        : ID=100 legacy Classic or BA1 CAN FD pattern\r\n");
     Console_Printf("Frames checked  : %lu\r\n",
            (unsigned long)prewrite_checked_count);
-    Console_Printf("First counter   : %lu\r\n",
-           (unsigned long)prewrite_first_counter);
-    Console_Printf("Last counter    : %lu\r\n",
-           (unsigned long)prewrite_last_counter);
+    Console_Printf("CAN1 first/last : %lu / %lu\r\n",
+           (unsigned long)prewrite_first_counter[0],
+           (unsigned long)prewrite_last_counter[0]);
+    Console_Printf("CAN2 first/last : %lu / %lu\r\n",
+           (unsigned long)prewrite_first_counter[1],
+           (unsigned long)prewrite_last_counter[1]);
     Console_Printf("Sequence errors : %lu\r\n",
            (unsigned long)prewrite_sequence_errors);
     Console_Printf("Missing frames  : %lu\r\n",
@@ -534,13 +585,21 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
     Console_Printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
 
     FDCAN_ProtocolStatusTypeDef ps1 = {0};
+    FDCAN_ProtocolStatusTypeDef ps2 = {0};
     FDCAN_ErrorCountersTypeDef ec1 = {0};
+    FDCAN_ErrorCountersTypeDef ec2 = {0};
 
     HAL_StatusTypeDef st_ps1 =
         HAL_FDCAN_GetProtocolStatus(&hfdcan1, &ps1);
 
     HAL_StatusTypeDef st_ec1 =
         HAL_FDCAN_GetErrorCounters(&hfdcan1, &ec1);
+
+    HAL_StatusTypeDef st_ps2 =
+        HAL_FDCAN_GetProtocolStatus(&hfdcan3, &ps2);
+
+    HAL_StatusTypeDef st_ec2 =
+        HAL_FDCAN_GetErrorCounters(&hfdcan3, &ec2);
 
     Console_Printf("\r\n--- FDCAN1 DIAGNOSTIC ---\r\n");
     Console_Printf(
@@ -559,13 +618,32 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
         (unsigned long)ps1.BusOff);
     Console_Printf("--- END FDCAN1 DIAGNOSTIC ---\r\n");
 
+    Console_Printf("\r\n--- FDCAN3 / CAN2 DIAGNOSTIC ---\r\n");
+    Console_Printf(
+        "CAN2 HAL=%u/%u LEC=%lu DLEC=%lu "
+        "REC=%lu TEC=%lu LOG=%lu "
+        "EP=%lu WARN=%lu BO=%lu\r\n",
+        (unsigned int)st_ps2,
+        (unsigned int)st_ec2,
+        (unsigned long)ps2.LastErrorCode,
+        (unsigned long)ps2.DataLastErrorCode,
+        (unsigned long)ec2.RxErrorCnt,
+        (unsigned long)ec2.TxErrorCnt,
+        (unsigned long)ec2.ErrorLogging,
+        (unsigned long)ps2.ErrorPassive,
+        (unsigned long)ps2.Warning,
+        (unsigned long)ps2.BusOff);
+    Console_Printf("--- END FDCAN3 / CAN2 DIAGNOSTIC ---\r\n");
+
     Console_Printf("Frames checked  : %lu / %lu\r\n",
            (unsigned long)verify_checked_count,
            (unsigned long)verify_target_count);
-    Console_Printf("First counter   : %lu\r\n",
-           (unsigned long)verify_first_counter);
-    Console_Printf("Last counter    : %lu\r\n",
-           (unsigned long)verify_last_counter);
+    Console_Printf("CAN1 first/last : %lu / %lu\r\n",
+           (unsigned long)verify_first_counter[0],
+           (unsigned long)verify_last_counter[0]);
+    Console_Printf("CAN2 first/last : %lu / %lu\r\n",
+           (unsigned long)verify_first_counter[1],
+           (unsigned long)verify_last_counter[1]);
     Console_Printf("Control errors  : %lu\r\n",
            (unsigned long)verify_control_errors);
     Console_Printf("Read errors     : %lu\r\n",
@@ -603,26 +681,25 @@ static void HyperRAM_Capture_VerifyFrame(
         const CAN_SnifferFrame *frame,
         uint32_t record_index)
 {
+    uint32_t channel_index = HyperRAM_Capture_ChannelIndex(frame);
     uint32_t counter = HyperRAM_Capture_ReadCounter(frame);
 
-    if (!verify_have_counter)
+    if (!verify_have_counter[channel_index])
     {
-        verify_have_counter = true;
-        verify_first_counter = counter;
-        verify_expected_counter = counter;
+        verify_have_counter[channel_index] = true;
+        verify_first_counter[channel_index] = counter;
+        verify_expected_counter[channel_index] = counter;
     }
 
-    uint32_t expected_before = verify_expected_counter;
+    uint32_t expected_before = verify_expected_counter[channel_index];
     bool sequence_bad = (counter != expected_before);
-    bool id_bad =
-        (frame->id != HyperRAM_Capture_ExpectedId(counter));
-    bool dlc_bad = (frame->dlc != 8U);
-    bool flags_bad = (frame->flags != 0U);
-    bool payload_bad =
-        (frame->data[4] != 0xAAU) ||
-        (frame->data[5] != 0x55U) ||
-        (frame->data[6] != 0x12U) ||
-        (frame->data[7] != 0x34U);
+    bool id_bad;
+    bool dlc_bad;
+    bool flags_bad;
+    bool payload_bad;
+
+    HyperRAM_Capture_CheckGeneratorPattern(
+        frame, counter, &id_bad, &dlc_bad, &flags_bad, &payload_bad);
 
     if (sequence_bad)
     {
@@ -646,11 +723,11 @@ static void HyperRAM_Capture_VerifyFrame(
             verify_backward_events++;
         }
 
-        verify_expected_counter = counter;
+        verify_expected_counter[channel_index] = counter;
     }
 
-    verify_expected_counter++;
-    verify_last_counter = counter;
+    verify_expected_counter[channel_index]++;
+    verify_last_counter[channel_index] = counter;
 
     if (id_bad)      { verify_id_errors++; }
     if (dlc_bad)     { verify_dlc_errors++; }
@@ -661,10 +738,11 @@ static void HyperRAM_Capture_VerifyFrame(
         (verify_detail_count < HYPERRAM_VERIFY_MAX_DETAILS))
     {
         Console_Printf(
-            "Mismatch rec=%lu RB=%u WB=%u exp=%lu got=%lu "
+            "Mismatch rec=%lu CAN%lu RB=%u WB=%u exp=%lu got=%lu "
             "ID=%03lX DLC=%u FL=%02X "
             "DATA=%02X %02X %02X %02X %02X %02X %02X %02X\r\n",
             (unsigned long)record_index,
+            (unsigned long)(channel_index + 1U),
             ((record_index % HYPERRAM_VERIFY_BATCH_FRAMES) == 0U) ? 1U : 0U,
             ((record_index % HYPERRAM_CAPTURE_BATCH_FRAMES) == 0U) ? 1U : 0U,
             (unsigned long)expected_before,
@@ -699,6 +777,9 @@ static void HyperRAM_Capture_VerifyProcess(void)
             (stored_count >= HYPERRAM_VERIFY_STOP_AT_FRAMES) &&
             (HAL_FDCAN_GetRxFifoFillLevel(
                  &hfdcan1,
+                 FDCAN_RX_FIFO0) == 0U) &&
+            (HAL_FDCAN_GetRxFifoFillLevel(
+                 &hfdcan3,
                  FDCAN_RX_FIFO0) == 0U))
         {
             HyperRAM_Capture_RequestVerification();
@@ -807,11 +888,16 @@ void HyperRAM_Capture_Init(void)
     write_lost_frames = 0U;
     last_flush_tick = HAL_GetTick();
 
-    prewrite_have_counter = false;
     prewrite_checked_count = 0U;
-    prewrite_expected_counter = 0U;
-    prewrite_first_counter = 0U;
-    prewrite_last_counter = 0U;
+    for (uint32_t channel = 0U;
+         channel < CAN_SNIFFER_CHANNEL_COUNT;
+         channel++)
+    {
+        prewrite_have_counter[channel] = false;
+        prewrite_expected_counter[channel] = 0U;
+        prewrite_first_counter[channel] = 0U;
+        prewrite_last_counter[channel] = 0U;
+    }
     prewrite_sequence_errors = 0U;
     prewrite_missing_frames = 0U;
     prewrite_backward_events = 0U;
@@ -844,10 +930,15 @@ void HyperRAM_Capture_Init(void)
     verify_flags_errors = 0U;
     verify_payload_errors = 0U;
     verify_detail_count = 0U;
-    verify_have_counter = false;
-    verify_expected_counter = 0U;
-    verify_first_counter = 0U;
-    verify_last_counter = 0U;
+    for (uint32_t channel = 0U;
+         channel < CAN_SNIFFER_CHANNEL_COUNT;
+         channel++)
+    {
+        verify_have_counter[channel] = false;
+        verify_expected_counter[channel] = 0U;
+        verify_first_counter[channel] = 0U;
+        verify_last_counter[channel] = 0U;
+    }
 
     Console_Printf("HyperRAM CAN : %lu frames / %lu bytes\r\n",
            (unsigned long)HYPERRAM_CAPTURE_CAPACITY,
@@ -859,8 +950,8 @@ void HyperRAM_Capture_Init(void)
            (unsigned long)HYPERRAM_VERIFY_STOP_AT_FRAMES);
     Console_Printf("HyperRAM verify: read batch=%u frames\r\n",
            HYPERRAM_VERIFY_BATCH_FRAMES);
-    Console_Printf("HyperRAM diagnostic: external pattern ID=100 tail=AA 55 12 34\r\n");
-    Console_Printf("HyperRAM diagnostic: SRAM sequence checked before each write\r\n");
+    Console_Printf("HyperRAM diagnostic: ID=100 Classic/FD generator patterns\r\n");
+    Console_Printf("HyperRAM diagnostic: per-channel SRAM sequence checked before each write\r\n");
 }
 
 void HyperRAM_Capture_Process(void)

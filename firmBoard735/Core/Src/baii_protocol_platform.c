@@ -7,10 +7,11 @@
 #include <string.h>
 
 /*
- * CubeMX currently clocks FDCAN from PLL2 at 96 MHz.
+ * CubeMX clocks FDCAN from PLL2Q at 80 MHz for exact BA1-compatible
+ * 1 Mbit/s nominal and 5 Mbit/s data timing.
  * Keep this value synchronized with PeriphCommonClock_Config().
  */
-#define BAII_FDCAN_KERNEL_CLOCK_HZ  96000000UL
+#define BAII_FDCAN_KERNEL_CLOCK_HZ  80000000UL
 #define BAII_HYPERRAM_SIZE_BYTES    (8UL * 1024UL * 1024UL)
 
 #define BAII_FW_VERSION_MAJOR       0U
@@ -104,7 +105,7 @@ static uint32_t BAII_AbsDiffU32(uint32_t a, uint32_t b)
  *   TSEG2     : 1..128
  *
  * A secondary preference keeps the number of time quanta close to 16,
- * matching the current validated 500 kbit/s setup (12, 13, 2, SJW 2).
+ * matching the validated BA1/BA2 timing shape.
  */
 static uint8_t BAII_SolveNominalTiming(
         uint32_t bitrate,
@@ -205,13 +206,118 @@ static uint8_t BAII_SolveNominalTiming(
     return found;
 }
 
+static uint8_t BAII_SolveDataTiming(
+        uint32_t bitrate,
+        uint16_t requested_sample_point_permille,
+        BAII_CanTiming *timing)
+{
+    uint32_t best_score = UINT32_MAX;
+    uint8_t found = 0U;
+    uint16_t requested_sample_point = requested_sample_point_permille;
+
+    if ((timing == NULL) ||
+        (bitrate < 100000UL) ||
+        (bitrate > 8000000UL))
+    {
+        return 0U;
+    }
+
+    if (requested_sample_point == 0U)
+    {
+        requested_sample_point = 800U;
+    }
+
+    if ((requested_sample_point < 500U) ||
+        (requested_sample_point > 950U))
+    {
+        return 0U;
+    }
+
+    for (uint32_t total_tq = 4U; total_tq <= 49U; total_tq++)
+    {
+        uint64_t denominator = (uint64_t)bitrate * (uint64_t)total_tq;
+        uint32_t prescaler;
+        uint32_t sample_tq;
+        uint32_t time_seg1;
+        uint32_t time_seg2;
+        uint16_t actual_sample_point;
+        uint32_t score;
+
+        if ((denominator == 0U) ||
+            (((uint64_t)BAII_FDCAN_KERNEL_CLOCK_HZ % denominator) != 0U))
+        {
+            continue;
+        }
+
+        prescaler =
+            (uint32_t)((uint64_t)BAII_FDCAN_KERNEL_CLOCK_HZ / denominator);
+
+        if ((prescaler < 1U) || (prescaler > 32U))
+        {
+            continue;
+        }
+
+        sample_tq =
+            ((uint32_t)requested_sample_point * total_tq + 500U) / 1000U;
+
+        if (sample_tq < 2U)
+        {
+            sample_tq = 2U;
+        }
+        else if (sample_tq >= total_tq)
+        {
+            sample_tq = total_tq - 1U;
+        }
+
+        time_seg1 = sample_tq - 1U;
+        time_seg2 = total_tq - sample_tq;
+
+        if ((time_seg1 < 1U) || (time_seg1 > 32U) ||
+            (time_seg2 < 1U) || (time_seg2 > 16U))
+        {
+            continue;
+        }
+
+        actual_sample_point =
+            (uint16_t)(((sample_tq * 1000U) + (total_tq / 2U)) / total_tq);
+
+        score =
+            ((uint32_t)BAII_AbsDiffU16(
+                    actual_sample_point,
+                    requested_sample_point) * 1000UL) +
+            BAII_AbsDiffU32(total_tq, 16U);
+
+        if (score < best_score)
+        {
+            uint32_t sjw = (time_seg2 < 4U) ? time_seg2 : 4U;
+
+            best_score = score;
+            timing->prescaler = (uint16_t)prescaler;
+            timing->time_seg1 = (uint16_t)time_seg1;
+            timing->time_seg2 = (uint16_t)time_seg2;
+            timing->sjw = (uint16_t)sjw;
+            timing->sample_point_permille = actual_sample_point;
+            timing->bitrate = bitrate;
+            found = 1U;
+        }
+    }
+
+    return found;
+}
+
 static BAII_StatusCode BAII_ReconfigureCan(
         FDCAN_HandleTypeDef *hfdcan,
         uint8_t channel,
         uint8_t mode,
-        const BAII_CanTiming *timing)
+        uint8_t frame_format,
+        const BAII_CanTiming *nominal_timing,
+        const BAII_CanTiming *data_timing)
 {
-    if ((hfdcan == NULL) || (timing == NULL))
+    if ((hfdcan == NULL) ||
+        (nominal_timing == NULL) ||
+        (frame_format > BAII_CAN_FORMAT_FD_BRS) ||
+        ((frame_format != BAII_CAN_FORMAT_CLASSIC) &&
+         (data_timing == NULL)))
     {
         return BAII_STATUS_INVALID_PARAM;
     }
@@ -224,22 +330,42 @@ static BAII_StatusCode BAII_ReconfigureCan(
         return BAII_STATUS_HAL_ERROR;
     }
 
-    hfdcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+    if (frame_format == BAII_CAN_FORMAT_CLASSIC)
+    {
+        hfdcan->Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+    }
+    else if (frame_format == BAII_CAN_FORMAT_FD_NO_BRS)
+    {
+        hfdcan->Init.FrameFormat = FDCAN_FRAME_FD_NO_BRS;
+    }
+    else
+    {
+        hfdcan->Init.FrameFormat = FDCAN_FRAME_FD_BRS;
+    }
     hfdcan->Init.Mode =
         (mode == BAII_CAN_MODE_LISTEN_ONLY) ?
         FDCAN_MODE_BUS_MONITORING : FDCAN_MODE_NORMAL;
 
-    hfdcan->Init.NominalPrescaler = timing->prescaler;
-    hfdcan->Init.NominalSyncJumpWidth = timing->sjw;
-    hfdcan->Init.NominalTimeSeg1 = timing->time_seg1;
-    hfdcan->Init.NominalTimeSeg2 = timing->time_seg2;
+    hfdcan->Init.NominalPrescaler = nominal_timing->prescaler;
+    hfdcan->Init.NominalSyncJumpWidth = nominal_timing->sjw;
+    hfdcan->Init.NominalTimeSeg1 = nominal_timing->time_seg1;
+    hfdcan->Init.NominalTimeSeg2 = nominal_timing->time_seg2;
+
+    if (frame_format != BAII_CAN_FORMAT_CLASSIC)
+    {
+        hfdcan->Init.DataPrescaler = data_timing->prescaler;
+        hfdcan->Init.DataSyncJumpWidth = data_timing->sjw;
+        hfdcan->Init.DataTimeSeg1 = data_timing->time_seg1;
+        hfdcan->Init.DataTimeSeg2 = data_timing->time_seg2;
+    }
 
     if (HAL_FDCAN_Init(hfdcan) != HAL_OK)
     {
         return BAII_STATUS_HAL_ERROR;
     }
 
-    if (channel == BAII_CAN_CHANNEL_1)
+    if ((channel == BAII_CAN_CHANNEL_1) ||
+        (channel == BAII_CAN_CHANNEL_2))
     {
         if (HAL_FDCAN_ConfigGlobalFilter(
                 hfdcan,
@@ -320,7 +446,8 @@ BAII_StatusCode BAII_Platform_GetInfo(BAII_DeviceInfo *info)
         BAII_CAP_RTC |
         BAII_CAP_CAN_CONFIG |
         BAII_CAP_CAPTURE_STATUS |
-        BAII_CAP_HYPERRAM;
+        BAII_CAP_HYPERRAM |
+        BAII_CAP_CAN_FD_WIRE_FORMAT;
     info->fdcan_clock_hz = BAII_FDCAN_KERNEL_CLOCK_HZ;
     info->hyperram_size_bytes = BAII_HYPERRAM_SIZE_BYTES;
     info->device_id = (uint32_t)(DBGMCU->IDCODE & 0x0FFFU);
@@ -524,9 +651,18 @@ BAII_StatusCode BAII_Platform_GetCanConfig(
         (hfdcan->Init.Mode == FDCAN_MODE_BUS_MONITORING) ?
         BAII_CAN_MODE_LISTEN_ONLY : BAII_CAN_MODE_NORMAL;
 
-    config->frame_format =
-        (hfdcan->Init.FrameFormat == FDCAN_FRAME_CLASSIC) ?
-        BAII_CAN_FORMAT_CLASSIC : BAII_CAN_FORMAT_FD_BRS;
+    if (hfdcan->Init.FrameFormat == FDCAN_FRAME_CLASSIC)
+    {
+        config->frame_format = BAII_CAN_FORMAT_CLASSIC;
+    }
+    else if (hfdcan->Init.FrameFormat == FDCAN_FRAME_FD_NO_BRS)
+    {
+        config->frame_format = BAII_CAN_FORMAT_FD_NO_BRS;
+    }
+    else
+    {
+        config->frame_format = BAII_CAN_FORMAT_FD_BRS;
+    }
 
     config->fdcan_clock_hz = BAII_FDCAN_KERNEL_CLOCK_HZ;
     config->nominal_bitrate =
@@ -570,7 +706,8 @@ BAII_StatusCode BAII_Platform_SetCanConfig(
         BAII_CanConfig *applied)
 {
     FDCAN_HandleTypeDef *hfdcan;
-    BAII_CanTiming timing;
+    BAII_CanTiming nominal_timing;
+    BAII_CanTiming data_timing;
     BAII_StatusCode status;
 
     if ((requested == NULL) || (applied == NULL))
@@ -590,23 +727,36 @@ BAII_StatusCode BAII_Platform_SetCanConfig(
         return BAII_STATUS_INVALID_PARAM;
     }
 
-    /*
-     * v0.1 changes timing for classic CAN only.  The wire format is already
-     * CAN-FD capable, but the current acquisition FIFO/frame is 8 bytes.
-     */
-    if ((requested->frame_format != BAII_CAN_FORMAT_CLASSIC) ||
-        (requested->data_bitrate != 0U) ||
-        (requested->data_sample_point_permille != 0U))
+    if (requested->frame_format > BAII_CAN_FORMAT_FD_BRS)
     {
-        return BAII_STATUS_NOT_SUPPORTED;
+        return BAII_STATUS_INVALID_PARAM;
     }
 
-    memset(&timing, 0, sizeof(timing));
+    if (((requested->frame_format == BAII_CAN_FORMAT_CLASSIC) &&
+         ((requested->data_bitrate != 0U) ||
+          (requested->data_sample_point_permille != 0U))) ||
+        ((requested->frame_format != BAII_CAN_FORMAT_CLASSIC) &&
+         (requested->data_bitrate == 0U)))
+    {
+        return BAII_STATUS_INVALID_PARAM;
+    }
+
+    memset(&nominal_timing, 0, sizeof(nominal_timing));
+    memset(&data_timing, 0, sizeof(data_timing));
 
     if (BAII_SolveNominalTiming(
             requested->nominal_bitrate,
             requested->nominal_sample_point_permille,
-            &timing) == 0U)
+            &nominal_timing) == 0U)
+    {
+        return BAII_STATUS_INVALID_PARAM;
+    }
+
+    if ((requested->frame_format != BAII_CAN_FORMAT_CLASSIC) &&
+        (BAII_SolveDataTiming(
+            requested->data_bitrate,
+            requested->data_sample_point_permille,
+            &data_timing) == 0U))
     {
         return BAII_STATUS_INVALID_PARAM;
     }
@@ -615,7 +765,10 @@ BAII_StatusCode BAII_Platform_SetCanConfig(
             hfdcan,
             requested->channel,
             requested->mode,
-            &timing);
+            requested->frame_format,
+            &nominal_timing,
+            (requested->frame_format == BAII_CAN_FORMAT_CLASSIC) ?
+                NULL : &data_timing);
 
     if (status != BAII_STATUS_OK)
     {

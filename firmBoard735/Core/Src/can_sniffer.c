@@ -4,6 +4,7 @@
 #include "console.h"
 #include "main.h"
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -18,16 +19,37 @@
 #define RX_ELEMENT_FDF_MASK   0x00200000U
 
 extern FDCAN_HandleTypeDef hfdcan1;
+extern FDCAN_HandleTypeDef hfdcan3;
 
-static uint32_t rx_count;
-static uint32_t error_count;
-static uint32_t fifo_lost_events;
-static uint32_t max_fifo_fill;
+typedef struct
+{
+  FDCAN_HandleTypeDef *hfdcan;
+  uint8_t frame_channel_flag;
+  uint32_t rx_count;
+  uint32_t error_count;
+  uint32_t fifo_lost_events;
+  uint32_t max_fifo_fill;
+  uint32_t stress_expected_counter;
+  uint8_t stress_have_counter;
+} CAN_SnifferChannel;
+
+static CAN_SnifferChannel channels[CAN_SNIFFER_CHANNEL_COUNT];
+static uint8_t next_channel;
 static uint32_t stress_consumed;
 static uint32_t stress_sequence_errors;
-static uint32_t stress_expected_counter;
 static uint64_t capture_cycles;
 static uint32_t capture_measured_frames;
+
+static CAN_SnifferChannel *CAN_Sniffer_GetChannel(uint8_t channel)
+{
+  if ((channel < CAN_SNIFFER_CHANNEL_1) ||
+      (channel > CAN_SNIFFER_CHANNEL_2))
+  {
+    return NULL;
+  }
+
+  return &channels[channel - CAN_SNIFFER_CHANNEL_1];
+}
 
 static uint8_t CAN_DlcToLength(uint8_t dlc)
 {
@@ -40,7 +62,9 @@ static uint8_t CAN_DlcToLength(uint8_t dlc)
   return lengths[dlc & 0x0FU];
 }
 
-static bool CAN_Sniffer_ReadFifo0Direct(CAN_SnifferFrame *frame)
+static bool CAN_Sniffer_ReadFifo0Direct(
+    CAN_SnifferChannel *ctx,
+    CAN_SnifferFrame *frame)
 {
   uint32_t fifo_status;
   uint32_t get_index;
@@ -50,12 +74,12 @@ static bool CAN_Sniffer_ReadFifo0Direct(CAN_SnifferFrame *frame)
   uint8_t length;
   uint8_t stored_length;
 
-  if (frame == NULL)
+  if ((ctx == NULL) || (frame == NULL))
   {
     return false;
   }
 
-  fifo_status = hfdcan1.Instance->RXF0S;
+  fifo_status = ctx->hfdcan->Instance->RXF0S;
   if ((fifo_status & FDCAN_RXF0S_F0FL) == 0U)
   {
     return false;
@@ -65,13 +89,12 @@ static bool CAN_Sniffer_ReadFifo0Direct(CAN_SnifferFrame *frame)
       (fifo_status & FDCAN_RXF0S_F0GI) >> FDCAN_RXF0S_F0GI_Pos;
 
   element = (volatile const uint32_t *)(uintptr_t)
-      (hfdcan1.msgRam.RxFIFO0SA +
-       (get_index * hfdcan1.Init.RxFifo0ElmtSize * 4U));
+      (ctx->hfdcan->msgRam.RxFIFO0SA +
+       (get_index * ctx->hfdcan->Init.RxFifo0ElmtSize * 4U));
 
   word0 = element[0];
   word1 = element[1];
-
-  frame->flags = 0U;
+  frame->flags = ctx->frame_channel_flag;
 
   if ((word0 & RX_ELEMENT_XTD_MASK) != 0U)
   {
@@ -128,7 +151,7 @@ static bool CAN_Sniffer_ReadFifo0Direct(CAN_SnifferFrame *frame)
     (void)memset(&frame->data[length], 0, stored_length - length);
   }
 
-  hfdcan1.Instance->RXF0A = get_index;
+  ctx->hfdcan->Instance->RXF0A = get_index;
   return true;
 }
 
@@ -139,51 +162,63 @@ static void CAN_Sniffer_CycleCounter_Init(void)
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 }
 
+static bool CAN_Sniffer_StartChannel(CAN_SnifferChannel *ctx)
+{
+  ctx->hfdcan->Instance->IR = FDCAN_IR_RF0L;
+
+  return
+      (HAL_FDCAN_ConfigGlobalFilter(
+          ctx->hfdcan,
+          FDCAN_ACCEPT_IN_RX_FIFO0,
+          FDCAN_ACCEPT_IN_RX_FIFO0,
+          FDCAN_FILTER_REMOTE,
+          FDCAN_FILTER_REMOTE) == HAL_OK) &&
+      (HAL_FDCAN_ConfigTimestampCounter(
+          ctx->hfdcan, FDCAN_TIMESTAMP_PRESC_1) == HAL_OK) &&
+      (HAL_FDCAN_EnableTimestampCounter(
+          ctx->hfdcan, FDCAN_TIMESTAMP_INTERNAL) == HAL_OK) &&
+      (HAL_FDCAN_Start(ctx->hfdcan) == HAL_OK);
+}
+
 void CAN_Sniffer_Init(void)
 {
   CAN_CaptureBuffer_Init();
+  (void)memset(channels, 0, sizeof(channels));
 
-  rx_count = 0U;
-  error_count = 0U;
-  fifo_lost_events = 0U;
-  max_fifo_fill = 0U;
+  channels[0].hfdcan = &hfdcan1;
+  channels[0].frame_channel_flag = 0U;
+  channels[1].hfdcan = &hfdcan3;
+  channels[1].frame_channel_flag = CAN_FRAME_FLAG_CHANNEL_2;
+
+  next_channel = 0U;
   stress_consumed = 0U;
   stress_sequence_errors = 0U;
-  stress_expected_counter = 0U;
   capture_cycles = 0U;
   capture_measured_frames = 0U;
   CAN_Sniffer_CycleCounter_Init();
 
-  if ((HAL_FDCAN_ConfigGlobalFilter(
-          &hfdcan1,
-          FDCAN_ACCEPT_IN_RX_FIFO0,
-          FDCAN_ACCEPT_IN_RX_FIFO0,
-          FDCAN_FILTER_REMOTE,
-          FDCAN_FILTER_REMOTE) != HAL_OK) ||
-      (HAL_FDCAN_ConfigTimestampCounter(
-          &hfdcan1, FDCAN_TIMESTAMP_PRESC_1) != HAL_OK) ||
-      (HAL_FDCAN_EnableTimestampCounter(
-          &hfdcan1, FDCAN_TIMESTAMP_INTERNAL) != HAL_OK) ||
-      (HAL_FDCAN_Start(&hfdcan1) != HAL_OK))
+  if (!CAN_Sniffer_StartChannel(&channels[0]) ||
+      !CAN_Sniffer_StartChannel(&channels[1]))
   {
     Error_Handler();
   }
 
-  Console_Printf("RAM buffer   : %lu frames / %lu bytes / CAN FD records\r\n",
+  Console_Printf("RAM buffer   : %lu frames / %lu bytes / shared CAN FD records\r\n",
                  (unsigned long)CAN_CAPTURE_CAPACITY,
                  (unsigned long)(CAN_CAPTURE_CAPACITY *
                                  sizeof(CAN_SnifferFrame)));
-  Console_Printf("\r\n--- CAN1 SNIFFER ---\r\n");
+  Console_Printf("\r\n--- DUAL CAN FD SNIFFER ---\r\n");
+  Console_Printf("CAN1/CAN2   : FDCAN1 / FDCAN3\r\n");
   Console_Printf("Mode        : BUS MONITORING\r\n");
-  Console_Printf("Bitrate     : 500 kbit/s\r\n");
+  Console_Printf("Nominal/data: 1 Mbit/s / 5 Mbit/s\r\n");
   Console_Printf("STD/EXT/RTR : ACCEPT ALL\r\n");
-  Console_Printf("RX FIFO0    : 64 frames\r\n");
+  Console_Printf("RX FIFO0    : 64 x 64-byte elements per channel\r\n");
   Console_Printf("RX read path: DIRECT MESSAGE RAM -> ZERO-COPY SRAM\r\n");
-  Console_Printf("CAN1 TX     : DISABLED\r\n");
+  Console_Printf("CAN TX      : DISABLED ON BOTH CHANNELS\r\n");
   Console_Printf("--------------------\r\n");
 }
 
-void CAN_Sniffer_Process(void)
+static void CAN_Sniffer_ProcessChannel(CAN_SnifferChannel *ctx)
 {
   CAN_SnifferFrame discarded_frame;
   CAN_SnifferFrame *frame;
@@ -192,19 +227,20 @@ void CAN_Sniffer_Process(void)
   uint32_t frames_before;
   uint32_t cycle_start;
   uint32_t cycle_end;
+  uint32_t frames_to_drain;
   bool buffer_full;
 
-  fifo_status = hfdcan1.Instance->RXF0S;
+  fifo_status = ctx->hfdcan->Instance->RXF0S;
   fill = fifo_status & FDCAN_RXF0S_F0FL;
-  if (fill > max_fifo_fill)
+  if (fill > ctx->max_fifo_fill)
   {
-    max_fifo_fill = fill;
+    ctx->max_fifo_fill = fill;
   }
 
   if ((fifo_status & FDCAN_RXF0S_RF0L) != 0U)
   {
-    fifo_lost_events++;
-    hfdcan1.Instance->IR = FDCAN_IR_RF0L;
+    ctx->fifo_lost_events++;
+    ctx->hfdcan->Instance->IR = FDCAN_IR_RF0L;
   }
 
   if (fill == 0U)
@@ -212,10 +248,13 @@ void CAN_Sniffer_Process(void)
     return;
   }
 
-  frames_before = rx_count;
+  /* Drain only the entry snapshot so a saturated bus cannot starve its peer. */
+  frames_to_drain = fill;
+  frames_before = ctx->rx_count;
   cycle_start = DWT->CYCCNT;
 
-  while ((hfdcan1.Instance->RXF0S & FDCAN_RXF0S_F0FL) != 0U)
+  while ((frames_to_drain != 0U) &&
+         ((ctx->hfdcan->Instance->RXF0S & FDCAN_RXF0S_F0FL) != 0U))
   {
     frame = CAN_CaptureBuffer_BeginPush();
     buffer_full = (frame == NULL);
@@ -224,13 +263,13 @@ void CAN_Sniffer_Process(void)
       frame = &discarded_frame;
     }
 
-    if (!CAN_Sniffer_ReadFifo0Direct(frame))
+    if (!CAN_Sniffer_ReadFifo0Direct(ctx, frame))
     {
-      error_count++;
+      ctx->error_count++;
       break;
     }
 
-    rx_count++;
+    ctx->rx_count++;
     if (buffer_full)
     {
       CAN_CaptureBuffer_RecordDrop();
@@ -239,24 +278,45 @@ void CAN_Sniffer_Process(void)
     {
       CAN_CaptureBuffer_CommitPush();
     }
+
+    frames_to_drain--;
   }
 
   cycle_end = DWT->CYCCNT;
-  if (rx_count != frames_before)
+  if (ctx->rx_count != frames_before)
   {
     capture_cycles += (uint32_t)(cycle_end - cycle_start);
-    capture_measured_frames += rx_count - frames_before;
+    capture_measured_frames += ctx->rx_count - frames_before;
   }
+}
+
+void CAN_Sniffer_Process(void)
+{
+  CAN_Sniffer_ProcessChannel(&channels[next_channel]);
+  CAN_Sniffer_ProcessChannel(&channels[next_channel ^ 1U]);
+  next_channel ^= 1U;
 }
 
 uint32_t CAN_Sniffer_GetRxCount(void)
 {
-  return rx_count;
+  return channels[0].rx_count + channels[1].rx_count;
 }
 
 uint32_t CAN_Sniffer_GetErrorCount(void)
 {
-  return error_count;
+  return channels[0].error_count + channels[1].error_count;
+}
+
+uint32_t CAN_Sniffer_GetChannelRxCount(uint8_t channel)
+{
+  CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
+  return (ctx != NULL) ? ctx->rx_count : 0U;
+}
+
+uint32_t CAN_Sniffer_GetChannelErrorCount(uint8_t channel)
+{
+  CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
+  return (ctx != NULL) ? ctx->error_count : 0U;
 }
 
 uint32_t CAN_Sniffer_GetBufferedCount(void)
@@ -281,9 +341,10 @@ void CAN_Sniffer_DumpBufferedFrames(uint32_t count)
     }
 
     Console_Printf(
-        "RAM[%lu] ID=%08lX DLC=%u FLAGS=%02X TS=%u "
+        "RAM[%lu] CAN%u ID=%08lX DLC=%u FLAGS=%02X TS=%u "
         "DATA=%02X %02X %02X %02X %02X %02X %02X %02X\r\n",
         (unsigned long)n,
+        ((frame.flags & CAN_FRAME_FLAG_CHANNEL_2) != 0U) ? 2U : 1U,
         (unsigned long)frame.id,
         frame.dlc,
         frame.flags,
@@ -295,12 +356,25 @@ void CAN_Sniffer_DumpBufferedFrames(uint32_t count)
 
 uint32_t CAN_Sniffer_GetFifoLostEvents(void)
 {
-  return fifo_lost_events;
+  return channels[0].fifo_lost_events + channels[1].fifo_lost_events;
 }
 
 uint32_t CAN_Sniffer_GetMaxFifoFill(void)
 {
-  return max_fifo_fill;
+  return (channels[0].max_fifo_fill >= channels[1].max_fifo_fill) ?
+      channels[0].max_fifo_fill : channels[1].max_fifo_fill;
+}
+
+uint32_t CAN_Sniffer_GetChannelFifoLostEvents(uint8_t channel)
+{
+  CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
+  return (ctx != NULL) ? ctx->fifo_lost_events : 0U;
+}
+
+uint32_t CAN_Sniffer_GetChannelMaxFifoFill(uint8_t channel)
+{
+  CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
+  return (ctx != NULL) ? ctx->max_fifo_fill : 0U;
 }
 
 void CAN_Sniffer_StressConsume(void)
@@ -309,19 +383,29 @@ void CAN_Sniffer_StressConsume(void)
 
   while (CAN_CaptureBuffer_Pop(&frame))
   {
+    uint8_t channel =
+        ((frame.flags & CAN_FRAME_FLAG_CHANNEL_2) != 0U) ?
+        CAN_SNIFFER_CHANNEL_2 : CAN_SNIFFER_CHANNEL_1;
+    CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
     uint32_t counter =
         ((uint32_t)frame.data[0]) |
         ((uint32_t)frame.data[1] << 8) |
         ((uint32_t)frame.data[2] << 16) |
         ((uint32_t)frame.data[3] << 24);
 
-    if (counter != stress_expected_counter)
+    if (ctx->stress_have_counter == 0U)
     {
-      stress_sequence_errors++;
-      stress_expected_counter = counter;
+      ctx->stress_expected_counter = counter;
+      ctx->stress_have_counter = 1U;
     }
 
-    stress_expected_counter++;
+    if (counter != ctx->stress_expected_counter)
+    {
+      stress_sequence_errors++;
+      ctx->stress_expected_counter = counter;
+    }
+
+    ctx->stress_expected_counter++;
     stress_consumed++;
   }
 }

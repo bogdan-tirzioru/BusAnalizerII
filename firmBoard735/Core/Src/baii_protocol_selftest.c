@@ -14,7 +14,7 @@
 #define BAII_SELFTEST_CAN_WINDOW_MS         3000U
 #define BAII_SELFTEST_CAN_SWITCH_DELAY_MS   8000U
 
-#define BAII_SELFTEST_FDCAN_CLOCK_HZ        96000000UL
+#define BAII_SELFTEST_FDCAN_CLOCK_HZ        80000000UL
 #define BAII_SELFTEST_HYPERRAM_BYTES        (8UL * 1024UL * 1024UL)
 #define BAII_SELFTEST_REQUIRED_CAPABILITIES \
     (BAII_CAP_RTC | BAII_CAP_CAN_CONFIG | \
@@ -655,8 +655,8 @@ void BAII_Protocol_SelfTest(void)
         test4_pass =
             ((set_ok != 0U) &&
              (get_ok != 0U) &&
-             (BAII_SelfTest_CheckCanTiming(&applied, 250000UL, 24U) != 0U) &&
-             (BAII_SelfTest_CheckCanTiming(&readback, 250000UL, 24U) != 0U)) ?
+             (BAII_SelfTest_CheckCanTiming(&applied, 250000UL, 20U) != 0U) &&
+             (BAII_SelfTest_CheckCanTiming(&readback, 250000UL, 20U) != 0U)) ?
             1U : 0U;
 
         BAII_SelfTest_Printf("GET readback   : %s\r\n",
@@ -737,8 +737,8 @@ void BAII_Protocol_SelfTest(void)
         timing_ok =
             ((set_ok != 0U) &&
              (get_ok != 0U) &&
-             (BAII_SelfTest_CheckCanTiming(&applied, 500000UL, 12U) != 0U) &&
-             (BAII_SelfTest_CheckCanTiming(&readback, 500000UL, 12U) != 0U)) ?
+             (BAII_SelfTest_CheckCanTiming(&applied, 500000UL, 10U) != 0U) &&
+             (BAII_SelfTest_CheckCanTiming(&readback, 500000UL, 10U) != 0U)) ?
             1U : 0U;
 
         if (set_ok != 0U)
