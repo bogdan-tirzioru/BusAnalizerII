@@ -34,8 +34,14 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-/* Highest address of the user mode stack. Keep the CPU stack in DTCM. */
-_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);
+/*
+ * Highest address of the user mode stack.
+ *
+ * Keep the stack in AXI SRAM because stack-resident objects can be handed to
+ * peripheral DMA. In particular, FatFs embeds its sector cache in FIL when
+ * _FS_TINY == 0; an automatic FIL must therefore remain SDMMC-DMA accessible.
+ */
+_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1);
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
 _Min_Stack_Size = 0x2000;    /* reserve 8 KiB for the MSP stack */
@@ -187,7 +193,7 @@ SECTIONS
     __dtcm_scratch_end__ = .;
   } >DTCMRAM
 
-  /* Heap origin and MSP reservation share the remaining DTCM address space. */
+  /* Keep heap and MSP reservation in DMA-visible AXI SRAM. */
   ._user_heap_stack (NOLOAD) :
   {
     . = ALIGN(32);
@@ -196,11 +202,10 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(32);
-  } >DTCMRAM
+  } >RAM_D1
 
-  ASSERT((SIZEOF(.dtcm_scratch) + SIZEOF(._user_heap_stack)) <=
-         LENGTH(DTCMRAM),
-         "DTCM scratch, heap and stack reservations exceed DTCMRAM")
+  ASSERT(SIZEOF(.dtcm_scratch) <= LENGTH(DTCMRAM),
+         "DTCM scratch exceeds DTCMRAM")
 
   /* Reserved for the planned timestamped internal CAN transmit queue. */
   .can_tx_ram (NOLOAD) :

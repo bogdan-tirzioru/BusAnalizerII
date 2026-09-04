@@ -36,10 +36,10 @@ static uint8_t *__sbrk_heap_end = NULL;
  *
  * @verbatim
  * ############################################################################
- * # DTCM scratch #       newlib heap       #          MSP stack          #
- * #              #                         # Reserved by _Min_Stack_Size #
+ * # AXI SRAM data #      newlib heap       #          MSP stack          #
+ * #               #                        # Reserved by _Min_Stack_Size #
  * ############################################################################
- * ^-- DTCM start     ^-- _end                             _estack, DTCM end --^
+ * ^-- RAM_D1 start   ^-- _end                           _estack, RAM_D1 end --^
  * @endverbatim
  *
  * This implementation starts allocating at the '_end' linker symbol
