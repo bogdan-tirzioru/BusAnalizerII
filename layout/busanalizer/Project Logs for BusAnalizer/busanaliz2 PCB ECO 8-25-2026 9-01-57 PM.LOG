@@ -1,0 +1,10 @@
+Removed Pin From Net: NetName=USB_OTG_HS_DM Pin=R1-2
+Removed Pin From Net: NetName=USB_OTG_HS_DP Pin=R3-2
+Removed Member From Class: ClassName=busanalizer Member=R1
+Removed Member From Class: ClassName=busanalizer Member=R3
+Added Pin To Net: NetName=USB_OTG_HS_DP Pin=USB1-D+
+Added Pin To Net: NetName=USB_OTG_HS_DM Pin=USB1-D-
+Add Differential Pair: Number of nets in differential pair NetD3_1 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair NetD3_2 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair USB_OTG_HS_DP is 1 instead of 2
+Added Room: Name=busanalizer
