@@ -584,6 +584,8 @@ static void HyperRAM_Capture_PrintVerifyReport(void)
            (unsigned long)prewrite_payload_errors);
     Console_Printf("--- END PRE-WRITE SRAM SEQUENCE ---\r\n");
 
+    CAN_Sniffer_DumpDiagnosticEvents();
+
     FDCAN_ProtocolStatusTypeDef ps1 = {0};
     FDCAN_ProtocolStatusTypeDef ps2 = {0};
     FDCAN_ErrorCountersTypeDef ec1 = {0};

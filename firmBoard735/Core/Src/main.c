@@ -213,7 +213,8 @@ int main(void)
               "CAN2 rx=%lu lost=%lu max=%lu err=%lu | "
               "hram=%lu sram=%lu hi=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
-              "cpf=%lu logdrop=%lu logerr=%lu\r\n",
+              "cpf=%lu evt=%lu/%lu evtDrop=%lu "
+              "logdrop=%lu logerr=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetChannelRxCount(
                   CAN_SNIFFER_CHANNEL_1),
               (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
@@ -238,6 +239,11 @@ int main(void)
               (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
               (unsigned long)HyperRAM_Capture_GetWrapCount(),
               (unsigned long)cycles_per_frame,
+              (unsigned long)CAN_Sniffer_GetChannelDiagnosticEventCount(
+                  CAN_SNIFFER_CHANNEL_1),
+              (unsigned long)CAN_Sniffer_GetChannelDiagnosticEventCount(
+                  CAN_SNIFFER_CHANNEL_2),
+              (unsigned long)CAN_Sniffer_GetDiagnosticDroppedCount(),
               (unsigned long)Console_GetDroppedCount(),
               (unsigned long)Console_GetUartErrorCount());
       }

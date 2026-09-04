@@ -18,6 +18,36 @@
 #define RX_ELEMENT_BRS_MASK   0x00100000U
 #define RX_ELEMENT_FDF_MASK   0x00200000U
 
+/*
+ * Preserve the beginning of an error episode.  The current failures produce
+ * fewer than 128 protocol errors during a 100k-frame verification run.  If a
+ * noisier run exceeds this depth, new events are counted but the first events
+ * are retained because they are the most useful for finding the trigger.
+ */
+#define CAN_DIAGNOSTIC_EVENT_CAPACITY 128U
+
+#define CAN_DIAGNOSTIC_REASON_BASELINE   (1U << 0)
+#define CAN_DIAGNOSTIC_REASON_LEC        (1U << 1)
+#define CAN_DIAGNOSTIC_REASON_DLEC       (1U << 2)
+#define CAN_DIAGNOSTIC_REASON_LOGGING    (1U << 3)
+#define CAN_DIAGNOSTIC_REASON_STATUS     (1U << 4)
+#define CAN_DIAGNOSTIC_REASON_INTERRUPT  (1U << 5)
+
+#define CAN_DIAGNOSTIC_PSR_STATUS_MASK \
+    (FDCAN_PSR_EP | FDCAN_PSR_EW | FDCAN_PSR_BO | FDCAN_PSR_PXE)
+
+#define CAN_DIAGNOSTIC_IR_MASK \
+    (FDCAN_IR_RF0L | FDCAN_IR_RF0F | FDCAN_IR_MRAF | FDCAN_IR_ELO | \
+     FDCAN_IR_EP | FDCAN_IR_EW | FDCAN_IR_BO | FDCAN_IR_WDI | \
+     FDCAN_IR_PEA | FDCAN_IR_PED | FDCAN_IR_ARA)
+
+#if defined(__GNUC__)
+#define CAN_DIAGNOSTIC_STORAGE \
+    __attribute__((section(".dtcm_scratch"), aligned(32)))
+#else
+#define CAN_DIAGNOSTIC_STORAGE
+#endif
+
 extern FDCAN_HandleTypeDef hfdcan1;
 extern FDCAN_HandleTypeDef hfdcan3;
 
@@ -31,9 +61,39 @@ typedef struct
   uint32_t max_fifo_fill;
   uint32_t stress_expected_counter;
   uint8_t stress_have_counter;
+  uint8_t diagnostic_initialized;
+  uint32_t diagnostic_last_logging;
+  uint32_t diagnostic_last_status;
+  uint32_t diagnostic_last_ir;
+  uint32_t diagnostic_event_count;
+  uint32_t diagnostic_dropped_count;
 } CAN_SnifferChannel;
 
+typedef struct
+{
+  uint32_t sequence;
+  uint32_t tick_ms;
+  uint32_t cycle_counter;
+  uint32_t channel_rx_count;
+  uint32_t peer_rx_count;
+  uint32_t sram_count;
+  uint32_t psr;
+  uint32_t ecr;
+  uint32_t rxf0s;
+  uint32_t ir;
+  uint32_t reason;
+  uint8_t channel;
+  uint8_t reserved[3];
+} CAN_DiagnosticEvent;
+
+_Static_assert(sizeof(CAN_DiagnosticEvent) == 48U,
+               "Unexpected FDCAN diagnostic event size");
+
 static CAN_SnifferChannel channels[CAN_SNIFFER_CHANNEL_COUNT];
+static CAN_DiagnosticEvent diagnostic_events[CAN_DIAGNOSTIC_EVENT_CAPACITY]
+    CAN_DIAGNOSTIC_STORAGE;
+static uint32_t diagnostic_stored_count;
+static uint32_t diagnostic_sequence;
 static uint8_t next_channel;
 static uint32_t stress_consumed;
 static uint32_t stress_sequence_errors;
@@ -60,6 +120,101 @@ static uint8_t CAN_DlcToLength(uint8_t dlc)
   };
 
   return lengths[dlc & 0x0FU];
+}
+
+static void CAN_Sniffer_RecordDiagnosticEvent(
+    CAN_SnifferChannel *ctx,
+    uint8_t channel,
+    uint32_t reason,
+    uint32_t psr,
+    uint32_t ecr,
+    uint32_t rxf0s,
+    uint32_t ir)
+{
+  CAN_DiagnosticEvent *event;
+  uint32_t peer_index = (channel == CAN_SNIFFER_CHANNEL_1) ? 1U : 0U;
+
+  ctx->diagnostic_event_count++;
+  diagnostic_sequence++;
+
+  if (diagnostic_stored_count >= CAN_DIAGNOSTIC_EVENT_CAPACITY)
+  {
+    ctx->diagnostic_dropped_count++;
+    return;
+  }
+
+  event = &diagnostic_events[diagnostic_stored_count++];
+  event->sequence = diagnostic_sequence;
+  event->tick_ms = HAL_GetTick();
+  event->cycle_counter = DWT->CYCCNT;
+  event->channel_rx_count = ctx->rx_count;
+  event->peer_rx_count = channels[peer_index].rx_count;
+  event->sram_count = CAN_CaptureBuffer_GetCount();
+  event->psr = psr;
+  event->ecr = ecr;
+  event->rxf0s = rxf0s;
+  event->ir = ir;
+  event->reason = reason;
+  event->channel = channel;
+}
+
+static void CAN_Sniffer_MonitorChannelDiagnostics(
+    CAN_SnifferChannel *ctx,
+    uint8_t channel)
+{
+  uint32_t psr = ctx->hfdcan->Instance->PSR;
+  uint32_t ecr = ctx->hfdcan->Instance->ECR;
+  uint32_t rxf0s = ctx->hfdcan->Instance->RXF0S;
+  uint32_t ir = ctx->hfdcan->Instance->IR;
+  uint32_t lec = (psr & FDCAN_PSR_LEC) >> FDCAN_PSR_LEC_Pos;
+  uint32_t dlec = (psr & FDCAN_PSR_DLEC) >> FDCAN_PSR_DLEC_Pos;
+  uint32_t logging = (ecr & FDCAN_ECR_CEL) >> FDCAN_ECR_CEL_Pos;
+  uint32_t status = psr & CAN_DIAGNOSTIC_PSR_STATUS_MASK;
+  uint32_t diagnostic_ir = ir & CAN_DIAGNOSTIC_IR_MASK;
+  uint32_t reason = 0U;
+
+  if (ctx->diagnostic_initialized == 0U)
+  {
+    reason |= CAN_DIAGNOSTIC_REASON_BASELINE;
+    ctx->diagnostic_initialized = 1U;
+  }
+  else
+  {
+    /* Reading PSR changes LEC/DLEC to NO_CHANGE. Code NONE is also a normal
+     * successful bus event, so retain only real error codes 1 through 6. */
+    if ((lec != FDCAN_PROTOCOL_ERROR_NONE) &&
+        (lec != FDCAN_PROTOCOL_ERROR_NO_CHANGE))
+    {
+      reason |= CAN_DIAGNOSTIC_REASON_LEC;
+    }
+    if ((dlec != FDCAN_PROTOCOL_ERROR_NONE) &&
+        (dlec != FDCAN_PROTOCOL_ERROR_NO_CHANGE))
+    {
+      reason |= CAN_DIAGNOSTIC_REASON_DLEC;
+    }
+    if (logging != ctx->diagnostic_last_logging)
+    {
+      reason |= CAN_DIAGNOSTIC_REASON_LOGGING;
+    }
+    if (status != ctx->diagnostic_last_status)
+    {
+      reason |= CAN_DIAGNOSTIC_REASON_STATUS;
+    }
+    if ((diagnostic_ir & ~ctx->diagnostic_last_ir) != 0U)
+    {
+      reason |= CAN_DIAGNOSTIC_REASON_INTERRUPT;
+    }
+  }
+
+  ctx->diagnostic_last_logging = logging;
+  ctx->diagnostic_last_status = status;
+  ctx->diagnostic_last_ir = diagnostic_ir;
+
+  if (reason != 0U)
+  {
+    CAN_Sniffer_RecordDiagnosticEvent(
+        ctx, channel, reason, psr, ecr, rxf0s, ir);
+  }
 }
 
 static bool CAN_Sniffer_ReadFifo0Direct(
@@ -195,6 +350,8 @@ void CAN_Sniffer_Init(void)
   stress_sequence_errors = 0U;
   capture_cycles = 0U;
   capture_measured_frames = 0U;
+  diagnostic_stored_count = 0U;
+  diagnostic_sequence = 0U;
   CAN_Sniffer_CycleCounter_Init();
 
   Console_Printf("RAM buffer   : %lu frames / %lu bytes / shared CAN FD records\r\n",
@@ -219,6 +376,12 @@ void CAN_Sniffer_Init(void)
   {
     Error_Handler();
   }
+
+  /* Establish a post-start baseline and reset PSR's LEC/DLEC change latches. */
+  CAN_Sniffer_MonitorChannelDiagnostics(
+      &channels[0], CAN_SNIFFER_CHANNEL_1);
+  CAN_Sniffer_MonitorChannelDiagnostics(
+      &channels[1], CAN_SNIFFER_CHANNEL_2);
 }
 
 static void CAN_Sniffer_ProcessChannel(CAN_SnifferChannel *ctx)
@@ -232,6 +395,11 @@ static void CAN_Sniffer_ProcessChannel(CAN_SnifferChannel *ctx)
   uint32_t cycle_end;
   uint32_t frames_to_drain;
   bool buffer_full;
+
+  CAN_Sniffer_MonitorChannelDiagnostics(
+      ctx,
+      (ctx == &channels[0]) ?
+          CAN_SNIFFER_CHANNEL_1 : CAN_SNIFFER_CHANNEL_2);
 
   fifo_status = ctx->hfdcan->Instance->RXF0S;
   fill = fifo_status & FDCAN_RXF0S_F0FL;
@@ -378,6 +546,89 @@ uint32_t CAN_Sniffer_GetChannelMaxFifoFill(uint8_t channel)
 {
   CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
   return (ctx != NULL) ? ctx->max_fifo_fill : 0U;
+}
+
+uint32_t CAN_Sniffer_GetChannelDiagnosticEventCount(uint8_t channel)
+{
+  CAN_SnifferChannel *ctx = CAN_Sniffer_GetChannel(channel);
+  return (ctx != NULL) ? ctx->diagnostic_event_count : 0U;
+}
+
+uint32_t CAN_Sniffer_GetDiagnosticDroppedCount(void)
+{
+  return channels[0].diagnostic_dropped_count +
+         channels[1].diagnostic_dropped_count;
+}
+
+void CAN_Sniffer_DumpDiagnosticEvents(void)
+{
+  uint32_t detected =
+      channels[0].diagnostic_event_count +
+      channels[1].diagnostic_event_count;
+  uint32_t dropped = CAN_Sniffer_GetDiagnosticDroppedCount();
+
+  /* Capture is frozen before this is called. Empty the DMA queue so the
+   * diagnostic dump itself cannot overwrite older verification messages. */
+  Console_Flush();
+  Console_Printf("\r\n--- FDCAN ERROR EVENT TIMELINE ---\r\n");
+  Console_Printf(
+      "Events detected/stored/dropped: %lu / %lu / %lu\r\n",
+      (unsigned long)detected,
+      (unsigned long)diagnostic_stored_count,
+      (unsigned long)dropped);
+  Console_Printf(
+      "Reason bits: BASE=01 LEC=02 DLEC=04 LOG=08 STATUS=10 IR=20\r\n");
+  Console_Printf(
+      "Note: timeline polling consumes PSR LEC/DLEC; final state may be 7/7\r\n");
+
+  for (uint32_t index = 0U; index < diagnostic_stored_count; index++)
+  {
+    const CAN_DiagnosticEvent *event = &diagnostic_events[index];
+    uint32_t lec =
+        (event->psr & FDCAN_PSR_LEC) >> FDCAN_PSR_LEC_Pos;
+    uint32_t dlec =
+        (event->psr & FDCAN_PSR_DLEC) >> FDCAN_PSR_DLEC_Pos;
+    uint32_t rec =
+        (event->ecr & FDCAN_ECR_REC) >> FDCAN_ECR_REC_Pos;
+    uint32_t tec =
+        (event->ecr & FDCAN_ECR_TEC) >> FDCAN_ECR_TEC_Pos;
+    uint32_t logging =
+        (event->ecr & FDCAN_ECR_CEL) >> FDCAN_ECR_CEL_Pos;
+    uint32_t fill =
+        (event->rxf0s & FDCAN_RXF0S_F0FL) >> FDCAN_RXF0S_F0FL_Pos;
+
+    Console_Printf(
+        "FDEVT #%lu t=%lums cy=%lu CAN%u why=%02lX "
+        "rx=%lu peer=%lu sram=%lu LEC=%lu DLEC=%lu "
+        "REC=%lu TEC=%lu LOG=%lu fill=%lu "
+        "PSR=%08lX ECR=%08lX RXF0S=%08lX IR=%08lX\r\n",
+        (unsigned long)event->sequence,
+        (unsigned long)event->tick_ms,
+        (unsigned long)event->cycle_counter,
+        (unsigned int)event->channel,
+        (unsigned long)event->reason,
+        (unsigned long)event->channel_rx_count,
+        (unsigned long)event->peer_rx_count,
+        (unsigned long)event->sram_count,
+        (unsigned long)lec,
+        (unsigned long)dlec,
+        (unsigned long)rec,
+        (unsigned long)tec,
+        (unsigned long)logging,
+        (unsigned long)fill,
+        (unsigned long)event->psr,
+        (unsigned long)event->ecr,
+        (unsigned long)event->rxf0s,
+        (unsigned long)event->ir);
+
+    if (((index + 1U) & 0x0FU) == 0U)
+    {
+      Console_Flush();
+    }
+  }
+
+  Console_Printf("--- END FDCAN ERROR EVENT TIMELINE ---\r\n");
+  Console_Flush();
 }
 
 void CAN_Sniffer_StressConsume(void)
