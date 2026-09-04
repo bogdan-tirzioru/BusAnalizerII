@@ -12,15 +12,17 @@ _Static_assert((CONSOLE_QUEUE_CAPACITY & (CONSOLE_QUEUE_CAPACITY - 1U)) == 0U,
                "console queue capacity must be a power of two");
 
 #if defined(__GNUC__)
-#define CONSOLE_DMA_ALIGNED __attribute__((aligned(32)))
+#define CONSOLE_DMA_STORAGE \
+    __attribute__((section(".console_ram"), aligned(32)))
 #else
-#define CONSOLE_DMA_ALIGNED
+#define CONSOLE_DMA_STORAGE
 #endif
 
 static UART_HandleTypeDef *console_uart;
 static uint8_t console_messages[CONSOLE_QUEUE_CAPACITY][CONSOLE_MESSAGE_SIZE]
-    CONSOLE_DMA_ALIGNED;
-static uint16_t console_lengths[CONSOLE_QUEUE_CAPACITY];
+    CONSOLE_DMA_STORAGE;
+static uint16_t console_lengths[CONSOLE_QUEUE_CAPACITY]
+    CONSOLE_DMA_STORAGE;
 static volatile uint32_t console_write_sequence;
 static volatile uint32_t console_read_sequence;
 static volatile uint32_t console_dropped_messages;

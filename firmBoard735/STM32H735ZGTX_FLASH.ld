@@ -155,6 +155,24 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM_D1
 
+  /*
+   * RAM_D2 is dedicated to the non-blocking USART console.  The section is
+   * NOLOAD because every message and length slot is written before DMA reads
+   * it; the small console control state remains in the zeroed RAM_D1 .bss.
+   */
+  .console_ram (NOLOAD) :
+  {
+    . = ALIGN(32);
+    __console_ram_start__ = .;
+    KEEP(*(.console_ram))
+    KEEP(*(.console_ram*))
+    . = ALIGN(32);
+    __console_ram_end__ = .;
+  } >RAM_D2
+
+  ASSERT(SIZEOF(.console_ram) <= LENGTH(RAM_D2),
+         "Console storage exceeds dedicated RAM_D2")
+
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
