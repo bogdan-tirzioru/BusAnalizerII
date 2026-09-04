@@ -401,7 +401,7 @@ static void MX_FDCAN3_Init(void)
   hfdcan3.Init.TransmitPause = DISABLE;
   hfdcan3.Init.ProtocolException = DISABLE;
   hfdcan3.Init.NominalPrescaler = 5;
-  hfdcan3.Init.NominalSyncJumpWidth = 1;
+  hfdcan3.Init.NominalSyncJumpWidth = 2;
   hfdcan3.Init.NominalTimeSeg1 = 13;
   hfdcan3.Init.NominalTimeSeg2 = 2;
   hfdcan3.Init.DataPrescaler = 1;
@@ -409,7 +409,7 @@ static void MX_FDCAN3_Init(void)
   hfdcan3.Init.DataTimeSeg1 = 12;
   hfdcan3.Init.DataTimeSeg2 = 3;
   hfdcan3.Init.MessageRAMOffset = 1152;
-  hfdcan3.Init.StdFiltersNbr = 1;
+  hfdcan3.Init.StdFiltersNbr = 0;
   hfdcan3.Init.ExtFiltersNbr = 0;
   hfdcan3.Init.RxFifo0ElmtsNbr = 64;
   hfdcan3.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_64;
@@ -419,7 +419,7 @@ static void MX_FDCAN3_Init(void)
   hfdcan3.Init.RxBufferSize = FDCAN_DATA_BYTES_8;
   hfdcan3.Init.TxEventsNbr = 0;
   hfdcan3.Init.TxBuffersNbr = 0;
-  hfdcan3.Init.TxFifoQueueElmtsNbr = 1;
+  hfdcan3.Init.TxFifoQueueElmtsNbr = 0;
   hfdcan3.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
   hfdcan3.Init.TxElmtSize = FDCAN_DATA_BYTES_8;
   if (HAL_FDCAN_Init(&hfdcan3) != HAL_OK)
