@@ -7,10 +7,12 @@
 /*
  * BA1-compatible internal capture queue.
  *
- * 4096 x 72-byte CAN FD records = 288 KiB in AXI SRAM.
+ * BA2 uses 2048 x 72-byte CAN FD records = 144 KiB in AXI SRAM.
+ * This preserves headroom in its 320 KiB AXI SRAM for the console, FatFs,
+ * HyperRAM batches, USB state and the remaining firmware.
  * The power-of-two depth permits a single mask operation per access.
  */
-#define CAN_CAPTURE_CAPACITY        4096U
+#define CAN_CAPTURE_CAPACITY        2048U
 #define CAN_CAPTURE_BUFFER_CAPACITY CAN_CAPTURE_CAPACITY
 
 typedef struct
