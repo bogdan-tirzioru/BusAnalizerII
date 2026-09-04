@@ -21,7 +21,7 @@ extern FDCAN_HandleTypeDef hfdcan1;
 #define HYPERRAM_CAPTURE_CAPACITY       \
     (HYPERRAM_CAPTURE_SIZE_BYTES / sizeof(CAN_SnifferFrame))
 
-/* Write path: 32 x 16-byte records = one 512-byte HyperBus transaction. */
+/* Write path: batch complete CAN FD records in one HyperBus transaction. */
 #define HYPERRAM_CAPTURE_BATCH_FRAMES   32U
 
 /* Verification deliberately uses a different transaction size. */

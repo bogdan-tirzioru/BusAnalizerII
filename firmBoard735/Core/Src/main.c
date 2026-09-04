@@ -209,13 +209,14 @@ int main(void)
                   (uint32_t)(delta_cycles / delta_frames);
           }
           Console_Printf(
-              "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
+              "CAN rx=%lu hram=%lu sram=%lu hi=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
               "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu "
               "logdrop=%lu logerr=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetRxCount(),
               (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
+              (unsigned long)CAN_CaptureBuffer_GetAndResetHighWater(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
               (unsigned long)HyperRAM_Capture_GetWriteErrors(),
               (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),

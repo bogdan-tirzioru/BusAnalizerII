@@ -1,299 +1,143 @@
 #include "can_capture_buffer.h"
-#include "console.h"
 
 #include <stddef.h>
-#include <stdio.h>
 
+_Static_assert(sizeof(CAN_SnifferFrame) == 72U,
+               "CAN_SnifferFrame CAN FD ABI mismatch");
 
-_Static_assert(
-    sizeof(CAN_SnifferFrame) == 16U,
-    "CAN_SnifferFrame must be exactly 16 bytes");
+_Static_assert((CAN_CAPTURE_CAPACITY &
+                (CAN_CAPTURE_CAPACITY - 1U)) == 0U,
+               "CAN capture capacity must be a power of two");
 
-_Static_assert(
-    (CAN_CAPTURE_BUFFER_CAPACITY &
-     (CAN_CAPTURE_BUFFER_CAPACITY - 1U)) == 0U,
-    "CAN capture buffer capacity must be power of two");
-
-
-/*
- * This array occupies exactly 64 KiB.
- *
- * Because it is uninitialized static storage, the current
- * linker puts it into .bss -> RAM_D1.
- */
-static CAN_SnifferFrame frame_buffer[
-    CAN_CAPTURE_BUFFER_CAPACITY
-];
-
-
-/*
- * Monotonically increasing sequence numbers.
- *
- * Actual array index:
- *
- *     sequence & (capacity - 1)
- *
- * Using sequence numbers makes full/empty handling simpler
- * than wrapping read/write indices manually.
- */
-static uint32_t write_sequence = 0U;
-static uint32_t read_sequence  = 0U;
-
-static uint32_t dropped_count = 0U;
-
-
-/*
- * Temporary diagnostic for the external CAN generator test.
- *
- * External generator format:
- *   standard ID : 0x100
- *   DLC         : 8
- *   data[0..3]  : monotonically increasing little-endian counter
- *   data[4..7]  : AA 55 12 34
- *
- * This monitor sees each decoded CAN1 frame immediately BEFORE it is copied
- * into the SRAM ring. Comparing this report with the later pre-write and
- * HyperRAM reports tells us whether corruption/loss already exists at the
- * FDCAN -> software-frame boundary or is introduced by the SRAM ring/storage
- * path.
- *
- * It deliberately prints only once, after the first 100000 accepted frames,
- * so there is no printf activity in the per-frame hot path.
- */
-#define CAN_INPUT_DIAG_FRAMES 100000U
-
-static bool input_diag_have_counter = false;
-static bool input_diag_printed = false;
-static uint32_t input_diag_checked = 0U;
-static uint32_t input_diag_expected_counter = 0U;
-static uint32_t input_diag_first_counter = 0U;
-static uint32_t input_diag_last_counter = 0U;
-static uint32_t input_diag_sequence_errors = 0U;
-static uint32_t input_diag_large_jumps = 0U;
-static uint32_t input_diag_backward_events = 0U;
-static uint32_t input_diag_id_errors = 0U;
-static uint32_t input_diag_dlc_errors = 0U;
-static uint32_t input_diag_flags_errors = 0U;
-static uint32_t input_diag_payload_errors = 0U;
-
-
-static uint32_t CAN_CaptureBuffer_DiagExpectedId(uint32_t counter)
-{
-    (void)counter;
-    return 0x100U;
-}
-
-
-static void CAN_CaptureBuffer_PrintInputDiagnostic(void)
-{
-    Console_Printf("\r\n--- CAN1 INPUT BEFORE SRAM RING ---\r\n");
-    Console_Printf("Expected       : ID=100 DLC=8 tail=AA 55 12 34\r\n");
-    Console_Printf("Frames checked  : %lu\r\n",
-           (unsigned long)input_diag_checked);
-    Console_Printf("First counter   : %lu\r\n",
-           (unsigned long)input_diag_first_counter);
-    Console_Printf("Last counter    : %lu\r\n",
-           (unsigned long)input_diag_last_counter);
-    Console_Printf("Sequence errors : %lu\r\n",
-           (unsigned long)input_diag_sequence_errors);
-    Console_Printf("Large jumps     : %lu\r\n",
-           (unsigned long)input_diag_large_jumps);
-    Console_Printf("Backward events : %lu\r\n",
-           (unsigned long)input_diag_backward_events);
-    Console_Printf("ID errors       : %lu\r\n",
-           (unsigned long)input_diag_id_errors);
-    Console_Printf("DLC errors      : %lu\r\n",
-           (unsigned long)input_diag_dlc_errors);
-    Console_Printf("Flags errors    : %lu\r\n",
-           (unsigned long)input_diag_flags_errors);
-    Console_Printf("Payload errors  : %lu\r\n",
-           (unsigned long)input_diag_payload_errors);
-    Console_Printf("--- END CAN1 INPUT BEFORE SRAM RING ---\r\n\r\n");
-}
-
-
-static void CAN_CaptureBuffer_MonitorInput(
-        const CAN_SnifferFrame *frame)
-{
-    if (input_diag_checked >= CAN_INPUT_DIAG_FRAMES)
-    {
-        return;
-    }
-
-    uint32_t counter =
-          ((uint32_t)frame->data[0])
-        | ((uint32_t)frame->data[1] << 8)
-        | ((uint32_t)frame->data[2] << 16)
-        | ((uint32_t)frame->data[3] << 24);
-
-    if (!input_diag_have_counter)
-    {
-        input_diag_have_counter = true;
-        input_diag_first_counter = counter;
-        input_diag_expected_counter = counter;
-    }
-
-    uint32_t expected_before = input_diag_expected_counter;
-
-    if (counter != expected_before)
-    {
-        input_diag_sequence_errors++;
-
-        if (counter > expected_before)
-        {
-            uint32_t jump = counter - expected_before;
-
-            if (jump > CAN_INPUT_DIAG_FRAMES)
-            {
-                input_diag_large_jumps++;
-            }
-        }
-        else
-        {
-            input_diag_backward_events++;
-        }
-
-        /* Resynchronise after each discontinuity. */
-        input_diag_expected_counter = counter;
-    }
-
-    input_diag_expected_counter++;
-    input_diag_last_counter = counter;
-
-    if (frame->id != CAN_CaptureBuffer_DiagExpectedId(counter))
-    {
-        input_diag_id_errors++;
-    }
-
-    if (frame->dlc != 8U)
-    {
-        input_diag_dlc_errors++;
-    }
-
-    if (frame->flags != 0U)
-    {
-        input_diag_flags_errors++;
-    }
-
-    if ((frame->data[4] != 0xAAU) ||
-        (frame->data[5] != 0x55U) ||
-        (frame->data[6] != 0x12U) ||
-        (frame->data[7] != 0x34U))
-    {
-        input_diag_payload_errors++;
-    }
-
-    input_diag_checked++;
-
-    if ((input_diag_checked == CAN_INPUT_DIAG_FRAMES) &&
-        !input_diag_printed)
-    {
-        input_diag_printed = true;
-        CAN_CaptureBuffer_PrintInputDiagnostic();
-    }
-}
-
+static CAN_SnifferFrame capture_buffer[CAN_CAPTURE_CAPACITY];
+static volatile uint32_t write_sequence;
+static volatile uint32_t read_sequence;
+static volatile uint32_t dropped_frames;
+static uint32_t high_watermark;
 
 void CAN_CaptureBuffer_Init(void)
 {
-    write_sequence = 0U;
-    read_sequence = 0U;
-    dropped_count = 0U;
-
-    input_diag_have_counter = false;
-    input_diag_printed = false;
-    input_diag_checked = 0U;
-    input_diag_expected_counter = 0U;
-    input_diag_first_counter = 0U;
-    input_diag_last_counter = 0U;
-    input_diag_sequence_errors = 0U;
-    input_diag_large_jumps = 0U;
-    input_diag_backward_events = 0U;
-    input_diag_id_errors = 0U;
-    input_diag_dlc_errors = 0U;
-    input_diag_flags_errors = 0U;
-    input_diag_payload_errors = 0U;
+  CAN_CaptureBuffer_Clear();
+  dropped_frames = 0U;
 }
 
-
-bool CAN_CaptureBuffer_Push(
-        const CAN_SnifferFrame *frame)
+CAN_SnifferFrame *CAN_CaptureBuffer_BeginPush(void)
 {
-    if (frame == NULL)
-    {
-        return false;
-    }
+  if ((write_sequence - read_sequence) >= CAN_CAPTURE_CAPACITY)
+  {
+    return NULL;
+  }
 
-    /*
-     * Buffer full?
-     *
-     * For an analyzer we preserve frames already captured
-     * and DROP THE NEW FRAME.
-     *
-     * Most importantly, we record that data was lost.
-     */
-    if ((write_sequence - read_sequence) >=
-        CAN_CAPTURE_BUFFER_CAPACITY)
-    {
-        dropped_count++;
-
-        return false;
-    }
-
-    /* Observe the decoded frame before the SRAM ring can modify it. */
-    CAN_CaptureBuffer_MonitorInput(frame);
-
-    uint32_t index =
-        write_sequence &
-        (CAN_CAPTURE_BUFFER_CAPACITY - 1U);
-
-    frame_buffer[index] = *frame;
-
-    write_sequence++;
-
-    return true;
+  return &capture_buffer[write_sequence & (CAN_CAPTURE_CAPACITY - 1U)];
 }
 
-
-bool CAN_CaptureBuffer_Pop(
-        CAN_SnifferFrame *frame)
+void CAN_CaptureBuffer_CommitPush(void)
 {
-    if (frame == NULL)
-    {
-        return false;
-    }
+  uint32_t count;
 
-    if (write_sequence == read_sequence)
-    {
-        return false;
-    }
+  write_sequence++;
+  count = write_sequence - read_sequence;
+  if (count > high_watermark)
+  {
+    high_watermark = count;
+  }
+}
 
-    uint32_t index =
-        read_sequence &
-        (CAN_CAPTURE_BUFFER_CAPACITY - 1U);
+void CAN_CaptureBuffer_RecordDrop(void)
+{
+  dropped_frames++;
+}
 
-    *frame = frame_buffer[index];
+const CAN_SnifferFrame *CAN_CaptureBuffer_Peek(void)
+{
+  if (read_sequence == write_sequence)
+  {
+    return NULL;
+  }
 
+  return &capture_buffer[read_sequence & (CAN_CAPTURE_CAPACITY - 1U)];
+}
+
+void CAN_CaptureBuffer_Release(void)
+{
+  if (read_sequence != write_sequence)
+  {
     read_sequence++;
-
-    return true;
+  }
 }
 
+bool CAN_CaptureBuffer_Push(const CAN_SnifferFrame *frame)
+{
+  CAN_SnifferFrame *slot;
+
+  if (frame == NULL)
+  {
+    return false;
+  }
+
+  slot = CAN_CaptureBuffer_BeginPush();
+  if (slot == NULL)
+  {
+    CAN_CaptureBuffer_RecordDrop();
+    return false;
+  }
+
+  *slot = *frame;
+  CAN_CaptureBuffer_CommitPush();
+  return true;
+}
+
+bool CAN_CaptureBuffer_Pop(CAN_SnifferFrame *frame)
+{
+  const CAN_SnifferFrame *slot;
+
+  if (frame == NULL)
+  {
+    return false;
+  }
+
+  slot = CAN_CaptureBuffer_Peek();
+  if (slot == NULL)
+  {
+    return false;
+  }
+
+  *frame = *slot;
+  CAN_CaptureBuffer_Release();
+  return true;
+}
+
+void CAN_CaptureBuffer_Clear(void)
+{
+  write_sequence = 0U;
+  read_sequence = 0U;
+  high_watermark = 0U;
+}
 
 uint32_t CAN_CaptureBuffer_GetCount(void)
 {
-    return write_sequence - read_sequence;
+  return write_sequence - read_sequence;
 }
-
 
 uint32_t CAN_CaptureBuffer_GetFree(void)
 {
-    return CAN_CAPTURE_BUFFER_CAPACITY -
-           CAN_CaptureBuffer_GetCount();
+  return CAN_CAPTURE_CAPACITY - CAN_CaptureBuffer_GetCount();
 }
 
+uint32_t CAN_CaptureBuffer_GetDropped(void)
+{
+  return dropped_frames;
+}
 
 uint32_t CAN_CaptureBuffer_GetDroppedCount(void)
 {
-    return dropped_count;
+  return CAN_CaptureBuffer_GetDropped();
+}
+
+uint32_t CAN_CaptureBuffer_GetAndResetHighWater(void)
+{
+  uint32_t high_water = high_watermark;
+
+  high_watermark = CAN_CaptureBuffer_GetCount();
+  return high_water;
 }
