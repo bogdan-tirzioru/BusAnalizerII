@@ -2,19 +2,10 @@
 #define BAII_PROTOCOL_SELFTEST_H
 
 /*
- * baii_protocol_selftest.c includes this header before main.h, while main.c
- * reaches it after main.h through hyperram_capture.h.  Use that include order
- * to keep the printf compatibility wrapper private to the self-test source.
- *
  * The project's embedded printf does not render %llu correctly.  The wrapper
- * handles that one format locally without changing the protocol or the normal
  * console path.
  */
-#if !defined(BAII_PROTOCOL_SELFTEST_ON_BOOT)
-#include <stdio.h>
 int BAII_SelfTest_Printf(const char *format, ...);
-#define printf BAII_SelfTest_Printf
-#endif
 
 #ifdef __cplusplus
 extern "C" {

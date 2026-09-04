@@ -1,4 +1,5 @@
 #include "hyperram_test.h"
+#include "console.h"
 #include "main.h"
 
 #include <stdio.h>
@@ -99,7 +100,7 @@ void HyperRAM_Test_ID(void)
     uint32_t valid_count = 0U;
 
 
-    printf("\r\n--- HYPERRAM ID REPEAT TEST ---\r\n");
+    Console_Printf("\r\n--- HYPERRAM ID REPEAT TEST ---\r\n");
 
 
     /*
@@ -156,7 +157,7 @@ void HyperRAM_Test_ID(void)
                  status0,
                  status1);
 
-        printf("%s", text);
+        Console_Write(text);
 
 
         /*
@@ -185,7 +186,7 @@ void HyperRAM_Test_ID(void)
     }
 
 
-    printf("\r\n");
+    Console_Printf("\r\n");
 
 
     /*
@@ -210,8 +211,8 @@ void HyperRAM_Test_ID(void)
                  status0,
                  status1);
 
-        printf("%s", text);
-        printf("--- HYPERRAM ID TEST FAILED ---\r\n");
+        Console_Write(text);
+        Console_Printf("--- HYPERRAM ID TEST FAILED ---\r\n");
 
         return;
     }
@@ -247,7 +248,7 @@ void HyperRAM_Test_ID(void)
              raw1[0],
              raw1[1]);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     snprintf(text,
@@ -265,7 +266,7 @@ void HyperRAM_Test_ID(void)
              (unsigned long)die_address,
              (unsigned long)device_type);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     snprintf(text,
@@ -276,7 +277,7 @@ void HyperRAM_Test_ID(void)
              (unsigned long)valid_count,
              HYPERRAM_TEST_REPEATS);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     /*
@@ -288,13 +289,13 @@ void HyperRAM_Test_ID(void)
      */
     if (valid_count == HYPERRAM_TEST_REPEATS)
     {
-        printf("\r\nHYPERRAM ID VERIFY: PASS\r\n");
-        printf("--- HYPERRAM ID TEST PASSED ---\r\n");
+        Console_Printf("\r\nHYPERRAM ID VERIFY: PASS\r\n");
+        Console_Printf("--- HYPERRAM ID TEST PASSED ---\r\n");
     }
     else
     {
-        printf("\r\nHYPERRAM ID VERIFY: FAILED\r\n");
-        printf("--- HYPERRAM ID TEST FAILED ---\r\n");
+        Console_Printf("\r\nHYPERRAM ID VERIFY: FAILED\r\n");
+        Console_Printf("--- HYPERRAM ID TEST FAILED ---\r\n");
     }
 }
 
@@ -308,7 +309,7 @@ void HyperRAM_Test_Scope(void)
     uint32_t start;
     uint32_t count = 0;
 
-    printf("\r\n--- HYPERRAM SCOPE TEST ---\r\n");
+    Console_Printf("\r\n--- HYPERRAM SCOPE TEST ---\r\n");
 
     start = HAL_GetTick();
 
@@ -324,7 +325,7 @@ void HyperRAM_Test_Scope(void)
                                  &cmd,
                                  HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
         {
-            printf("HyperbusCmd ERROR\r\n");
+            Console_Printf("HyperbusCmd ERROR\r\n");
             return;
         }
 
@@ -332,7 +333,7 @@ void HyperRAM_Test_Scope(void)
                              buffer,
                              HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
         {
-            printf("Receive ERROR\r\n");
+            Console_Printf("Receive ERROR\r\n");
             return;
         }
 
@@ -345,8 +346,8 @@ void HyperRAM_Test_Scope(void)
              "Scope transactions: %lu\r\n",
              (unsigned long)count);
 
-    printf("%s", text);
-    printf("--- HYPERRAM SCOPE TEST DONE ---\r\n");
+    Console_Write(text);
+    Console_Printf("--- HYPERRAM SCOPE TEST DONE ---\r\n");
 }
 
 
@@ -357,7 +358,7 @@ void HyperRAM_Test_Memory(void)
 
     OSPI_HyperbusCmdTypeDef cmd = {0};
 
-    printf("\r\n--- HYPERRAM 64-BYTE MEMORY TEST ---\r\n");
+    Console_Printf("\r\n--- HYPERRAM 64-BYTE MEMORY TEST ---\r\n");
 
     for (uint32_t i = 0; i < sizeof(tx); i++)
     {
@@ -376,18 +377,18 @@ void HyperRAM_Test_Memory(void)
                              &cmd,
                              HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
     {
-        printf("WRITE command ERROR\r\n");
+        Console_Printf("WRITE command ERROR\r\n");
         return;
     }
-    printf("WRITE CMD : OK\r\n");
+    Console_Printf("WRITE CMD : OK\r\n");
     if (HAL_OSPI_Transmit(&hospi1,
                           tx,
                           HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
     {
-        printf("WRITE data ERROR\r\n");
+        Console_Printf("WRITE data ERROR\r\n");
         return;
     }
-    printf("WRITE DATA: OK\r\n");
+    Console_Printf("WRITE DATA: OK\r\n");
     /* READ */
     cmd.Address      = 0x00000000U;
     cmd.NbData       = sizeof(rx);
@@ -396,25 +397,25 @@ void HyperRAM_Test_Memory(void)
                              &cmd,
                              HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
     {
-        printf("READ command ERROR\r\n");
+        Console_Printf("READ command ERROR\r\n");
         return;
     }
-    printf("READ CMD  : OK\r\n");
+    Console_Printf("READ CMD  : OK\r\n");
     if (HAL_OSPI_Receive(&hospi1,
                          rx,
                          HAL_OSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
     {
-        printf("READ data ERROR\r\n");
+        Console_Printf("READ data ERROR\r\n");
         return;
     }
-    printf("READ DATA : OK\r\n");
+    Console_Printf("READ DATA : OK\r\n");
     uint32_t errors = 0;
 
     for (uint32_t i = 0; i < sizeof(tx); i++)
     {
         if (rx[i] != tx[i])
         {
-            printf("%02lu: wrote=%02X read=%02X\r\n",
+            Console_Printf("%02lu: wrote=%02X read=%02X\r\n",
                    (unsigned long)i,
                    tx[i],
                    rx[i]);
@@ -425,13 +426,13 @@ void HyperRAM_Test_Memory(void)
 
     if (errors == 0)
     {
-        printf("HYPERRAM MEMORY TEST: PASS\r\n");
+        Console_Printf("HYPERRAM MEMORY TEST: PASS\r\n");
     }
     else
     {
-        printf("HYPERRAM MEMORY TEST: FAIL (%lu errors)\r\n",
+        Console_Printf("HYPERRAM MEMORY TEST: FAIL (%lu errors)\r\n",
                (unsigned long)errors);
     }
 
-    printf("--- END ---\r\n");
+    Console_Printf("--- END ---\r\n");
 }

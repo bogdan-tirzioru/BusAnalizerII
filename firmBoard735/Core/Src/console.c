@@ -1,12 +1,12 @@
 #include "console.h"
 
-#include <errno.h>
+#include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 #define CONSOLE_MESSAGE_SIZE     320U
-#define CONSOLE_QUEUE_CAPACITY   16U
+#define CONSOLE_QUEUE_CAPACITY   64U
 
 _Static_assert((CONSOLE_QUEUE_CAPACITY & (CONSOLE_QUEUE_CAPACITY - 1U)) == 0U,
                "console queue capacity must be a power of two");
@@ -41,14 +41,6 @@ static void Console_ExitCritical(uint32_t primask)
     {
         __enable_irq();
     }
-}
-
-static void Console_RecordDrop(void)
-{
-    uint32_t primask = Console_EnterCritical();
-
-    console_dropped_messages++;
-    Console_ExitCritical(primask);
 }
 
 static void Console_StartNext(void)
@@ -94,9 +86,10 @@ static void Console_StartNext(void)
     }
 }
 
-static int Console_Queue(const uint8_t *message, uint32_t length)
+static void Console_Queue(const uint8_t *message, uint32_t length)
 {
     uint32_t index;
+    uint32_t primask;
     uint32_t write_sequence;
 
     if ((console_uart == NULL) ||
@@ -104,20 +97,24 @@ static int Console_Queue(const uint8_t *message, uint32_t length)
         (message == NULL) ||
         (length == 0U))
     {
-        return 0;
+        return;
     }
 
     if (length > CONSOLE_MESSAGE_SIZE)
     {
-        Console_RecordDrop();
-        return 0;
+        length = CONSOLE_MESSAGE_SIZE;
     }
 
+    /* Reserve, fill, and publish a slot as one bounded critical operation.
+     * Normal diagnostics come from main context, but USB error reporting can
+     * also call the console from an interrupt. */
+    primask = Console_EnterCritical();
     write_sequence = console_write_sequence;
     if ((write_sequence - console_read_sequence) >= CONSOLE_QUEUE_CAPACITY)
     {
-        Console_RecordDrop();
-        return 0;
+        console_dropped_messages++;
+        Console_ExitCritical(primask);
+        return;
     }
 
     index = write_sequence & (CONSOLE_QUEUE_CAPACITY - 1U);
@@ -127,9 +124,9 @@ static int Console_Queue(const uint8_t *message, uint32_t length)
     /* Publish only after the message and its length are visible to the ISR. */
     __DMB();
     console_write_sequence = write_sequence + 1U;
-    Console_StartNext();
+    Console_ExitCritical(primask);
 
-    return 1;
+    Console_StartNext();
 }
 
 void Console_Init(UART_HandleTypeDef *huart)
@@ -152,26 +149,47 @@ void Console_Init(UART_HandleTypeDef *huart)
 
     Console_ExitCritical(primask);
 
-    setvbuf(stdout, NULL, _IONBF, 0);
-    setvbuf(stderr, NULL, _IONBF, 0);
 }
 
-/* newlib stdout/stderr backend. Log overload must never block capture. */
-int _write(int file, char *ptr, int len)
+void Console_Write(const char *message)
 {
-    (void)file;
+    size_t length;
 
-    if ((ptr == NULL) || (len <= 0) ||
-        (console_uart == NULL) || (console_uart->hdmatx == NULL))
+    if (message == NULL)
     {
-        errno = EIO;
-        return -1;
+        return;
     }
 
-    /* Report success to stdio even when the diagnostic message was dropped.
-     * The loss is observable through Console_GetDroppedCount(). */
-    (void)Console_Queue((const uint8_t *)ptr, (uint32_t)len);
-    return len;
+    length = strlen(message);
+    Console_Queue((const uint8_t *)message, (uint32_t)length);
+}
+
+void Console_Printf(const char *format, ...)
+{
+    char buffer[CONSOLE_MESSAGE_SIZE];
+    va_list args;
+    int length;
+
+    if (format == NULL)
+    {
+        return;
+    }
+
+    va_start(args, format);
+    length = vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    if (length <= 0)
+    {
+        return;
+    }
+
+    if ((uint32_t)length >= sizeof(buffer))
+    {
+        length = (int)sizeof(buffer) - 1;
+    }
+
+    Console_Queue((const uint8_t *)buffer, (uint32_t)length);
 }
 
 static void Console_CompleteActive(UART_HandleTypeDef *huart, uint8_t failed)

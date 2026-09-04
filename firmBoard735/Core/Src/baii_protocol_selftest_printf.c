@@ -4,15 +4,20 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "console.h"
+
+#define BAII_SELFTEST_PRINT_BUFFER_SIZE 320U
+
 /*
  * Self-test-only printf compatibility shim.
  *
  * The small embedded printf configuration used by the project does not
  * correctly render the %llu conversion used for 64-bit Unix timestamps.
- * Normal firmware printf calls are intentionally left untouched.
+ * The wrapper submits one complete formatted message to the DMA console.
  *
  * Current self-test %llu calls contain exactly one conversion per format
- * string.  All other formats are passed directly to the normal vprintf().
+ * string. All other formats are rendered into the same bounded message
+ * buffer before being queued.
  */
 
 static size_t BAII_SelfTest_U64ToDecimal(
@@ -42,8 +47,9 @@ static size_t BAII_SelfTest_U64ToDecimal(
 int BAII_SelfTest_Printf(const char *format, ...)
 {
     const char *conversion;
+    char buffer[BAII_SELFTEST_PRINT_BUFFER_SIZE];
     va_list args;
-    int written = 0;
+    int written;
 
     if (format == NULL)
     {
@@ -56,7 +62,7 @@ int BAII_SelfTest_Printf(const char *format, ...)
 
     if (conversion == NULL)
     {
-        written = vprintf(format, args);
+        written = vsnprintf(buffer, sizeof(buffer), format, args);
     }
     else
     {
@@ -67,19 +73,32 @@ int BAII_SelfTest_Printf(const char *format, ...)
         const char *suffix = conversion + 4;
         size_t suffix_length = strlen(suffix);
 
-        if (prefix_length > 0U)
+        if ((prefix_length + decimal_length + suffix_length) >= sizeof(buffer))
         {
-            written += (int)fwrite(format, 1U, prefix_length, stdout);
+            written = -1;
         }
-
-        written += (int)fwrite(decimal, 1U, decimal_length, stdout);
-
-        if (suffix_length > 0U)
+        else
         {
-            written += (int)fwrite(suffix, 1U, suffix_length, stdout);
+            (void)memcpy(buffer, format, prefix_length);
+            (void)memcpy(&buffer[prefix_length], decimal, decimal_length);
+            (void)memcpy(&buffer[prefix_length + decimal_length],
+                         suffix, suffix_length + 1U);
+            written = (int)(prefix_length + decimal_length + suffix_length);
         }
     }
 
     va_end(args);
+
+    if (written > 0)
+    {
+        if ((size_t)written >= sizeof(buffer))
+        {
+            written = (int)sizeof(buffer) - 1;
+            buffer[written] = '\0';
+        }
+
+        Console_Write(buffer);
+    }
+
     return written;
 }

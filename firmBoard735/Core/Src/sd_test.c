@@ -1,4 +1,5 @@
 #include "sd_test.h"
+#include "console.h"
 #include "main.h"
 
 #include <stdio.h>
@@ -21,7 +22,7 @@ void SD_Test_ReadOnly(void)
     HAL_SD_CardInfoTypeDef card_info;
     char text[160];
 
-    printf("\r\n--- SDMMC READ-ONLY TEST ---\r\n");
+    Console_Printf("\r\n--- SDMMC READ-ONLY TEST ---\r\n");
 
 
     /* =====================================================
@@ -34,7 +35,7 @@ void SD_Test_ReadOnly(void)
                  "SD ERROR: HAL_SD_GetCardInfo failed, ErrorCode=0x%08lX\r\n",
                  hsd1.ErrorCode);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
@@ -53,7 +54,7 @@ void SD_Test_ReadOnly(void)
              card_info.LogBlockNbr,
              card_info.LogBlockSize);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     uint32_t capacity_mib = card_info.LogBlockNbr / 2048U;
@@ -62,7 +63,7 @@ void SD_Test_ReadOnly(void)
              "Capacity MiB  : %lu\r\n",
              capacity_mib);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     /* =====================================================
@@ -80,7 +81,7 @@ void SD_Test_ReadOnly(void)
      *    Block size    = 512 bytes
      * ===================================================== */
 
-    printf("\r\nReading raw sector 0...\r\n");
+    Console_Printf("\r\nReading raw sector 0...\r\n");
 
     if (HAL_SD_ReadBlocks(&hsd1,
                           sd_sector,
@@ -92,7 +93,7 @@ void SD_Test_ReadOnly(void)
                  "SD ERROR: sector read failed, ErrorCode=0x%08lX\r\n",
                  hsd1.ErrorCode);
 
-        printf("%s", text);
+        Console_Write(text);
         return;
     }
 
@@ -108,20 +109,20 @@ void SD_Test_ReadOnly(void)
     {
         if ((HAL_GetTick() - timeout) > 1000)
         {
-            printf("SD ERROR: card did not return to TRANSFER state\r\n");
+            Console_Printf("SD ERROR: card did not return to TRANSFER state\r\n");
             return;
         }
     }
 
 
-    printf("Sector 0 read OK\r\n");
+    Console_Printf("Sector 0 read OK\r\n");
 
 
     /* =====================================================
      * 4. Hex dump first 64 bytes
      * ===================================================== */
 
-    printf("\r\nSector 0 - first 64 bytes:\r\n");
+    Console_Printf("\r\nSector 0 - first 64 bytes:\r\n");
 
     for (uint32_t i = 0; i < 64; i += 16)
     {
@@ -142,7 +143,7 @@ void SD_Test_ReadOnly(void)
                  sizeof(text) - len,
                  "\r\n");
 
-        printf("%s", text);
+        Console_Write(text);
     }
 
 
@@ -158,26 +159,27 @@ void SD_Test_ReadOnly(void)
              sd_sector[510],
              sd_sector[511]);
 
-    printf("%s", text);
+    Console_Write(text);
 
 
     if ((sd_sector[510] == 0x55) &&
         (sd_sector[511] == 0xAA))
     {
-        printf("Boot-sector signature 55 AA found\r\n");
+        Console_Printf("Boot-sector signature 55 AA found\r\n");
     }
     else
     {
-        printf("No 55 AA signature - raw read still completed successfully\r\n");
+        Console_Printf("No 55 AA signature - raw read still completed successfully\r\n");
     }
 
     SD_CheckFilesystem();
 
-    printf("--- SDMMC READ TEST PASSED ---\r\n\r\n");
+    Console_Printf("--- SDMMC READ TEST PASSED ---\r\n\r\n");
 }
 static void SD_CheckFilesystem(void)
 {
     char text[128];
+    const char *filesystem_name;
 
     /* Sector 0 is already readable */
     if (HAL_SD_ReadBlocks(&hsd1,
@@ -186,7 +188,7 @@ static void SD_CheckFilesystem(void)
                           1,
                           2000) != HAL_OK)
     {
-        printf("FS CHECK: cannot read sector 0\r\n");
+        Console_Printf("FS CHECK: cannot read sector 0\r\n");
         return;
     }
 
@@ -194,7 +196,7 @@ static void SD_CheckFilesystem(void)
     if ((sd_sector[510] != 0x55) ||
         (sd_sector[511] != 0xAA))
     {
-        printf("FS CHECK: no 55 AA signature\r\n");
+        Console_Printf("FS CHECK: no 55 AA signature\r\n");
         return;
     }
 
@@ -214,7 +216,7 @@ static void SD_CheckFilesystem(void)
              partition_type,
              start_lba);
 
-    printf("%s", text);
+    Console_Write(text);
 
     /*
      * If start_lba is zero, sector 0 may itself be the
@@ -228,19 +230,17 @@ static void SD_CheckFilesystem(void)
                               1,
                               2000) != HAL_OK)
         {
-            printf("FS CHECK: cannot read partition boot sector\r\n");
+            Console_Printf("FS CHECK: cannot read partition boot sector\r\n");
             return;
         }
     }
-
-    printf("Filesystem: ");
 
     /*
      * exFAT OEM name is at bytes 3..10.
      */
     if (memcmp(&sd_sector[3], "EXFAT   ", 8) == 0)
     {
-        printf("exFAT\r\n");
+        filesystem_name = "exFAT";
     }
 
     /*
@@ -249,11 +249,11 @@ static void SD_CheckFilesystem(void)
      */
     else if (memcmp(&sd_sector[54], "FAT12   ", 8) == 0)
     {
-        printf("FAT12\r\n");
+        filesystem_name = "FAT12";
     }
     else if (memcmp(&sd_sector[54], "FAT16   ", 8) == 0)
     {
-        printf("FAT16\r\n");
+        filesystem_name = "FAT16";
     }
 
     /*
@@ -262,22 +262,31 @@ static void SD_CheckFilesystem(void)
      */
     else if (memcmp(&sd_sector[82], "FAT32   ", 8) == 0)
     {
-        printf("FAT32\r\n");
+        filesystem_name = "FAT32";
     }
     else
     {
-        printf("unknown / not recognized\r\n");
+        size_t used;
 
-        printf("Boot sector first 16 bytes: ");
-
+        Console_Printf("Filesystem: unknown / not recognized\r\n");
+        used = (size_t)snprintf(text, sizeof(text),
+                                "Boot sector first 16 bytes: ");
         for (uint32_t i = 0; i < 16; i++)
         {
-            snprintf(text, sizeof(text), "%02X ", sd_sector[i]);
-            printf("%s", text);
+            if (used < sizeof(text))
+            {
+                int appended = snprintf(&text[used], sizeof(text) - used,
+                                        "%02X ", sd_sector[i]);
+                if (appended > 0)
+                {
+                    used += (size_t)appended;
+                }
+            }
         }
 
-        printf("\r\n");
+        Console_Printf("%s\r\n", text);
+        return;
     }
+
+    Console_Printf("Filesystem: %s\r\n", filesystem_name);
 }
-
-

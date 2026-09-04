@@ -1,5 +1,6 @@
 
 #include "can_test.h"
+#include "console.h"
 #include "main.h"
 #include "stm32h7xx_hal_fdcan.h"
 #include "stm32h7xx_hal_uart.h"
@@ -146,7 +147,7 @@ void CAN_Test_Init(void)
 	      Error_Handler();
 	  }
 
-  printf("CAN ping-pong started, period = 40 ms\r\n");
+  Console_Printf("CAN ping-pong started, period = 40 ms\r\n");
 }
 void CAN_Test_Process(void)
 {
@@ -274,7 +275,7 @@ void CAN_Test_Process(void)
 		      {
 		    	  HAL_FDCAN_GetErrorCounters(&hfdcan1, &fdcan1_errors);
 		    	  HAL_FDCAN_GetErrorCounters(&hfdcan3, &fdcan3_errors);
-		          printf("CAN=%lu | CAN1 TEC=%lu REC=%lu | CAN3 TEC=%lu REC=%lu\r\n",
+		          Console_Printf("CAN=%lu | CAN1 TEC=%lu REC=%lu | CAN3 TEC=%lu REC=%lu\r\n",
 		                 (unsigned long)can_counter,
 		                 (unsigned long)fdcan1_errors.TxErrorCnt,
 		                 (unsigned long)fdcan1_errors.RxErrorCnt,
