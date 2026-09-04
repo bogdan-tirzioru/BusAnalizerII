@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include "console.h"
 #include "can_sniffer.h"
+#include "can_capture_buffer.h"
 #include "sd_test.h"
 #include "fatfs_test.h"
 #include "hyperram_test.h"
