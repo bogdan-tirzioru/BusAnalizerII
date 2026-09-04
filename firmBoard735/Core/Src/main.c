@@ -159,10 +159,9 @@ int main(void)
   Console_Flush();
   FATFS_Test_ReadWrite();
   Console_Flush();
-  CAN_Sniffer_Init();
-  Console_Flush();
   HyperRAM_Capture_Init();
   Console_Flush();
+  CAN_Sniffer_Init();
 
 
   /* USER CODE END 2 */

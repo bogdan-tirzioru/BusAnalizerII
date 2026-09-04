@@ -197,12 +197,6 @@ void CAN_Sniffer_Init(void)
   capture_measured_frames = 0U;
   CAN_Sniffer_CycleCounter_Init();
 
-  if (!CAN_Sniffer_StartChannel(&channels[0]) ||
-      !CAN_Sniffer_StartChannel(&channels[1]))
-  {
-    Error_Handler();
-  }
-
   Console_Printf("RAM buffer   : %lu frames / %lu bytes / shared CAN FD records\r\n",
                  (unsigned long)CAN_CAPTURE_CAPACITY,
                  (unsigned long)(CAN_CAPTURE_CAPACITY *
@@ -216,6 +210,15 @@ void CAN_Sniffer_Init(void)
   Console_Printf("RX read path: DIRECT MESSAGE RAM -> ZERO-COPY SRAM\r\n");
   Console_Printf("CAN TX      : DISABLED ON BOTH CHANNELS\r\n");
   Console_Printf("--------------------\r\n");
+
+  /* Do not let startup diagnostics fill the hardware FIFOs before polling. */
+  Console_Flush();
+
+  if (!CAN_Sniffer_StartChannel(&channels[0]) ||
+      !CAN_Sniffer_StartChannel(&channels[1]))
+  {
+    Error_Handler();
+  }
 }
 
 static void CAN_Sniffer_ProcessChannel(CAN_SnifferChannel *ctx)
