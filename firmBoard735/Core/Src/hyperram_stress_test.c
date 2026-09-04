@@ -18,13 +18,20 @@ extern OSPI_HandleTypeDef hospi1;
 #define HYPERRAM_STRESS_BLOCKS        256U
 #define HYPERRAM_STRESS_MAX_DETAILS   12U
 
+#if defined(__GNUC__)
+#define DTCM_SCRATCH \
+    __attribute__((section(".dtcm_scratch"), aligned(32)))
+#else
+#define DTCM_SCRATCH
+#endif
+
 _Static_assert(
     HYPERRAM_STRESS_READ1_BYTES + HYPERRAM_STRESS_READ2_BYTES ==
         HYPERRAM_STRESS_BLOCK_BYTES,
     "HyperRAM stress read split must cover one complete write block");
 
-static uint8_t stress_tx[HYPERRAM_STRESS_BLOCK_BYTES];
-static uint8_t stress_rx[HYPERRAM_STRESS_BLOCK_BYTES];
+static uint8_t stress_tx[HYPERRAM_STRESS_BLOCK_BYTES] DTCM_SCRATCH;
+static uint8_t stress_rx[HYPERRAM_STRESS_BLOCK_BYTES] DTCM_SCRATCH;
 
 static HAL_StatusTypeDef HyperRAM_Stress_ReadRegister16(
         uint32_t address,

@@ -29,6 +29,13 @@ extern FDCAN_HandleTypeDef hfdcan1;
 
 #define HYPERRAM_CAPTURE_FLUSH_MS       10U
 
+#if defined(__GNUC__)
+#define DTCM_SCRATCH \
+    __attribute__((section(".dtcm_scratch"), aligned(32)))
+#else
+#define DTCM_SCRATCH
+#endif
+
 /*
  * Keep a 100k-frame regression test in normal firmware.  The stop point is
  * far below the 524032-frame HyperRAM capacity and leaves ample room to drain
@@ -53,8 +60,10 @@ static uint32_t write_errors = 0U;
 static uint32_t write_lost_frames = 0U;
 static uint32_t last_flush_tick = 0U;
 
-static CAN_SnifferFrame batch[HYPERRAM_CAPTURE_BATCH_FRAMES];
-static CAN_SnifferFrame verify_batch[HYPERRAM_VERIFY_BATCH_FRAMES];
+static CAN_SnifferFrame batch[HYPERRAM_CAPTURE_BATCH_FRAMES]
+    DTCM_SCRATCH;
+static CAN_SnifferFrame verify_batch[HYPERRAM_VERIFY_BATCH_FRAMES]
+    DTCM_SCRATCH;
 
 /*
  * Diagnostic monitor of the exact SRAM records immediately before they are

@@ -34,11 +34,11 @@
 /* Entry Point */
 ENTRY(Reset_Handler)
 
-/* Highest address of the user mode stack */
-_estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1);    /* end of RAM */
+/* Highest address of the user mode stack. Keep the CPU stack in DTCM. */
+_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);
 /* Generate a link error if heap and stack don't fit into RAM */
 _Min_Heap_Size = 0x200;      /* required amount of heap  */
-_Min_Stack_Size = 0x400; /* required amount of stack */
+_Min_Stack_Size = 0x2000;    /* reserve 8 KiB for the MSP stack */
 
 /* Specify the memory areas */
 MEMORY
@@ -173,16 +173,48 @@ SECTIONS
   ASSERT(SIZEOF(.console_ram) <= LENGTH(RAM_D2),
          "Console storage exceeds dedicated RAM_D2")
 
-  /* User_heap_stack section, used to check that there is enough RAM left */
-  ._user_heap_stack :
+  /*
+   * CPU-only HyperRAM staging and destructive-test buffers. These buffers are
+   * currently consumed by polling HAL_OSPI calls, not by a DMA controller.
+   */
+  .dtcm_scratch (NOLOAD) :
   {
-    . = ALIGN(8);
+    . = ALIGN(32);
+    __dtcm_scratch_start__ = .;
+    KEEP(*(.dtcm_scratch))
+    KEEP(*(.dtcm_scratch*))
+    . = ALIGN(32);
+    __dtcm_scratch_end__ = .;
+  } >DTCMRAM
+
+  /* Heap origin and MSP reservation share the remaining DTCM address space. */
+  ._user_heap_stack (NOLOAD) :
+  {
+    . = ALIGN(32);
     PROVIDE ( end = . );
     PROVIDE ( _end = . );
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
-    . = ALIGN(8);
-  } >RAM_D1
+    . = ALIGN(32);
+  } >DTCMRAM
+
+  ASSERT((SIZEOF(.dtcm_scratch) + SIZEOF(._user_heap_stack)) <=
+         LENGTH(DTCMRAM),
+         "DTCM scratch, heap and stack reservations exceed DTCMRAM")
+
+  /* Reserved for the planned timestamped internal CAN transmit queue. */
+  .can_tx_ram (NOLOAD) :
+  {
+    . = ALIGN(32);
+    __can_tx_ram_start__ = .;
+    KEEP(*(.can_tx_ram))
+    KEEP(*(.can_tx_ram*))
+    . = ALIGN(32);
+    __can_tx_ram_end__ = .;
+  } >RAM_D3
+
+  ASSERT(SIZEOF(.can_tx_ram) <= LENGTH(RAM_D3),
+         "CAN transmit queue exceeds dedicated RAM_D3")
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
