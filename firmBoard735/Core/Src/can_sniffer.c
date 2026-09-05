@@ -597,11 +597,12 @@ void CAN_Sniffer_DumpDiagnosticEvents(void)
     uint32_t fill =
         (event->rxf0s & FDCAN_RXF0S_F0FL) >> FDCAN_RXF0S_F0FL_Pos;
 
+    /* Keep the event as three short physical lines.  The previous single
+     * line exceeded the 120-character limit of some UART capture paths and
+     * lost the register values that are needed to diagnose missing frames. */
     Console_Printf(
         "FDEVT #%lu t=%lums cy=%lu CAN%u why=%02lX "
-        "rx=%lu peer=%lu sram=%lu LEC=%lu DLEC=%lu "
-        "REC=%lu TEC=%lu LOG=%lu fill=%lu "
-        "PSR=%08lX ECR=%08lX RXF0S=%08lX IR=%08lX\r\n",
+        "rx=%lu peer=%lu sram=%lu\r\n",
         (unsigned long)event->sequence,
         (unsigned long)event->tick_ms,
         (unsigned long)event->cycle_counter,
@@ -609,13 +610,17 @@ void CAN_Sniffer_DumpDiagnosticEvents(void)
         (unsigned long)event->reason,
         (unsigned long)event->channel_rx_count,
         (unsigned long)event->peer_rx_count,
-        (unsigned long)event->sram_count,
+        (unsigned long)event->sram_count);
+    Console_Printf(
+        "  STATE LEC=%lu DLEC=%lu REC=%lu TEC=%lu LOG=%lu fill=%lu\r\n",
         (unsigned long)lec,
         (unsigned long)dlec,
         (unsigned long)rec,
         (unsigned long)tec,
         (unsigned long)logging,
-        (unsigned long)fill,
+        (unsigned long)fill);
+    Console_Printf(
+        "  REGS PSR=%08lX ECR=%08lX RXF0S=%08lX IR=%08lX\r\n",
         (unsigned long)event->psr,
         (unsigned long)event->ecr,
         (unsigned long)event->rxf0s,
