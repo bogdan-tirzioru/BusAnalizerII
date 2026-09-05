@@ -5,11 +5,17 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CONSOLE_MESSAGE_SIZE     320U
-#define CONSOLE_QUEUE_CAPACITY   64U
+#define CONSOLE_FORMAT_SIZE      1024U
+#define CONSOLE_DMA_CHUNK_SIZE   64U
+#define CONSOLE_QUEUE_CAPACITY   128U
 
 _Static_assert((CONSOLE_QUEUE_CAPACITY & (CONSOLE_QUEUE_CAPACITY - 1U)) == 0U,
                "console queue capacity must be a power of two");
+_Static_assert(CONSOLE_DMA_CHUNK_SIZE <= UINT16_MAX,
+               "console DMA chunk length must fit uint16_t");
+_Static_assert(CONSOLE_FORMAT_SIZE <=
+                   (CONSOLE_DMA_CHUNK_SIZE * CONSOLE_QUEUE_CAPACITY),
+               "formatted console message must fit an empty queue");
 
 #if defined(__GNUC__)
 #define CONSOLE_DMA_STORAGE \
@@ -19,7 +25,7 @@ _Static_assert((CONSOLE_QUEUE_CAPACITY & (CONSOLE_QUEUE_CAPACITY - 1U)) == 0U,
 #endif
 
 static UART_HandleTypeDef *console_uart;
-static uint8_t console_messages[CONSOLE_QUEUE_CAPACITY][CONSOLE_MESSAGE_SIZE]
+static uint8_t console_messages[CONSOLE_QUEUE_CAPACITY][CONSOLE_DMA_CHUNK_SIZE]
     CONSOLE_DMA_STORAGE;
 static uint16_t console_lengths[CONSOLE_QUEUE_CAPACITY]
     CONSOLE_DMA_STORAGE;
@@ -90,6 +96,10 @@ static void Console_StartNext(void)
 
 static void Console_Queue(const uint8_t *message, uint32_t length)
 {
+    uint32_t chunk_count;
+    uint32_t chunk_length;
+    uint32_t offset;
+    uint32_t chunk;
     uint32_t index;
     uint32_t primask;
     uint32_t write_sequence;
@@ -102,30 +112,48 @@ static void Console_Queue(const uint8_t *message, uint32_t length)
         return;
     }
 
-    if (length > CONSOLE_MESSAGE_SIZE)
+    chunk_count =
+        (length + CONSOLE_DMA_CHUNK_SIZE - 1U) / CONSOLE_DMA_CHUNK_SIZE;
+
+    if (chunk_count > CONSOLE_QUEUE_CAPACITY)
     {
-        length = CONSOLE_MESSAGE_SIZE;
+        primask = Console_EnterCritical();
+        console_dropped_messages++;
+        Console_ExitCritical(primask);
+        return;
     }
 
-    /* Reserve, fill, and publish a slot as one bounded critical operation.
-     * Normal diagnostics come from main context, but USB error reporting can
-     * also call the console from an interrupt. */
+    /* Reserve, fill, and publish every chunk as one atomic operation.  A long
+     * logical line therefore cannot be interleaved with interrupt logging,
+     * while no individual UART DMA transaction exceeds one 64-byte packet. */
     primask = Console_EnterCritical();
     write_sequence = console_write_sequence;
-    if ((write_sequence - console_read_sequence) >= CONSOLE_QUEUE_CAPACITY)
+    if (((write_sequence - console_read_sequence) + chunk_count) >
+        CONSOLE_QUEUE_CAPACITY)
     {
         console_dropped_messages++;
         Console_ExitCritical(primask);
         return;
     }
 
-    index = write_sequence & (CONSOLE_QUEUE_CAPACITY - 1U);
-    (void)memcpy(console_messages[index], message, length);
-    console_lengths[index] = (uint16_t)length;
+    offset = 0U;
+    for (chunk = 0U; chunk < chunk_count; chunk++)
+    {
+        chunk_length = length - offset;
+        if (chunk_length > CONSOLE_DMA_CHUNK_SIZE)
+        {
+            chunk_length = CONSOLE_DMA_CHUNK_SIZE;
+        }
 
-    /* Publish only after the message and its length are visible to the ISR. */
+        index = (write_sequence + chunk) & (CONSOLE_QUEUE_CAPACITY - 1U);
+        (void)memcpy(console_messages[index], &message[offset], chunk_length);
+        console_lengths[index] = (uint16_t)chunk_length;
+        offset += chunk_length;
+    }
+
+    /* Publish only after the complete logical message is visible to the ISR. */
     __DMB();
-    console_write_sequence = write_sequence + 1U;
+    console_write_sequence = write_sequence + chunk_count;
     Console_ExitCritical(primask);
 
     Console_StartNext();
@@ -168,7 +196,7 @@ void Console_Write(const char *message)
 
 void Console_Printf(const char *format, ...)
 {
-    char buffer[CONSOLE_MESSAGE_SIZE];
+    char buffer[CONSOLE_FORMAT_SIZE];
     va_list args;
     int length;
 
@@ -188,7 +216,10 @@ void Console_Printf(const char *format, ...)
 
     if ((uint32_t)length >= sizeof(buffer))
     {
-        length = (int)sizeof(buffer) - 1;
+        uint32_t primask = Console_EnterCritical();
+        console_dropped_messages++;
+        Console_ExitCritical(primask);
+        return;
     }
 
     Console_Queue((const uint8_t *)buffer, (uint32_t)length);
