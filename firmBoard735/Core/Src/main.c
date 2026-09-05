@@ -209,12 +209,7 @@ int main(void)
                   (uint32_t)(delta_cycles / delta_frames);
           }
           Console_Printf(
-              "CAN1 rx=%lu lost=%lu max=%lu err=%lu | "
-              "CAN2 rx=%lu lost=%lu max=%lu err=%lu | "
-              "hram=%lu sram=%lu hi=%lu drop=%lu "
-              "hramErr=%lu hramLost=%lu wrap=%lu "
-              "cpf=%lu evt=%lu/%lu evtDrop=%lu "
-              "logdrop=%lu logerr=%lu\r\n",
+              "CAN1 rx=%lu lost=%lu max=%lu err=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetChannelRxCount(
                   CAN_SNIFFER_CHANNEL_1),
               (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
@@ -222,7 +217,9 @@ int main(void)
               (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
                   CAN_SNIFFER_CHANNEL_1),
               (unsigned long)CAN_Sniffer_GetChannelErrorCount(
-                  CAN_SNIFFER_CHANNEL_1),
+                  CAN_SNIFFER_CHANNEL_1));
+          Console_Printf(
+              "CAN2 rx=%lu lost=%lu max=%lu err=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetChannelRxCount(
                   CAN_SNIFFER_CHANNEL_2),
               (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
@@ -230,15 +227,21 @@ int main(void)
               (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
                   CAN_SNIFFER_CHANNEL_2),
               (unsigned long)CAN_Sniffer_GetChannelErrorCount(
-                  CAN_SNIFFER_CHANNEL_2),
+                  CAN_SNIFFER_CHANNEL_2));
+          Console_Printf(
+              "CAP hram=%lu sram=%lu hi=%lu drop=%lu cpf=%lu\r\n",
               (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
               (unsigned long)CAN_CaptureBuffer_GetAndResetHighWater(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
+              (unsigned long)cycles_per_frame);
+          Console_Printf(
+              "CAPERR hram=%lu lost=%lu wrap=%lu\r\n",
               (unsigned long)HyperRAM_Capture_GetWriteErrors(),
               (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
-              (unsigned long)HyperRAM_Capture_GetWrapCount(),
-              (unsigned long)cycles_per_frame,
+              (unsigned long)HyperRAM_Capture_GetWrapCount());
+          Console_Printf(
+              "DIAG evt=%lu/%lu evtDrop=%lu logdrop=%lu logerr=%lu\r\n",
               (unsigned long)CAN_Sniffer_GetChannelDiagnosticEventCount(
                   CAN_SNIFFER_CHANNEL_1),
               (unsigned long)CAN_Sniffer_GetChannelDiagnosticEventCount(
