@@ -119,6 +119,9 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  /* Compensate high-speed GPIO output impedance across process/voltage/temperature. */
+  HAL_EnableCompensationCell();
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
