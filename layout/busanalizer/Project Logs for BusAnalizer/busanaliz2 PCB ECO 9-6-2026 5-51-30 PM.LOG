@@ -1,0 +1,6 @@
+Change Component DesignItemId : Designator=R40 Old DesignItemId=R-EU_R0805 New DesignItemId=R-EU_R0603
+Change Component Footprint: Designator=R40 Old Footprint=R0805 New Footprint=R0603
+Change Component Comment : Designator=R40 Old Comment=1M New Comment=<B>RESISTOR</B>, European symbol
+Add Differential Pair: Number of nets in differential pair NetD3_1 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair NetD3_2 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair USB_OTG_HS_DP is 1 instead of 2

@@ -1,0 +1,15 @@
+Removed Pin From Net: NetName=+5V Pin=SV1-1
+Removed Pin From Net: NetName=USART_TX Pin=SV1-2
+Change Component Comment : Designator=C4 Old Comment=10p New Comment=33p
+Change Component Comment : Designator=C7 Old Comment=10p New Comment=33p
+Change Component Comment : Designator=Q1 Old Comment=MCSJK-7U-24.00_1 New Comment=ECS-240-18-33-JGN-TR3
+Change Component Comment : Designator=IC3 Old Comment=S70KL1281DABHI023 New Comment=S70KL1282DPBHI020
+Added Component: Designator=R40(R0805)
+Add component (AddParameter): Name = "SPICEPREFIX"; Value = "R"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetC7_2 Pin=R40-1
+Added Pin To Net: NetName=NetC4_2 Pin=R40-2
+Added Pin To Net: NetName=USART_TX Pin=SV1-1
+Added Pin To Net: NetName=+5V Pin=SV1-2
+Add Differential Pair: Number of nets in differential pair NetD3_1 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair NetD3_2 is 1 instead of 2
+Add Differential Pair: Number of nets in differential pair USB_OTG_HS_DP is 1 instead of 2
