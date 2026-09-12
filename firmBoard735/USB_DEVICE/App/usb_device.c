@@ -66,7 +66,7 @@ extern UART_HandleTypeDef huart1;
  * 0 for controller snapshots only. Never use an F4/F7 hard-coded USB base.
  */
 #ifndef BA2_ULPI_EXPERIMENTAL_READS
-#define BA2_ULPI_EXPERIMENTAL_READS 1
+#define BA2_ULPI_EXPERIMENTAL_READS 0
 #endif
 
 static void USB_DiagController(const char *stage)
