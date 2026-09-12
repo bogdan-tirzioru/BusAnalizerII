@@ -291,7 +291,11 @@ void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
 {
   /* Inform USB library that core enters in suspend Mode. */
   USBD_LL_Suspend((USBD_HandleTypeDef*)hpcd->pData);
-  __HAL_PCD_GATE_PHYCLOCK(hpcd);
+  /* BA2 ULPI investigation: keep the PHY clock ungated during suspend.
+   * Suspend reporting remains active. CubeMX regeneration may restore this
+   * generated call; retain this diagnostic change when regenerating.
+   */
+  /* __HAL_PCD_GATE_PHYCLOCK(hpcd); */
   /* Enter in STOP mode. */
   /* USER CODE BEGIN 2 */
   if (hpcd->Init.low_power_enable)
