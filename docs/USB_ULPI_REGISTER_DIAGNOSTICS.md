@@ -14,10 +14,11 @@ ST's CubeF7 power-consumption example uses that offset as a ULPI viewport,
 but that does NOT establish support on H725/H735. The earlier proposal to
 read PHY registers as an ordinary supported H7 HAL operation was too strong.
 
-This branch enables a bounded **experimental** adaptation of that method:
-`BA2_ULPI_EXPERIMENTAL_READS=1` in the USER CODE section of `usb_device.c`.
-Set it to 0 (or add `-DBA2_ULPI_EXPERIMENTAL_READS=0`) to disable all viewport
-accesses and retain only normal controller snapshots. This is investigation
+Experimental reads are now **disabled by default**:
+`BA2_ULPI_EXPERIMENTAL_READS=0` in the USER CODE section of `usb_device.c`.
+The baseline run retains both controller snapshots and the 100 ms delay.
+Power-cycle BA2 after flashing to remove state left by the previous experiment.
+The experimental code remains available behind the switch for future investigation. This is investigation
 code, not a production PHY driver. Hardware validation is still required.
 
 The viewport address is derived from `USB_OTG_HS`, not the F4/F7 peripheral
