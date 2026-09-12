@@ -4,8 +4,29 @@ Branch: `feature/usb-ulpi-diagnostics`, project: `firmBoard735`.
 
 Build and flash the existing STM32CubeIDE project, open the USART console,
 leave the Linux USB cable attached, and reset BA2. Save the complete output
-from `USB: starting HS/ULPI initialization` through the second `USB DIAG`
-block. The extra 100 ms startup delay is for this investigation only.
+from `USB: starting HS/ULPI initialization` through
+`USB: HS/ULPI initialization complete`.
+
+## Forced disconnect/reconnect capture
+
+After the original 100 ms baseline snapshot, startup now calls
+`HAL_PCD_DevDisconnect()`, waits at least 100 ms, then calls
+`HAL_PCD_DevConnect()`. It takes snapshots immediately after each call and
+another 100 ms after reconnect. `USB RECONNECT` lines record the HAL status
+(0 = HAL_OK) and tick timestamp immediately before each call. A failed
+call is reported and stops the remaining sequence; no automatic retries.
+
+Capture at least 500 ms from board reset so the later reconnect is included;
+zoom into bursts near the printed timestamps. HAL ticks and the scope reset
+trigger have different origins, so allow for their offset. With the earlier
+startup timings, disconnect is roughly 125 ms and reconnect roughly 225 ms
+after HAL tick initialization. Serial logging can extend these times.
+
+Expected SDIS is 1 after disconnect and 0 after reconnect. This is a
+controller request, not proof that the PHY received an attachment command.
+The experiment runs once per boot, adds two 100 ms waits, and does not
+restart the stack or reset the PHY. Experimental PHY reads remain disabled;
+suspend clock gating remains disabled in `usbd_conf.c`.
 
 ## Important limitation
 
