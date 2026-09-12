@@ -49,6 +49,7 @@ USBD_HandleTypeDef hUsbDeviceHS;
  */
 /* USER CODE BEGIN 0 */
 extern UART_HandleTypeDef huart1;
+extern PCD_HandleTypeDef hpcd_USB_OTG_HS;
 /* USER CODE END 0 */
 
 /*
@@ -102,6 +103,39 @@ static void USB_DiagController(const char *stage)
   printf("  USB device state=%u address=%u (BSVLD may be overridden)\r\n",
          (unsigned)hUsbDeviceHS.dev_state,
          (unsigned)hUsbDeviceHS.dev_address);
+}
+
+
+/* One-shot attach experiment; no PHY reset, viewport access or stack restart. */
+static void USB_DiagReconnect(void)
+{
+  HAL_StatusTypeDef status;
+  uint32_t at_ms = HAL_GetTick();
+
+  status = HAL_PCD_DevDisconnect(&hpcd_USB_OTG_HS);
+  printf("USB RECONNECT: disconnect t=%lu ms status=%u\r\n",
+         (unsigned long)at_ms, (unsigned)status);
+  USB_DiagController("after forced disconnect (expect SDIS=1)");
+  if (status != HAL_OK)
+  {
+    printf("USB RECONNECT: aborted - disconnect failed\r\n");
+    return;
+  }
+
+  HAL_Delay(100U);
+  at_ms = HAL_GetTick();
+  status = HAL_PCD_DevConnect(&hpcd_USB_OTG_HS);
+  printf("USB RECONNECT: connect t=%lu ms status=%u\r\n",
+         (unsigned long)at_ms, (unsigned)status);
+  USB_DiagController("after forced reconnect (expect SDIS=0)");
+  if (status != HAL_OK)
+  {
+    printf("USB RECONNECT: connect failed\r\n");
+    return;
+  }
+
+  HAL_Delay(100U);
+  USB_DiagController("100 ms after forced reconnect");
 }
 
 #if BA2_ULPI_EXPERIMENTAL_READS
@@ -265,6 +299,7 @@ void MX_USB_DEVICE_Init(void)
 #endif
   HAL_Delay(100U); /* Investigation-only window for host attach/reset. */
   USB_DiagController("100 ms after diagnostics");
+  USB_DiagReconnect();
   printf("USB: HS/ULPI initialization complete\r\n");
 
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
