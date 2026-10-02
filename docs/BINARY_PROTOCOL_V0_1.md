@@ -78,7 +78,7 @@ Successful response after the 4-byte response prefix:
 | 1 | RTC valid/readable |
 | 2 | reserved |
 
-Current firmware reports an FDCAN kernel clock of 96 MHz and 8 MiB HyperRAM.
+Current firmware reports an FDCAN kernel clock of 80 MHz and 8 MiB HyperRAM.
 
 ### `0x0002 GET_STATUS`
 
@@ -156,11 +156,11 @@ Request after the command prefix:
 | 2 | nominal sample point, per-mille; 0 means 87.5% |
 | 2 | data sample point, per-mille |
 
-v0.1 accepts **classic CAN only** (`frame_format = 0`, data bitrate/sample point = 0). The firmware calculates an exact nominal bitrate from the 96 MHz FDCAN clock and selects the closest requested sample point, preferring timing near 16 time quanta.
+The current implementation accepts classic CAN (`frame_format = 0`), CAN FD without BRS (`1`) and CAN FD with BRS (`2`). Classic CAN requires data bitrate/sample point = 0; FD requires a nonzero data bitrate. The firmware calculates exact timing from the 80 MHz FDCAN clock and selects the closest requested sample point.
 
 The successful response returns the full applied CAN configuration, including prescaler, TSEG1, TSEG2 and SJW.
 
-Changing CAN configuration stops, deinitializes, reinitializes and restarts the selected FDCAN peripheral. Channel 1 then restores the unrestricted sniffer global filter and FDCAN timestamp counter.
+Changing CAN configuration stops, deinitializes, reinitializes and restarts the selected FDCAN peripheral. Logical channel 1 maps to FDCAN1 and channel 2 to FDCAN3. See the platform implementation for filter and timestamp restoration.
 
 ## Reserved capture commands
 
@@ -175,7 +175,7 @@ They are reserved now so PC software can keep stable command IDs as capture cont
 
 ## CAN wire record
 
-CAN records are variable length and already allow up to 64 data bytes even though the current acquisition path is still classic CAN.
+CAN wire records are variable length and allow up to 64 data bytes. The current acquisition path supports dual-channel CAN FD; the host capture-stream serializer and USB transport integration remain pending.
 
 | Offset | Size | Field |
 |---:|---:|---|
