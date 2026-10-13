@@ -264,8 +264,15 @@ static int8_t CDC_Control_HS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_HS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 11 */
-  USBD_CDC_SetRxBuffer(&hUsbDeviceHS, &Buf[0]);
-  USBD_CDC_ReceivePacket(&hUsbDeviceHS);
+  /* Diagnostic echo: preserve the RX buffer until IN transfer completes.
+   * Do not rearm OUT while the USB controller is reading this buffer. */
+  if (*Len == 0U || *Len > APP_RX_DATA_SIZE ||
+      CDC_Transmit_HS(Buf, (uint16_t)*Len) != USBD_OK)
+  {
+    /* Empty packet or failed transmit: keep reception functional. */
+    USBD_CDC_SetRxBuffer(&hUsbDeviceHS, UserRxBufferHS);
+    USBD_CDC_ReceivePacket(&hUsbDeviceHS);
+  }
   return (USBD_OK);
   /* USER CODE END 11 */
 }
@@ -310,6 +317,9 @@ static int8_t CDC_TransmitCplt_HS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
   UNUSED(Buf);
   UNUSED(Len);
   UNUSED(epnum);
+  /* Echo completed: the shared receive/transmit buffer may be reused. */
+  USBD_CDC_SetRxBuffer(&hUsbDeviceHS, UserRxBufferHS);
+  USBD_CDC_ReceivePacket(&hUsbDeviceHS);
   /* USER CODE END 14 */
   return result;
 }
