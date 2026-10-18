@@ -2,6 +2,17 @@
 
 Branch: `feature/usb-ulpi-diagnostics`, project: `firmBoard735`.
 
+## Correction to the earlier master comparison
+
+The previous experiment described as using the BA2 `master` firmware is
+**invalid as a comparison with current master**. The local `master` checkout
+was not up to date when it was built, so its behavior cannot be attributed to
+the current `master` branch. Treat that result as inconclusive and do not use
+it as evidence about current master behavior.
+
+If the comparison is repeated, first fetch/update the local checkout from
+`origin/master` and record the exact commit SHA used to build the firmware.
+
 Build and flash the existing STM32CubeIDE project, open the USART console,
 leave the Linux USB cable attached, and reset BA2. Save the complete output
 from `USB: starting HS/ULPI initialization` through
