@@ -27,9 +27,9 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "console.h"
 #include "main.h"
 #include "stm32h7xx.h"
 #include "stm32h7xx_hal.h"
@@ -68,9 +68,9 @@
 #define USBD_MAX_NUM_CONFIGURATION     1U
 /*---------- -----------*/
 #define USBD_MAX_STR_DESC_SIZ     512U
-/*---------- USB bring-up diagnostics -----------*/
+/*---------- -----------*/
 #define USBD_DEBUG_LEVEL     3U
-/*---------- Keep LPM disabled until basic HS enumeration is proven -----------*/
+/*---------- -----------*/
 #define USBD_LPM_ENABLED     0U
 /*---------- -----------*/
 #define USBD_SELF_POWERED     1U
@@ -108,23 +108,25 @@
 /* DEBUG macros */
 
 #if (USBD_DEBUG_LEVEL > 0)
-#define USBD_UsrLog(format, ...) \
-  Console_Printf(format "\n", ##__VA_ARGS__)
+#define USBD_UsrLog(...)    printf(__VA_ARGS__);\
+                            printf("\n");
 #else
 #define USBD_UsrLog(...)
 #endif /* (USBD_DEBUG_LEVEL > 0U) */
 
 #if (USBD_DEBUG_LEVEL > 1)
 
-#define USBD_ErrLog(format, ...) \
-  Console_Printf("ERROR: " format "\n", ##__VA_ARGS__)
+#define USBD_ErrLog(...)    printf("ERROR: ");\
+                            printf(__VA_ARGS__);\
+                            printf("\n");
 #else
 #define USBD_ErrLog(...)
 #endif /* (USBD_DEBUG_LEVEL > 1U) */
 
 #if (USBD_DEBUG_LEVEL > 2)
-#define USBD_DbgLog(format, ...) \
-  Console_Printf("DEBUG : " format "\n", ##__VA_ARGS__)
+#define USBD_DbgLog(...)    printf("DEBUG : ");\
+                            printf(__VA_ARGS__);\
+                            printf("\n");
 #else
 #define USBD_DbgLog(...)
 #endif /* (USBD_DEBUG_LEVEL > 2U) */
@@ -134,7 +136,7 @@
   */
 
 /** @defgroup USBD_CONF_Exported_Types USBD_CONF_Exported_Types
-  * @brief Defines for configuration of the Usb device.
+  * @brief Types.
   * @{
   */
 
@@ -143,11 +145,21 @@
   */
 
 /** @defgroup USBD_CONF_Exported_FunctionsPrototype USBD_CONF_Exported_FunctionsPrototype
-  * @brief Declaration of public functions for USB device.
+  * @brief Declaration of public functions for Usb device.
   * @{
   */
+
+/* Exported functions -------------------------------------------------------*/
 void *USBD_static_malloc(uint32_t size);
 void USBD_static_free(void *p);
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /**
   * @}
@@ -158,3 +170,4 @@ void USBD_static_free(void *p);
 #endif
 
 #endif /* __USBD_CONF__H__ */
+

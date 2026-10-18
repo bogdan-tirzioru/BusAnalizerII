@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include "console.h"
 #include "can_sniffer.h"
-#include "can_capture_buffer.h"
 #include "sd_test.h"
 #include "fatfs_test.h"
 #include "hyperram_test.h"
@@ -120,6 +119,9 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  /* Compensate high-speed GPIO output impedance across process/voltage/temperature. */
+  HAL_EnableCompensationCell();
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -135,33 +137,24 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   Console_Init(&huart1);
-  Console_Printf("\r\nBusAnalyzerII console ready\r\n");
-  Console_Printf("CPU clock    : %lu Hz\r\n",
+  printf("\r\nBusAnalyzerII console ready\r\n");
+  printf("CPU clock    : %lu Hz\r\n",
          (unsigned long)SystemCoreClock);
   BoardID_Init();
   BoardID_Print(&huart1);
-  Console_Flush();
 
   RTC_Test(&hrtc, &huart1);
-  Console_Flush();
 
   HyperRAM_Test_Memory();
-  Console_Flush();
 
   HyperRAM_Test_ConfigRegisters();
-  Console_Flush();
   HyperRAM_Test_BurstStress();
-  Console_Flush();
 
   SD_Test_ReadOnly();
-  Console_Flush();
   FATFS_Test_ReadOnly();
-  Console_Flush();
   FATFS_Test_ReadWrite();
-  Console_Flush();
-  HyperRAM_Capture_Init();
-  Console_Flush();
   CAN_Sniffer_Init();
+  HyperRAM_Capture_Init();
 
 
   /* USER CODE END 2 */
@@ -208,38 +201,21 @@ int main(void)
               cycles_per_frame =
                   (uint32_t)(delta_cycles / delta_frames);
           }
-          Console_Printf(
-              "CAN1 rx=%lu lost=%lu max=%lu err=%lu | "
-              "CAN2 rx=%lu lost=%lu max=%lu err=%lu | "
-              "hram=%lu sram=%lu hi=%lu drop=%lu "
+          printf(
+              "CAN rx=%lu hram=%lu sram=%lu drop=%lu "
               "hramErr=%lu hramLost=%lu wrap=%lu "
-              "cpf=%lu logdrop=%lu logerr=%lu\r\n",
-              (unsigned long)CAN_Sniffer_GetChannelRxCount(
-                  CAN_SNIFFER_CHANNEL_1),
-              (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
-                  CAN_SNIFFER_CHANNEL_1),
-              (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
-                  CAN_SNIFFER_CHANNEL_1),
-              (unsigned long)CAN_Sniffer_GetChannelErrorCount(
-                  CAN_SNIFFER_CHANNEL_1),
-              (unsigned long)CAN_Sniffer_GetChannelRxCount(
-                  CAN_SNIFFER_CHANNEL_2),
-              (unsigned long)CAN_Sniffer_GetChannelFifoLostEvents(
-                  CAN_SNIFFER_CHANNEL_2),
-              (unsigned long)CAN_Sniffer_GetChannelMaxFifoFill(
-                  CAN_SNIFFER_CHANNEL_2),
-              (unsigned long)CAN_Sniffer_GetChannelErrorCount(
-                  CAN_SNIFFER_CHANNEL_2),
+              "fifoLost=%lu maxFIFO=%lu errors=%lu cpf=%lu\r\n",
+              (unsigned long)CAN_Sniffer_GetRxCount(),
               (unsigned long)HyperRAM_Capture_GetStoredCount(),
               (unsigned long)CAN_Sniffer_GetBufferedCount(),
-              (unsigned long)CAN_CaptureBuffer_GetAndResetHighWater(),
               (unsigned long)CAN_Sniffer_GetDroppedCount(),
               (unsigned long)HyperRAM_Capture_GetWriteErrors(),
               (unsigned long)HyperRAM_Capture_GetWriteLostFrames(),
               (unsigned long)HyperRAM_Capture_GetWrapCount(),
-              (unsigned long)cycles_per_frame,
-              (unsigned long)Console_GetDroppedCount(),
-              (unsigned long)Console_GetUartErrorCount());
+              (unsigned long)CAN_Sniffer_GetFifoLostEvents(),
+              (unsigned long)CAN_Sniffer_GetMaxFifoFill(),
+              (unsigned long)CAN_Sniffer_GetErrorCount(),
+              (unsigned long)cycles_per_frame);
       }
   }
   /* USER CODE END 3 */
@@ -272,21 +248,19 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE
-                              |RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 68;
+  RCC_OscInitStruct.PLL.PLLN = 66;
   RCC_OscInitStruct.PLL.PLLP = 1;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
+  RCC_OscInitStruct.PLL.PLLQ = 11;
   RCC_OscInitStruct.PLL.PLLR = 2;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-  RCC_OscInitStruct.PLL.PLLFRACN = 6144;
+  RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -309,6 +283,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  __HAL_RCC_PLLCLKOUT_ENABLE(RCC_PLL1_DIVQ);
+  HAL_RCC_MCOConfig(RCC_MCO1, RCC_MCO1SOURCE_PLL1QCLK, RCC_MCODIV_2);
 }
 
 /**
@@ -323,10 +299,10 @@ void PeriphCommonClock_Config(void)
   */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SDMMC|RCC_PERIPHCLK_FDCAN;
   PeriphClkInitStruct.PLL2.PLL2M = 1;
-  PeriphClkInitStruct.PLL2.PLL2N = 30;
+  PeriphClkInitStruct.PLL2.PLL2N = 24;
   PeriphClkInitStruct.PLL2.PLL2P = 2;
-  PeriphClkInitStruct.PLL2.PLL2Q = 3;
-  PeriphClkInitStruct.PLL2.PLL2R = 3;
+  PeriphClkInitStruct.PLL2.PLL2Q = 2;
+  PeriphClkInitStruct.PLL2.PLL2R = 2;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
@@ -354,24 +330,24 @@ static void MX_FDCAN1_Init(void)
 
   /* USER CODE END FDCAN1_Init 1 */
   hfdcan1.Instance = FDCAN1;
-  hfdcan1.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
+  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan1.Init.Mode = FDCAN_MODE_BUS_MONITORING;
   hfdcan1.Init.AutoRetransmission = DISABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
-  hfdcan1.Init.NominalPrescaler = 5;
+  hfdcan1.Init.NominalPrescaler = 12;
   hfdcan1.Init.NominalSyncJumpWidth = 2;
   hfdcan1.Init.NominalTimeSeg1 = 13;
   hfdcan1.Init.NominalTimeSeg2 = 2;
   hfdcan1.Init.DataPrescaler = 1;
-  hfdcan1.Init.DataSyncJumpWidth = 3;
-  hfdcan1.Init.DataTimeSeg1 = 12;
-  hfdcan1.Init.DataTimeSeg2 = 3;
+  hfdcan1.Init.DataSyncJumpWidth = 1;
+  hfdcan1.Init.DataTimeSeg1 = 1;
+  hfdcan1.Init.DataTimeSeg2 = 1;
   hfdcan1.Init.MessageRAMOffset = 0;
   hfdcan1.Init.StdFiltersNbr = 0;
   hfdcan1.Init.ExtFiltersNbr = 0;
   hfdcan1.Init.RxFifo0ElmtsNbr = 64;
-  hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_64;
+  hfdcan1.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
   hfdcan1.Init.RxFifo1ElmtsNbr = 0;
   hfdcan1.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_8;
   hfdcan1.Init.RxBuffersNbr = 0;
@@ -407,31 +383,31 @@ static void MX_FDCAN3_Init(void)
 
   /* USER CODE END FDCAN3_Init 1 */
   hfdcan3.Instance = FDCAN3;
-  hfdcan3.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
-  hfdcan3.Init.Mode = FDCAN_MODE_BUS_MONITORING;
-  hfdcan3.Init.AutoRetransmission = DISABLE;
+  hfdcan3.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
+  hfdcan3.Init.Mode = FDCAN_MODE_NORMAL;
+  hfdcan3.Init.AutoRetransmission = ENABLE;
   hfdcan3.Init.TransmitPause = DISABLE;
   hfdcan3.Init.ProtocolException = DISABLE;
-  hfdcan3.Init.NominalPrescaler = 5;
-  hfdcan3.Init.NominalSyncJumpWidth = 2;
+  hfdcan3.Init.NominalPrescaler = 1;
+  hfdcan3.Init.NominalSyncJumpWidth = 1;
   hfdcan3.Init.NominalTimeSeg1 = 13;
   hfdcan3.Init.NominalTimeSeg2 = 2;
   hfdcan3.Init.DataPrescaler = 1;
-  hfdcan3.Init.DataSyncJumpWidth = 3;
-  hfdcan3.Init.DataTimeSeg1 = 12;
-  hfdcan3.Init.DataTimeSeg2 = 3;
-  hfdcan3.Init.MessageRAMOffset = 1152;
-  hfdcan3.Init.StdFiltersNbr = 0;
+  hfdcan3.Init.DataSyncJumpWidth = 1;
+  hfdcan3.Init.DataTimeSeg1 = 1;
+  hfdcan3.Init.DataTimeSeg2 = 1;
+  hfdcan3.Init.MessageRAMOffset = 256;
+  hfdcan3.Init.StdFiltersNbr = 1;
   hfdcan3.Init.ExtFiltersNbr = 0;
-  hfdcan3.Init.RxFifo0ElmtsNbr = 64;
-  hfdcan3.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_64;
+  hfdcan3.Init.RxFifo0ElmtsNbr = 1;
+  hfdcan3.Init.RxFifo0ElmtSize = FDCAN_DATA_BYTES_8;
   hfdcan3.Init.RxFifo1ElmtsNbr = 0;
   hfdcan3.Init.RxFifo1ElmtSize = FDCAN_DATA_BYTES_8;
   hfdcan3.Init.RxBuffersNbr = 0;
   hfdcan3.Init.RxBufferSize = FDCAN_DATA_BYTES_8;
   hfdcan3.Init.TxEventsNbr = 0;
   hfdcan3.Init.TxBuffersNbr = 0;
-  hfdcan3.Init.TxFifoQueueElmtsNbr = 0;
+  hfdcan3.Init.TxFifoQueueElmtsNbr = 1;
   hfdcan3.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
   hfdcan3.Init.TxElmtSize = FDCAN_DATA_BYTES_8;
   if (HAL_FDCAN_Init(&hfdcan3) != HAL_OK)
@@ -634,7 +610,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
 
 }
@@ -682,6 +658,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(FD2_STBM_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : FD1_STBM_Pin */
   GPIO_InitStruct.Pin = FD1_STBM_Pin;
@@ -754,7 +738,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: Console_Printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
