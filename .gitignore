@@ -5,3 +5,6 @@
 *.mk
 *.settings.xml
 **/Debug/
+
+# Altium local history
+/[Ll]ayout/History/
