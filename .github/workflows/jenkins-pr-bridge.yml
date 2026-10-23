@@ -1,0 +1,80 @@
+name: Jenkins PR build bridge
+
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull request number to build'
+        required: true
+        type: number
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+jobs:
+  jenkins:
+    if: >-
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request != null &&
+       github.event.comment.body == '/jenkins build' &&
+       github.event.comment.user.login == 'bogdan-tirzioru') ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.actor == 'bogdan-tirzioru')
+    runs-on: [self-hosted, linux, x64, jenkins-bridge]
+    timeout-minutes: 25
+    steps:
+      - name: Resolve and validate PR head
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number || inputs.pr_number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re, urllib.request
+          repo = os.environ['REPOSITORY']
+          number = int(os.environ['PR_NUMBER'])
+          req = urllib.request.Request(
+              f'https://api.github.com/repos/{repo}/pulls/{number}',
+              headers={
+                  'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                  'Accept': 'application/vnd.github+json',
+                  'User-Agent': 'jenkins-bridge',
+              })
+          with urllib.request.urlopen(req, timeout=20) as response:
+              pr = json.load(response)
+          branch = pr['head']['ref']
+          if pr['head']['repo']['full_name'] != repo:
+              raise SystemExit('Refusing a fork PR')
+          if pr['base']['ref'] != 'master':
+              raise SystemExit('Expected master as PR base')
+          if not re.fullmatch(r'[A-Za-z0-9_./-]{1,160}', branch) or '..' in branch:
+              raise SystemExit('Invalid branch name')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              print(f'git_ref=*/{branch}', file=out)
+              print(f'head_sha={pr["head"]["sha"]}', file=out)
+          print('Validated PR', number, 'branch', branch, 'SHA', pr['head']['sha'])
+          PY
+
+      - name: Trigger Jenkins build
+        env:
+          GIT_REF: ${{ steps.pr.outputs.git_ref }}
+        run: |
+          python3 - <<'PY'
+          import base64, netrc, os, urllib.parse, urllib.request
+          host = '127.0.0.1'
+          login, _, token = netrc.netrc('/home/ghita/.config/jenkins-codex/netrc').authenticators(host)
+          payload = urllib.parse.urlencode({'GIT_REF': os.environ['GIT_REF']}).encode()
+          url = 'http://127.0.0.1:8080/job/BusAnalizerII-build/buildWithParameters'
+          req = urllib.request.Request(url, data=payload, method='POST',
+              headers={'Authorization': 'Basic ' + base64.b64encode(f'{login}:{token}'.encode()).decode()})
+          with urllib.request.urlopen(req, timeout=20) as response:
+              if response.status not in (200, 201, 202):
+                  raise SystemExit(f'Jenkins rejected build: HTTP {response.status}')
+              print('Jenkins accepted build request:', response.status)
+              print('Queue URL:', response.headers.get('Location', '(not provided)'))
+          PY
