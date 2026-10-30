@@ -1,5 +1,10 @@
 # External USB3300 module: PC7 reset firmware
 
+**Status: closed on 30 October 2026; outcome inconclusive.**
+The user ended the experiment because the flying-wire assembly is very
+fragile and the ULPI connections no longer have matched lengths. No further
+testing or rework of this assembly is planned as part of this experiment.
+
 ## Target and wiring
 
 This experiment targets the reworked BA2 board with its original USB3300
@@ -21,7 +26,7 @@ from PA8/MCO at MCU pin 97 and from the regulator output test point TP2.
 
 The module's header 5V net is a host-side supply input, separated from USB
 VBUS by a power switch. It did not power BA2; using actual VBUS did.
-The return 3.3 V connection still needs confirmation on hardware.
+The user subsequently confirmed that 3.3 V is present at the external module.
 The brief power-up after soldering was not a meaningful enumeration test.
 
 ## Firmware behavior
@@ -45,7 +50,51 @@ The RESET pin resets the transceiver, not the ULPI register bank; a full
 3.3 V power cycle is needed to restore the register bank to POR defaults.
 A reset pulse cannot compensate for absent power or broken ULPI wiring.
 
-## First hardware test
+## Closing observations and conclusion
+
+User-reported observations on 30 October 2026:
+
+- The original onboard USB3300 has been removed.
+- USB VBUS successfully powers BA2 through its regulator input.
+- The external module has 3.3 V and produces a clock measured at 60 MHz.
+  The observed waveform was described as sinusoidal. Probe configuration,
+  measurement location, amplitude and edge timing were not established,
+  so clock quality at STM32 PA5 has not been validated.
+- The flying-wire assembly is mechanically fragile, and the user reports
+  that the signal lengths no longer match. Continuity and ULPI timing
+  across all connections have not been fully validated.
+- The supplied UART log identifies BusAnalyzerII H725 #1,
+  UID 002B0006-31395113-39393533. RTC/LSE, HyperRAM memory and 512-byte
+  burst stress, SDMMC reads, and FatFs read/write verification passed.
+  These tests establish operation of those subsystems only.
+- No successful BA2 enumeration was reported. The supplied host log shows
+  SEGGER J-Link and CH341 enumeration/disconnection, with no BA2 CDC entry.
+- The supplied UART excerpt starts at board identification and contains
+  no USB startup or PC7 reset messages. Execution of the new reset sequence
+  and completion of USB initialization therefore remain unconfirmed.
+  The excerpt does not establish that the reset firmware was absent:
+  its USB messages are printed before the board-identification banner.
+
+**Conclusion:** external-module USB operation was not demonstrated, and
+this assembly does not provide a controlled comparison with the original
+onboard PHY implementation. The result neither validates nor rules out
+the original PHY/clock/layout as the source of the earlier USB problems.
+
+The fragile connections and uncertain signal integrity are confounding
+factors. Length mismatch alone is not an established cause of failure;
+the available evidence does not separate wiring/contact issues, clock
+measurement effects, ULPI timing and firmware startup behavior.
+
+The experiment is closed without a root-cause finding. Preserve the
+wiring information and compiled reset implementation as references.
+The next hardware revision remains the appropriate place to validate the
+planned controlled ULPI routing and MCU-driven PHY reset. No enumeration
+success, PHY failure or corrective effect of the reset pulse is claimed.
+
+## Original hardware test plan (archived)
+
+The following was the proposed plan; it is retained as a reference and
+is not a list of completed tests or a request to continue this experiment.
 
 1. With power off, verify the PC7-to-RESET connection and shared ground.
 2. Confirm BA2 3.3 V reaches the external module, then verify its supply.
@@ -69,7 +118,8 @@ A reset pulse cannot compensate for absent power or broken ULPI wiring.
 The firmBoard735/Debug target was clean-built on ghita-desktop with
 STM32CubeIDE 1.11.0 and its GNU Arm toolchain on 30 October 2026.
 Result: 0 errors, 3 warnings in unchanged fatfs_test.c and sd_test.h.
-The firmware has not been flashed or tested on hardware by this change.
+Build validation is confirmed; runtime execution of the reset sequence has
+not been established from the supplied hardware logs.
 
 ## Sources
 
