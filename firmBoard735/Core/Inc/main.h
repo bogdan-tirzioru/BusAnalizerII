@@ -65,6 +65,8 @@ void Error_Handler(void);
 #define FD2_STBM_GPIO_Port GPIOF
 #define FD1_STBM_Pin GPIO_PIN_10
 #define FD1_STBM_GPIO_Port GPIOA
+#define USB_PHY_RESET_Pin GPIO_PIN_7
+#define USB_PHY_RESET_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

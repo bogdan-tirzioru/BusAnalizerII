@@ -27,6 +27,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
+#include "main.h"
 #include <stdio.h>
 #include "console.h"
 /* USER CODE END Includes */
@@ -56,6 +57,36 @@ extern PCD_HandleTypeDef hpcd_USB_OTG_HS;
  * -- Insert your external function declaration here --
  */
 /* USER CODE BEGIN 1 */
+/*
+ * External Waveshare USB3300: RESET is active HIGH, not NRST polarity.
+ * PC7 is asserted by MX_GPIO_Init(). Keep STP high while the PHY starts;
+ * HAL_PCD_MspInit() hands STP back to the ULPI alternate function later.
+ *
+ * USB3300 datasheet sections 6.1.9.2/3 and 6.1.11 require an active CLKOUT
+ * before RESET release, and stable PHY inputs for two clocks afterwards.
+ * The 10 ms guard allows startup/wake-up with valid power and a working
+ * module crystal. Verify the 60 MHz clock on hardware; this is not a
+ * clock/power detector and does not restore the ULPI registers to POR.
+ */
+static void USB_ExternalPhyReset(void)
+{
+  GPIO_InitTypeDef gpio = {0};
+
+  HAL_GPIO_WritePin(USB_PHY_RESET_GPIO_Port, USB_PHY_RESET_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
+  gpio.Pin = GPIO_PIN_0; /* ULPI STP: startup protection / wake request */
+  gpio.Mode = GPIO_MODE_OUTPUT_PP;
+  gpio.Pull = GPIO_NOPULL;
+  gpio.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &gpio);
+
+  printf("USB PHY: PC7 RESET asserted, STP high; startup guard 10 ms\r\n");
+  HAL_Delay(10U);
+  HAL_GPIO_WritePin(USB_PHY_RESET_GPIO_Port, USB_PHY_RESET_Pin, GPIO_PIN_RESET);
+  HAL_Delay(1U); /* Keep STP and data inputs stable after RESET release. */
+  printf("USB PHY: PC7 RESET released low; recovery guard 1 ms complete\r\n");
+}
+
 /* Keep the current attach sequence until its role in enumeration is verified. */
 static void USB_DiagReconnect(void)
 {
@@ -99,6 +130,8 @@ void MX_USB_DEVICE_Init(void)
   HAL_SYSCFG_AnalogSwitchConfig(SYSCFG_SWITCH_PC3, SYSCFG_SWITCH_PC3_CLOSE);
   printf("USB: PC2_C/PC3_C analog switches forced closed, PMCR=0x%08lX\r\n",
          (unsigned long)SYSCFG->PMCR);
+
+  USB_ExternalPhyReset();
 
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
