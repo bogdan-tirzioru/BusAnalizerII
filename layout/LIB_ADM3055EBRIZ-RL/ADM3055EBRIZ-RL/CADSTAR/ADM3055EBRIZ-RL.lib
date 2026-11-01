@@ -1,0 +1,16 @@
+.ADM3055EBRIZ-RL :1 ;CAN Interface IC 5kV isoPower Isolated CAN-FD Transceiver
+SOIC127P1030X264-20N
+*STM IC
+*NGS
+*PLB 1="GND1_1" 2="GND1_2" 3="VCC" 4="VIO" 5="RXD" 6="SILENT" 7="TXD" 8="STBY" 9="AUXIN" 10="GND1_3" 11="GND2_1" 12="RS" 13="CANL" 14="CANH" 15="GND2_2" 16="VISOIN" 17="AUXOUT" 18="GNDISO_1" 19="VISOOUT" 20="GNDISO_2"
+*MXP 20
+*DFN ADM3055EBRIZ-RL
+~!Mouser Part Number (584-ADM3055EBRIZ-RL)
+~!Link Mouser Price/Stock (https://www.mouser.co.uk/ProductDetail/Analog-Devices/ADM3055EBRIZ-RL?qs=qSfuJ%252Bfl%2Fd7r0f9T4vdNWQ%3D%3D)
+~!Manufacturer_Name (Analog Devices)
+~!Manufacturer_Part_Number (ADM3055EBRIZ-RL)
+~!Link Datasheet (https://www.analog.com/media/en/technical-documentation/data-sheets/ADM3055E-3057E.pdf)
+~!Height (2.64mm)
+~!3D_Model (ADM3055EBRIZ-RL)
+ADM3055EBRIZ-RL
+1.1!U 2.1!U 3.1!U 4.1!U 5.1!U 6.1!U 7.1!U 8.1!U 9.1!U 10.1!U 20.1!U 19.1!U 18.1!U 17.1!U 16.1!U 15.1!U 14.1!U 13.1!U 12.1!U 11.1!U 

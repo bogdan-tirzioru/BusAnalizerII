@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP ADM3055EBRIZ-RL
+D CAN Interface IC 5kV isoPower Isolated CAN-FD Transceiver
+K
+F https://www.analog.com/media/en/technical-documentation/data-sheets/ADM3055E-3057E.pdf
+$ENDCMP
+#
+#End Doc Library

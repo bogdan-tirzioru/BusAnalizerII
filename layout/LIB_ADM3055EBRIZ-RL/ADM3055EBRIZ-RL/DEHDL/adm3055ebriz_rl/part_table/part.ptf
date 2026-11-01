@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'ADM3055EBRIZ_RL'
+CLASS = IC
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "Analog Devices", "ADM3055EBRIZ-RL" (!) = "", "SOIC127P1030X264-20N", "Small Outline Packages", "584-ADM3055EBRIZ-RL", "https://www.mouser.co.uk/ProductDetail/Analog-Devices/ADM3055EBRIZ-RL?qs=qSfuJ%252Bfl%2Fd7r0f9T4vdNWQ%3D%3D", "CAN Interface IC 5kV isoPower Isolated CAN-FD Transceiver", "https://www.analog.com/media/en/technical-documentation/data-sheets/ADM3055E-3057E.pdf", "2.64 mm"
+END_PART
+
+END.
