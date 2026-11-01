@@ -1,0 +1,9 @@
+Manufacturer=SAMTEC
+PartNumber=FTSH-105-01-L-D-K
+PartCategory=Connector
+PackageCategory=Other
+PinCount=10
+Version=2.1
+Released=2020-04-05 14:32:43
+Downloaded=2026-11-01 12:49:27
+3D=Y

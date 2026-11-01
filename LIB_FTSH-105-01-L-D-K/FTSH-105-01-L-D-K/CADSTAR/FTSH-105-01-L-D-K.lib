@@ -1,0 +1,16 @@
+.FTSH-105-01-L-D-K :1 ;10 Position, High Reliability Header Strips, 0.050&quot; pitch
+FTSH-105-XX-YYY-D-K
+*STM J
+*NGS
+*PLB 1="1" 2="2" 3="3" 4="4" 5="5" 6="6" 7="7" 8="8" 9="9" 10="10"
+*MXP 10
+*DFN FTSH-105-01-L-D-K
+~!Mouser Part Number (200-FTSH10501LDK)
+~!Link Mouser Price/Stock (https://www.mouser.co.uk/ProductDetail/Samtec/FTSH-105-01-L-D-K?qs=92ilVni64gxM4uHHuRbswg%3D%3D)
+~!Manufacturer_Name (SAMTEC)
+~!Manufacturer_Part_Number (FTSH-105-01-L-D-K)
+~!Link Datasheet (http://suddendocs.samtec.com/prints/ftsh-1xx-xx-xxx-d-xxx-xx-mkt.pdf)
+~!Height (-)
+~!3D_Model (FTSH-105-01-L-D-K)
+FTSH-105-01-L-D-K
+1.1!U 2.1!U 3.1!U 4.1!U 5.1!U 6.1!U 7.1!U 8.1!U 9.1!U 10.1!U 
