@@ -33,7 +33,7 @@ FSMCodingStyle=eFMSDropDownList_OneProcess
 FSMEncodingStyle=eFMSDropDownList_OneHot
 IsProjectConflictPreventionWarningsEnabled=1
 IsVirtualBomDocumentRemoved=0
-OutputPath=Project Outputs for BusAnalizer
+OutputPath=
 LogFolderPath=
 ManagedProjectGUID=
 IncludeDesignInRelease=0
@@ -98,23 +98,6 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
-
-[Document4]
-DocumentPath=BusAnalizer.SCHLIB
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=PLMCXRLK
 
 [GeneratedDocument1]
 DocumentPath=Project Outputs for BusAnalizer\BOM\Bill of Materials-busanalizer.xlsx
@@ -220,6 +203,10 @@ IncludeSubFolders=1
 Path=..\*.*
 IncludeSubFolders=1
 
+[DiffPairSuffix1]
+Positive=_DP
+Negative=_DM
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
@@ -269,7 +256,7 @@ SCH_HasExpandLogicalToPhysicalSheets=-1
 SaveSettingsToOutJob=-1
 
 [Generic_EDE]
-OutputDir=Project Outputs for BusAnalizer
+OutputDir=
 
 [OutputGroup1]
 Name=Netlist Outputs

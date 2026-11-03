@@ -1,0 +1,86 @@
+Change Component Footprint: Designator=L2 Old Footprint=0603 New Footprint=R0603
+Add Component: Footprint Not Found C0805
+Added Component: Designator=L1(R0603)
+Add component (AddParameter): Name = "MPN"; Value = "742792695"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_FARNELL"; Value = "1635699"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_NEWARK"; Value = "08P2449"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PACKAGE"; Value = "IND-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SUPPLIER"; Value = "Wuerth Elektronik"; VariantName = "[No Variations]"
+Added Component: Designator=L3(R0603)
+Add component (AddParameter): Name = "MPN"; Value = "742792693"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_FARNELL"; Value = "742792693"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_NEWARK"; Value = "08P2449"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PACKAGE"; Value = "IND-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SUPPLIER"; Value = "Wuerth Elektronik"; VariantName = "[No Variations]"
+Added Component: Designator=L4(R0603)
+Add component (AddParameter): Name = "MPN"; Value = "742792693"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_FARNELL"; Value = "742792693"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "OC_NEWARK"; Value = "08P2449"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PACKAGE"; Value = "IND-0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SUPPLIER"; Value = "Wuerth Elektronik"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=VDD18_1 Pin=C11-1
+Add Pin To Net: Unknown Pin: Pin C40-1
+Add Pin To Net: Unknown Pin: Pin C40-2
+Added Pin To Net: NetName=VDD18_1 Pin=IC2-26
+Added Pin To Net: NetName=USB_VBUS Pin=L1-1
+Added Pin To Net: NetName=+5V Pin=L1-2
+Added Pin To Net: NetName=GND Pin=L3-1
+Added Pin To Net: NetName=NetC40_1 Pin=L3-2
+Added Pin To Net: NetName=NetC40_2 Pin=L4-1
+Added Pin To Net: NetName=NetC46_1 Pin=L4-2
+Added Differential Pair: Name=USB_FS
+Added Member To Class: ClassName=busanalizer Member=Component C1 100n
+Added Member To Class: ClassName=busanalizer Member=Component C2 100n
+Added Member To Class: ClassName=busanalizer Member=Component C4 100n
+Added Member To Class: ClassName=busanalizer Member=Component C7 100n
+Added Member To Class: ClassName=busanalizer Member=Component C8 4.7n
+Added Member To Class: ClassName=busanalizer Member=Component C9 27p
+Added Member To Class: ClassName=busanalizer Member=Component C11 4.7u
+Added Member To Class: ClassName=busanalizer Member=Component C13 100n
+Added Member To Class: ClassName=busanalizer Member=Component C14 100n
+Added Member To Class: ClassName=busanalizer Member=Component C15 2.2u
+Added Member To Class: ClassName=busanalizer Member=Component C17 10p
+Added Member To Class: ClassName=busanalizer Member=Component C19 100n
+Added Member To Class: ClassName=busanalizer Member=Component C21 2.2u
+Added Member To Class: ClassName=busanalizer Member=Component C22 100n
+Added Member To Class: ClassName=busanalizer Member=Component C24 4.7u
+Added Member To Class: ClassName=busanalizer Member=Component C25 100n
+Added Member To Class: ClassName=busanalizer Member=Component C28 20p
+Added Member To Class: ClassName=busanalizer Member=Component C29 100n
+Added Member To Class: ClassName=busanalizer Member=Component C30 4.7n
+Added Member To Class: ClassName=busanalizer Member=Component C31 Capacitor
+Added Member To Class: ClassName=busanalizer Member=Component C33 Capacitor
+Added Member To Class: ClassName=busanalizer Member=Component C34 100n
+Added Member To Class: ClassName=busanalizer Member=Component C37 100n
+Added Member To Class: ClassName=busanalizer Member=Component C38 100n
+Added Member To Class: ClassName=busanalizer Member=Component C39 100n
+Add Class Member: Failed to add class member : Component C40 10u
+Added Member To Class: ClassName=busanalizer Member=Component C41 220n
+Added Member To Class: ClassName=busanalizer Member=Component J1 USB4085-GF-A_REVA4
+Added Member To Class: ClassName=busanalizer Member=Component J2 FTSH-105-01-L-D-K
+Added Member To Class: ClassName=busanalizer Member=Component L1 WE-CBF_0603
+Added Member To Class: ClassName=busanalizer Member=Component L3 WE-CBF_0603
+Added Member To Class: ClassName=busanalizer Member=Component L4 WE-CBF_0603
+Added Member To Class: ClassName=busanalizer Member=Component R1 10k
+Added Member To Class: ClassName=busanalizer Member=Component R2 10k
+Added Member To Class: ClassName=busanalizer Member=Component R3 5.1k
+Added Member To Class: ClassName=busanalizer Member=Component R7 10k
+Added Member To Class: ClassName=busanalizer Member=Component R9 10k
+Added Member To Class: ClassName=busanalizer Member=Component R10 1M
+Added Member To Class: ClassName=busanalizer Member=Component R11 10k
+Added Member To Class: ClassName=busanalizer Member=Component R15 10
+Added Member To Class: ClassName=busanalizer Member=Component R16 10
+Added Member To Class: ClassName=busanalizer Member=Component R17 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R19 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R20 10k
+Added Member To Class: ClassName=busanalizer Member=Component R22 47k
+Added Member To Class: ClassName=busanalizer Member=Component R24 47k
+Added Member To Class: ClassName=busanalizer Member=Component R26 47k
+Added Member To Class: ClassName=busanalizer Member=Component R28 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R29 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R30 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R32 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R33 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R34 Res2
+Added Member To Class: ClassName=busanalizer Member=Component R36 Res2
+Added Member To Class: ClassName=busanalizer Member=Component S1 A6S-1102-H
