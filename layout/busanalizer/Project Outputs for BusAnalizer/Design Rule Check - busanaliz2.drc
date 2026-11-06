@@ -1,548 +1,551 @@
 Protel Design System Design Rule Check
 PCB File : D:\gitRepo\BusAnalizerII\layout\busanalizer\busanaliz2.PcbDoc
-Date     : 11/2/2026
-Time     : 8:48:02 PM
+Date     : 11/6/2026
+Time     : 8:09:35 PM
 
 ERROR : More than 500 violations detected, DRC was stopped
+
+Processing Rule : Clearance Constraint (Gap=0.2mm) (All),(All)
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-17(64.389mm,50.927mm) on Component Side And Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
+   Violation between Clearance Constraint: (0.177mm < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (63.9mm,47.568mm)(63.9mm,49.892mm) on Component Side 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (63.9mm,49.892mm)(63.9mm,50.4mm) on Component Side 
+   Violation between Clearance Constraint: (0.16mm < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Track (42.164mm,43.815mm)(42.429mm,44.08mm) on Component Side 
+   Violation between Clearance Constraint: (0.025mm < 0.2mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Track (42.429mm,44.08mm)(46.412mm,44.08mm) on Component Side 
+   Violation between Clearance Constraint: (0.093mm < 0.2mm) Between Pad Free-35(43.078mm,43.637mm) on Component Side And Track (42.429mm,44.08mm)(46.412mm,44.08mm) on Component Side 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-35(43.078mm,43.637mm) on Component Side And Track (43.078mm,43.637mm)(46.412mm,43.58mm) on Component Side 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-67(41.275mm,42.291mm) on Component Side And Track (41.275mm,42.291mm)(41.564mm,42.58mm) on Component Side 
+   Violation between Clearance Constraint: (0.059mm < 0.2mm) Between Pad Free-67(41.275mm,42.291mm) on Component Side And Track (41.564mm,42.58mm)(46.412mm,42.58mm) on Component Side 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad IC1-99(52.9mm,47.568mm) on Component Side And Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
+   Violation between Clearance Constraint: (0.137mm < 0.2mm) Between Pad IC4-12(102.362mm,19.075mm) on Solder Side And Via (101.143mm,18.517mm) from Component Side to Solder Side 
+   Violation between Clearance Constraint: (0.082mm < 0.2mm) Between Pad J1-A6(111.379mm,50.626mm) on Multi-Layer And Track (111.236mm,51.47mm)(112.014mm,50.692mm) on Solder Side 
+   Violation between Clearance Constraint: (0.043mm < 0.2mm) Between Pad J1-A7(111.379mm,51.476mm) on Multi-Layer And Track (111.164mm,50.62mm)(111.924mm,51.38mm) on Component Side 
+   Violation between Clearance Constraint: (0.143mm < 0.2mm) Between Pad J1-A7(111.379mm,51.476mm) on Multi-Layer And Track (111.924mm,51.38mm)(112.406mm,51.38mm) on Component Side 
+   Violation between Clearance Constraint: (0.045mm < 0.2mm) Between Pad J3-10(1.725mm,64.336mm) on Component Side And Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer 
+   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad J3-9(1.003mm,51.092mm) on Component Side And Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer 
+   Violation between Clearance Constraint: (0.176mm < 0.2mm) Between Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer And Track (1.003mm,51.092mm)(1.725mm,51.813mm) on Component Side 
+Rule Violations :18
 
 Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
 Rule Violations :0
 
 Processing Rule : Un-Routed Net Constraint ( (All) )
-Rule Violations :0
+   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad C10-1(90.321mm,37.484mm) on Solder Side And Pad X1-4(99.815mm,33.299mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad C1-1(90.678mm,12.156mm) on Solder Side And Pad IC4-4(92.812mm,12.725mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad R29-2(89.738mm,15.824mm) on Solder Side And Pad C1-1(90.678mm,12.156mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net DGND Between Pad C1-2(90.678mm,10.846mm) on Solder Side And Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad C40-1(105.105mm,8.546mm) on Solder Side And Pad C41-1(107.239mm,8.496mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad IC4-20(102.362mm,8.915mm) on Solder Side [Unplated] And Pad C40-1(105.105mm,8.546mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad C40-2(105.105mm,10.046mm) on Solder Side And Pad C41-2(107.239mm,9.996mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad IC4-19(102.362mm,10.185mm) on Solder Side [Unplated] And Pad C40-2(105.105mm,10.046mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad C40-2(105.105mm,10.046mm) on Solder Side And Pad L4-1(105.664mm,12.561mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Pad L3-2(107.29mm,6.641mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad C47-1(107.772mm,14.187mm) on Solder Side And Pad C46-1(107.772mm,16.012mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad C47-2(107.772mm,12.687mm) on Solder Side And Pad C46-2(107.772mm,17.323mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] And Pad C46-2(107.772mm,17.323mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad C46-2(107.772mm,17.323mm) on Solder Side And Pad J5-3(111.457mm,21.26mm) on Multi-Layer 
+   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad L4-2(105.664mm,14.275mm) on Solder Side And Pad C47-1(107.772mm,14.187mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad L3-1(107.29mm,4.928mm) on Solder Side And Pad C47-2(107.772mm,12.687mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC9_2 Between Pad C9-2(83.312mm,35.712mm) on Component Side And Pad R6-1(84.709mm,31.775mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net FD1_CANRX Between Pad IC1-112(46.412mm,44.08mm) on Component Side [Unplated] And Pad IC4-5(92.812mm,13.995mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net FD1_CANTX Between Pad IC1-113(46.412mm,43.58mm) on Component Side [Unplated] And Pad IC4-7(92.812mm,16.535mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad IC1-115(46.412mm,42.58mm) on Component Side [Unplated] And Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net USB_EN_OSC Between Pad IC1-77(63.9mm,47.568mm) on Component Side [Unplated] And Pad X1-1(95.815mm,33.299mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net VDD18_1 Between Track (86.203mm,39.165mm)(86.203mm,39.664mm) on Component Side And Pad IC2-15(86.253mm,44.614mm) on Component Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net DGND Between Pad IC4-1(92.812mm,8.915mm) on Solder Side [Unplated] And Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net DGND Between Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] And Pad IC4-10(92.812mm,20.345mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net DGND Between Track (89.916mm,27.432mm)(91.364mm,28.88mm) on Solder Side And Pad IC4-10(92.812mm,20.345mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] And Pad IC4-11(102.362mm,20.345mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-15(102.362mm,15.265mm) on Solder Side [Unplated] And Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net NetD4_2 Between Pad IC4-14(102.362mm,16.535mm) on Solder Side [Unplated] And Track (103.454mm,16.739mm)(105.435mm,16.739mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net GND Between Track (101.461mm,14.212mm)(102.235mm,14.212mm) on Component Side And Pad IC4-15(102.362mm,15.265mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad IC4-16(102.362mm,13.995mm) on Solder Side [Unplated] And Pad L4-2(105.664mm,14.275mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad IC4-20(102.362mm,8.915mm) on Solder Side [Unplated] And Pad IC4-18(102.362mm,11.455mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net +5V Between Pad IC4-3(92.812mm,11.455mm) on Solder Side [Unplated] And Track (94.996mm,6.985mm)(96.266mm,8.255mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad IC4-4(92.812mm,12.725mm) on Solder Side [Unplated] And Pad R2-1(102.86mm,2.946mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad R29-1(89.738mm,17.739mm) on Solder Side And Pad IC4-8(92.812mm,17.805mm) on Solder Side [Unplated] 
+   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad IC4-8(92.812mm,17.805mm) on Solder Side [Unplated] And Track (96.716mm,6.096mm)(97.575mm,6.955mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net USB_VBUS Between Pad J1-A4(111.379mm,48.926mm) on Multi-Layer And Pad J1-B9(112.729mm,48.926mm) on Multi-Layer 
+   Violation between Un-Routed Net Constraint: Net USB_VBUS Between Pad J1-B9(112.729mm,48.926mm) on Multi-Layer And Pad J1-B4(112.729mm,53.176mm) on Multi-Layer 
+   Violation between Un-Routed Net Constraint: Net NetC8_1 Between Pad J1-S1(115.739mm,46.726mm) on Multi-Layer And Pad J1-S2(115.739mm,55.376mm) on Multi-Layer 
+   Violation between Un-Routed Net Constraint: Net NetC8_1 Between Pad J1-S4(112.359mm,55.376mm) on Multi-Layer And Pad J1-S2(115.739mm,55.376mm) on Multi-Layer 
+   Violation between Un-Routed Net Constraint: Net RESET Between Pad J2-10(41.3mm,66.04mm) on Multi-Layer And Track (80.244mm,63.603mm)(80.267mm,63.627mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net USB_EN_OSC Between Pad X1-1(95.815mm,33.299mm) on Component Side And Pad R2-2(104.775mm,2.946mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net +3V3 Between Track (82.575mm,18.313mm)(83.058mm,18.796mm) on Solder Side And Pad R29-2(89.738mm,15.824mm) on Solder Side 
+   Violation between Un-Routed Net Constraint: Net NetC5_2 Between Track (88.773mm,31.217mm)(88.773mm,34.163mm) on Component Side And Pad R5-1(92.896mm,26.264mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net NetR5_2 Between Pad R5-2(93.904mm,26.264mm) on Component Side And Pad X1-3(99.815mm,28.219mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net NetC5_2 Between Pad R6-2(85.717mm,31.775mm) on Component Side And Track (88.773mm,31.217mm)(88.773mm,34.163mm) on Component Side 
+   Violation between Un-Routed Net Constraint: Net DGND Between Track (89.916mm,27.432mm)(91.364mm,28.88mm) on Solder Side And Pad X1-2(95.815mm,28.219mm) on Component Side 
+   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.115 sq. mm
+   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.163 sq. mm
+   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.183 sq. mm
+   Violation between Un-Routed Net Constraint: Track (39.802mm,40.221mm)(39.878mm,40.259mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (39.878mm,37.719mm)(40.017mm,37.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (39.878mm,38.735mm)(40.533mm,38.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (39.878mm,40.259mm)(40.386mm,40.259mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.005mm,36.83mm)(40.255mm,37.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.017mm,37.58mm)(46.412mm,37.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.255mm,37.08mm)(46.412mm,37.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.386mm,39.497mm)(40.513mm,39.624mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.386mm,40.259mm)(40.598mm,40.047mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.513mm,39.624mm)(41.021mm,39.624mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.533mm,38.08mm)(46.412mm,38.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.598mm,40.047mm)(40.614mm,40.047mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.614mm,40.047mm)(40.637mm,40.024mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.637mm,40.024mm)(40.875mm,40.024mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.875mm,40.024mm)(41.187mm,40.024mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.894mm,36.322mm)(41.152mm,36.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (40.894mm,38.735mm)(41.049mm,38.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.021mm,39.624mm)(41.565mm,39.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.049mm,38.58mm)(46.412mm,38.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.097mm,40.742mm)(41.962mm,40.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.152mm,36.58mm)(46.412mm,36.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.187mm,40.024mm)(41.631mm,39.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.565mm,39.08mm)(46.412mm,39.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.631mm,39.58mm)(46.412mm,39.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.783mm,41.402mm)(42.461mm,42.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (41.962mm,40.08mm)(46.412mm,40.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.418mm,33.274mm)(42.612mm,33.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.461mm,42.08mm)(46.412mm,42.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.545mm,41.021mm)(43.104mm,41.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.104mm,41.58mm)(46.412mm,41.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.688mm,33.909mm)(44.017mm,33.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (44.017mm,33.58mm)(46.412mm,33.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Net USB_PH_RESET Between Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side And Via (93.726mm,50.8mm) from Component Side to Solder Side 
+   Violation between Un-Routed Net Constraint: Net +5V Between Via (98.171mm,41.173mm) from Component Side to Solder Side And Via (102.616mm,41.402mm) from Component Side to Solder Side 
+   Violation between Un-Routed Net Constraint: Net +5V Between Via (33.401mm,9.271mm) from Component Side to Solder Side And Via (59.614mm,59.944mm) from Component Side to Solder Side 
+Rule Violations :84
 
 Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
 Rule Violations :0
 
 Processing Rule : Width Constraint (Min=0.2mm) (Max=0.6mm) (Preferred=0.2mm) (All)
-   Violation between Width Constraint: Track (46.412mm,34.08mm)(47.327mm,34.08mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (47.327mm,34.08mm)(48.26mm,33.147mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (48.26mm,33.147mm)(49.687mm,33.147mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (52.197mm,38.1mm)(53.848mm,39.751mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (53.848mm,39.751mm)(53.848mm,47.625mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (53.848mm,47.625mm)(56.134mm,49.911mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (55.88mm,53.291mm)(55.88mm,53.34mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (55.88mm,53.291mm)(56.134mm,53.037mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (56.007mm,53.467mm)(74.342mm,53.467mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (56.134mm,49.911mm)(56.134mm,53.037mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (61.9mm,26.092mm)(61.9mm,27.356mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (62.9mm,23.587mm)(62.9mm,26.092mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (62.9mm,23.587mm)(63.5mm,22.987mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (63.5mm,22.987mm)(68.453mm,22.987mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (63.754mm,23.622mm)(67.818mm,23.622mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (65.9mm,47.568mm)(65.9mm,48.755mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (66.167mm,29.21mm)(66.675mm,28.702mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (66.421mm,49.276mm)(69.85mm,49.276mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (66.675mm,27.178mm)(67.31mm,26.543mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.31mm,26.543mm)(69.85mm,26.543mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.818mm,23.622mm)(68.58mm,24.384mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.888mm,29.58mm)(71.501mm,29.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.888mm,34.08mm)(69.901mm,34.08mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.888mm,34.58mm)(69.632mm,34.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.888mm,42.58mm)(69.571mm,42.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (67.888mm,45.58mm)(69.075mm,45.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.075mm,45.58mm)(69.723mm,46.228mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.571mm,42.58mm)(70.092mm,42.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.596mm,43.08mm)(69.685mm,43.08mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.764mm,38.004mm)(69.765mm,38.003mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.765mm,34.713mm)(69.765mm,38.003mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.85mm,26.543mm)(69.942mm,26.451mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.85mm,49.276mm)(69.939mm,49.276mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (69.939mm,49.276mm)(70.047mm,49.384mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.047mm,49.384mm)(70.047mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.092mm,42.58mm)(70.2mm,42.472mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.104mm,35.646mm)(70.231mm,35.519mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.117mm,45.577mm)(70.225mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.204mm,46.336mm)(70.204mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.225mm,43.177mm)(70.225mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.225mm,43.177mm)(70.333mm,43.069mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.312mm,48.707mm)(70.528mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.444mm,35.519mm)(70.612mm,35.687mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.524mm,40.419mm)(70.632mm,40.527mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.53mm,32.477mm)(70.638mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.549mm,43.069mm)(70.657mm,43.177mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.587mm,49.184mm)(70.803mm,49.184mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.612mm,35.687mm)(70.612mm,38.1mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.612mm,38.1mm)(70.692mm,38.18mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.632mm,40.527mm)(70.632mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.632mm,42.592mm)(70.74mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.636mm,46.144mm)(70.636mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.636mm,46.144mm)(70.744mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.744mm,46.036mm)(70.96mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.765mm,45.577mm)(70.981mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.96mm,46.036mm)(71.068mm,46.144mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (70.993mm,35.646mm)(70.993mm,38.18mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.064mm,40.527mm)(71.172mm,40.419mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.068mm,46.144mm)(71.068mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.079mm,35.56mm)(71.374mm,35.56mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.07mm,35.182mm)(71.286mm,35.182mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.089mm,43.177mm)(71.089mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.176mm,48.707mm)(71.392mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.235mm,51.843mm)(71.343mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.286mm,35.182mm)(71.394mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.343mm,49.292mm)(71.343mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.374mm,35.56mm)(71.374mm,38.1mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.392mm,48.707mm)(71.5mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.394mm,32.477mm)(71.394mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.394mm,32.477mm)(71.502mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.502mm,32.369mm)(71.718mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.521mm,45.469mm)(71.629mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.59mm,29.58mm)(71.698mm,29.688mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.5mm,46.144mm)(71.608mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.608mm,46.036mm)(71.824mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.698mm,29.688mm)(71.698mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.718mm,32.369mm)(71.826mm,32.477mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.775mm,51.735mm)(71.883mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.824mm,46.036mm)(71.932mm,46.144mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.826mm,32.477mm)(71.826mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.845mm,45.577mm)(71.953mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.882mm,35.56mm)(72.136mm,35.56mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (71.932mm,48.599mm)(72.04mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.022mm,31.202mm)(72.13mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.099mm,51.843mm)(72.207mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.15mm,35.182mm)(72.258mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.207mm,49.292mm)(72.315mm,49.184mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.216mm,38.18mm)(72.517mm,38.18mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.252mm,40.419mm)(72.36mm,40.527mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.258mm,32.477mm)(72.258mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.364mm,46.144mm)(72.364mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.364mm,46.144mm)(72.472mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.36mm,40.527mm)(72.36mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.36mm,42.592mm)(72.468mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.385mm,43.177mm)(72.385mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.454mm,29.469mm)(72.562mm,29.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.468mm,42.7mm)(72.684mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.493mm,45.577mm)(72.709mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.562mm,29.577mm)(72.562mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.562mm,31.094mm)(72.67mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.639mm,49.292mm)(72.639mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.639mm,51.735mm)(72.747mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.644mm,35.56mm)(72.898mm,35.56mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.67mm,31.202mm)(72.886mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.684mm,42.7mm)(72.792mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.747mm,51.843mm)(72.963mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.798mm,35.182mm)(73.014mm,35.182mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.898mm,35.56mm)(73.025mm,35.687mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.904mm,48.707mm)(73.12mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.963mm,51.843mm)(73.071mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.994mm,29.577mm)(72.994mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (72.9mm,40.419mm)(73.116mm,40.419mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.071mm,49.292mm)(73.071mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.102mm,29.469mm)(73.318mm,29.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.105mm,38.18mm)(73.453mm,38.18mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.122mm,32.477mm)(73.122mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.122mm,32.477mm)(73.23mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.12mm,48.707mm)(73.228mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.352mm,22.56mm)(73.398mm,22.606mm) on Solder Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.357mm,45.577mm)(73.573mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.395mm,49.184mm)(73.503mm,49.292mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.426mm,31.094mm)(73.534mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.533mm,35.56mm)(73.787mm,35.56mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.534mm,31.202mm)(73.75mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.573mm,45.577mm)(73.681mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.611mm,51.843mm)(73.827mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.656mm,40.527mm)(73.656mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.662mm,35.182mm)(73.878mm,35.182mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.681mm,43.177mm)(73.681mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.681mm,43.177mm)(73.789mm,43.069mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.768mm,48.707mm)(73.984mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.787mm,35.56mm)(73.914mm,35.687mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.827mm,51.843mm)(73.935mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.878mm,35.182mm)(73.986mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.935mm,49.292mm)(73.935mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.98mm,40.419mm)(74.088mm,40.527mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (73.994mm,38.18mm)(74.295mm,38.18mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.088mm,42.592mm)(74.196mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.092mm,46.144mm)(74.2mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.113mm,43.177mm)(74.113mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.295mm,38.18mm)(74.422mm,38.053mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.29mm,29.577mm)(74.29mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.2mm,46.036mm)(74.416mm,46.036mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.342mm,53.467mm)(74.431mm,53.467mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.367mm,49.292mm)(74.367mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.367mm,51.735mm)(74.475mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.416mm,46.036mm)(74.524mm,46.144mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.431mm,53.467mm)(74.539mm,53.575mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.437mm,45.577mm)(74.545mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.475mm,51.843mm)(74.691mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.524mm,46.144mm)(74.524mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.526mm,35.182mm)(74.742mm,35.182mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.539mm,54.2mm)(74.647mm,54.308mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.614mm,31.202mm)(74.722mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.632mm,48.707mm)(74.848mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.647mm,54.308mm)(74.863mm,54.308mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.691mm,51.843mm)(74.799mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.722mm,29.538mm)(74.722mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.799mm,49.292mm)(74.799mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.799mm,49.292mm)(74.907mm,49.184mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.803mm,35.56mm)(74.803mm,37.937mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.83mm,29.43mm)(75.046mm,29.43mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.844mm,40.419mm)(74.952mm,40.527mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.85mm,32.477mm)(74.85mm,35.074mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.863mm,54.308mm)(74.971mm,54.2mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.952mm,42.592mm)(75.06mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.971mm,52.584mm)(74.971mm,54.2mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (74.977mm,45.469mm)(75.085mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.046mm,29.43mm)(75.154mm,29.538mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.079mm,52.476mm)(75.295mm,52.476mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.154mm,29.538mm)(75.154mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.154mm,31.094mm)(75.262mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.174mm,32.369mm)(75.282mm,32.477mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.219mm,35.311mm)(75.219mm,35.809mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.219mm,35.311mm)(75.95mm,34.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.231mm,49.292mm)(75.231mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.262mm,31.202mm)(75.478mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.282mm,32.477mm)(75.282mm,34.177mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.301mm,45.577mm)(75.409mm,45.469mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.384mm,40.527mm)(75.384mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.388mm,48.599mm)(75.496mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.39mm,34.285mm)(75.606mm,34.285mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.403mm,54.2mm)(75.511mm,54.308mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.478mm,31.202mm)(75.586mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.511mm,54.308mm)(75.727mm,54.308mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.586mm,29.399mm)(75.586mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.606mm,34.285mm)(75.714mm,34.177mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.663mm,49.292mm)(75.663mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.708mm,40.419mm)(75.816mm,40.527mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.816mm,42.592mm)(75.924mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.822mm,32.369mm)(76.038mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.82mm,46.142mm)(75.928mm,46.034mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.835mm,52.584mm)(75.835mm,54.2mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.91mm,29.291mm)(76.018mm,29.399mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.943mm,52.476mm)(76.159mm,52.476mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (75.949mm,45.577mm)(76.165mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.038mm,32.369mm)(76.146mm,32.477mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.095mm,51.735mm)(76.203mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.126mm,31.202mm)(76.342mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.159mm,52.476mm)(76.267mm,52.584mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.203mm,51.843mm)(76.419mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.248mm,39.9mm)(76.248mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.252mm,46.142mm)(76.252mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.267mm,52.584mm)(76.267mm,53.359mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.267mm,53.359mm)(76.375mm,53.467mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.289mm,34.58mm)(76.397mm,34.688mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.2mm,34.58mm)(76.289mm,34.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.342mm,31.202mm)(76.45mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.36mm,48.707mm)(76.576mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.375mm,53.467mm)(76.502mm,53.467mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.397mm,34.688mm)(76.397mm,35.328mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.397mm,35.328mm)(76.505mm,35.436mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.419mm,51.843mm)(76.527mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.505mm,35.436mm)(76.721mm,35.436mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.527mm,49.292mm)(76.635mm,49.184mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.558mm,29.031mm)(76.774mm,29.031mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.576mm,48.707mm)(76.684mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.684mm,46.135mm)(76.684mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.684mm,46.135mm)(76.792mm,46.027mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.68mm,42.592mm)(76.788mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.721mm,35.436mm)(76.829mm,35.328mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.774mm,29.031mm)(76.882mm,29.139mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.788mm,42.7mm)(77.004mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.792mm,46.027mm)(77.008mm,46.027mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.829mm,34.677mm)(76.829mm,35.328mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.829mm,34.677mm)(76.937mm,34.569mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.882mm,31.094mm)(76.99mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.937mm,34.569mm)(77.153mm,34.569mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (76.959mm,51.735mm)(77.067mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.004mm,42.7mm)(77.112mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.01mm,32.477mm)(77.01mm,34.083mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.01mm,34.083mm)(77.118mm,34.191mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.067mm,51.843mm)(77.283mm,51.843mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.112mm,39.114mm)(77.112mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.116mm,48.599mm)(77.224mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.153mm,34.569mm)(77.261mm,34.677mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.206mm,31.202mm)(77.314mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.22mm,39.006mm)(77.436mm,39.006mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.245mm,43.069mm)(77.461mm,43.069mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.261mm,34.677mm)(77.261mm,34.736mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.261mm,34.736mm)(77.369mm,34.844mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.283mm,51.843mm)(77.391mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.314mm,29.05mm)(77.422mm,28.942mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.369mm,34.844mm)(77.585mm,34.844mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.391mm,49.384mm)(77.391mm,51.735mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.461mm,43.069mm)(77.569mm,43.177mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.47mm,53.467mm)(78.294mm,52.643mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.548mm,46.125mm)(77.548mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.55mm,32.369mm)(77.766mm,32.369mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.569mm,45.469mm)(77.677mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.585mm,34.844mm)(77.693mm,34.736mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.638mm,28.942mm)(77.746mm,29.05mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.652mm,42.7mm)(77.868mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.677mm,45.577mm)(77.893mm,45.577mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.693mm,34.566mm)(77.693mm,34.736mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.693mm,34.566mm)(77.801mm,34.458mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.746mm,29.05mm)(77.746mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.746mm,31.094mm)(77.854mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.801mm,34.458mm)(78.017mm,34.458mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.824mm,36.288mm)(77.824mm,36.504mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.824mm,36.288mm)(77.932mm,36.18mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.824mm,36.504mm)(77.932mm,36.612mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.854mm,31.202mm)(78.07mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.868mm,42.7mm)(77.976mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.874mm,32.477mm)(77.874mm,33.972mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.932mm,36.18mm)(79.198mm,36.18mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.932mm,36.612mm)(79.198mm,36.612mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.976mm,39.208mm)(77.976mm,42.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (77.98mm,48.599mm)(78.088mm,48.707mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.017mm,34.458mm)(78.125mm,34.566mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.07mm,31.202mm)(78.178mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.125mm,34.566mm)(78.125mm,34.766mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.125mm,34.766mm)(78.233mm,34.874mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.131mm,38.016mm)(78.131mm,38.232mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.131mm,38.016mm)(78.239mm,37.908mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.131mm,38.232mm)(78.239mm,38.34mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.178mm,28.808mm)(78.178mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.178mm,28.808mm)(78.286mm,28.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.233mm,34.874mm)(78.449mm,34.874mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.239mm,37.908mm)(79.198mm,37.908mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.239mm,38.34mm)(79.176mm,38.34mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.252mm,33.376mm)(78.252mm,33.592mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.252mm,33.376mm)(78.36mm,33.268mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.252mm,33.592mm)(78.36mm,33.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.286mm,28.7mm)(78.502mm,28.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.294mm,50.673mm)(79.291mm,49.676mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.36mm,33.268mm)(81.556mm,33.268mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.36mm,33.7mm)(81.556mm,33.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.3mm,39.1mm)(78.408mm,39.208mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.412mm,46.336mm)(78.412mm,48.599mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.412mm,46.336mm)(78.52mm,46.228mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.449mm,34.874mm)(78.557mm,34.766mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.44mm,35.424mm)(78.44mm,35.64mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.44mm,35.424mm)(78.548mm,35.316mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.44mm,35.64mm)(78.548mm,35.748mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.502mm,28.7mm)(78.61mm,28.808mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.516mm,42.7mm)(78.732mm,42.7mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.548mm,35.316mm)(79.176mm,35.316mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.548mm,35.748mm)(79.198mm,35.748mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.557mm,34.688mm)(78.557mm,34.766mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.557mm,34.688mm)(78.665mm,34.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.61mm,28.808mm)(78.61mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.61mm,31.094mm)(78.718mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.665mm,34.58mm)(79.07mm,34.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.701mm,46.228mm)(81.788mm,46.228mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.718mm,31.202mm)(78.934mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.934mm,31.202mm)(79.042mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.948mm,37.152mm)(78.948mm,37.368mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.948mm,37.152mm)(79.056mm,37.044mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (78.948mm,37.368mm)(79.056mm,37.476mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.042mm,29.145mm)(79.042mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.042mm,29.145mm)(79.15mm,29.037mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.056mm,37.044mm)(79.198mm,37.044mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.056mm,37.476mm)(79.198mm,37.476mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.07mm,34.58mm)(79.284mm,34.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.15mm,29.037mm)(79.366mm,29.037mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.176mm,35.316mm)(79.284mm,35.208mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.176mm,38.34mm)(79.284mm,38.448mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,35.748mm)(79.306mm,35.856mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,36.18mm)(79.306mm,36.072mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,36.612mm)(79.306mm,36.72mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,37.044mm)(79.306mm,36.936mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,37.476mm)(79.306mm,37.584mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.198mm,37.908mm)(79.306mm,37.8mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.272mm,41.179mm)(79.272mm,42.472mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.284mm,34.58mm)(79.284mm,35.119mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.284mm,35.119mm)(79.284mm,35.208mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.284mm,38.448mm)(79.284mm,38.989mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.284mm,38.989mm)(79.284mm,40.549mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.291mm,49.676mm)(82.208mm,49.676mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.306mm,35.856mm)(79.306mm,36.072mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.306mm,36.72mm)(79.306mm,36.936mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.306mm,37.584mm)(79.306mm,37.8mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.366mm,29.037mm)(79.474mm,29.145mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.474mm,29.145mm)(79.474mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.474mm,31.094mm)(79.582mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.527mm,42.58mm)(82.642mm,42.58mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.582mm,31.202mm)(79.798mm,31.202mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.662mm,39.605mm)(79.662mm,39.821mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.662mm,39.605mm)(79.77mm,39.497mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.662mm,39.821mm)(79.77mm,39.929mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.684mm,34.414mm)(79.684mm,38.436mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.684mm,38.436mm)(79.684mm,38.957mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.684mm,38.957mm)(79.792mm,39.065mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.71mm,32.512mm)(79.71mm,32.728mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.71mm,32.512mm)(79.818mm,32.404mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.71mm,32.728mm)(79.818mm,32.836mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.77mm,39.497mm)(81.556mm,39.497mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.77mm,39.929mm)(81.6mm,39.929mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.792mm,39.065mm)(81.556mm,39.065mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.798mm,31.202mm)(79.906mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.818mm,32.404mm)(80.537mm,32.404mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.818mm,32.836mm)(81.556mm,32.836mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.906mm,28.858mm)(79.906mm,31.094mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (79.906mm,28.858mm)(80.014mm,28.75mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.014mm,28.75mm)(80.23mm,28.75mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,34.24mm)(80.062mm,34.456mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,34.24mm)(80.17mm,34.132mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,34.456mm)(80.17mm,34.564mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,35.104mm)(80.062mm,35.32mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,35.104mm)(80.17mm,34.996mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,35.32mm)(80.17mm,35.428mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,35.968mm)(80.062mm,36.184mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,35.968mm)(80.17mm,35.86mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,36.184mm)(80.17mm,36.292mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,40.469mm)(80.062mm,40.685mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,40.469mm)(80.17mm,40.361mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.062mm,40.685mm)(80.17mm,40.793mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,34.132mm)(81.556mm,34.132mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,34.564mm)(81.556mm,34.564mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,34.996mm)(81.556mm,34.996mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,35.428mm)(81.556mm,35.428mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,35.86mm)(81.556mm,35.86mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,36.292mm)(80.537mm,36.292mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,40.361mm)(81.6mm,40.361mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.17mm,40.793mm)(81.433mm,40.793mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.221mm,31.58mm)(80.645mm,32.004mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.23mm,28.75mm)(80.338mm,28.858mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.338mm,28.858mm)(80.338mm,31.113mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.338mm,31.113mm)(80.446mm,31.221mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.446mm,31.221mm)(80.662mm,31.221mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.537mm,32.404mm)(80.645mm,32.296mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.537mm,36.292mm)(80.645mm,36.4mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.645mm,32.004mm)(80.645mm,32.207mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.645mm,32.207mm)(80.645mm,32.296mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.645mm,36.4mm)(80.645mm,36.779mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.645mm,36.779mm)(80.645mm,37.719mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.645mm,37.084mm)(80.645mm,37.719mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.662mm,31.221mm)(80.77mm,31.113mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.77mm,29.018mm)(80.77mm,31.113mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.77mm,29.018mm)(80.878mm,28.91mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.878mm,28.91mm)(81.094mm,28.91mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (80.899mm,52.578mm)(83.993mm,52.578mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.094mm,28.91mm)(81.202mm,29.018mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.202mm,29.018mm)(81.202mm,29.472mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.202mm,29.472mm)(81.31mm,29.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.28mm,50.673mm)(81.763mm,50.673mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.31mm,29.58mm)(81.783mm,29.58mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.433mm,40.793mm)(81.531mm,40.891mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.531mm,40.891mm)(81.554mm,40.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,32.836mm)(81.664mm,32.944mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,33.268mm)(81.664mm,33.16mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,33.7mm)(81.664mm,33.808mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,34.132mm)(81.664mm,34.024mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,34.564mm)(81.664mm,34.672mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,34.996mm)(81.664mm,34.888mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,35.428mm)(81.664mm,35.536mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,35.86mm)(81.664mm,35.752mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,39.065mm)(81.664mm,39.173mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.556mm,39.497mm)(81.664mm,39.389mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.664mm,32.944mm)(81.664mm,33.16mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.664mm,33.808mm)(81.664mm,34.024mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.664mm,34.672mm)(81.664mm,34.888mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.664mm,35.536mm)(81.664mm,35.752mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.664mm,39.173mm)(81.664mm,39.389mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.6mm,39.929mm)(81.708mm,40.037mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.6mm,40.361mm)(81.708mm,40.253mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.708mm,40.037mm)(81.708mm,40.253mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.763mm,50.673mm)(81.852mm,50.673mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.852mm,50.673mm)(81.96mm,50.781mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.904mm,29.58mm)(82.042mm,29.718mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.96mm,50.781mm)(81.96mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (81.96mm,51.299mm)(82.068mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.042mm,29.718mm)(82.042mm,39.751mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.067mm,25.552mm)(82.067mm,26.137mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.067mm,25.552mm)(82.728mm,24.892mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.067mm,26.137mm)(82.347mm,26.416mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.068mm,51.407mm)(82.284mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.284mm,51.407mm)(82.392mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.347mm,26.416mm)(90.805mm,26.416mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.392mm,50.114mm)(82.392mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.392mm,50.114mm)(82.5mm,50.006mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.5mm,50.006mm)(82.716mm,50.006mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.642mm,42.58mm)(83.308mm,41.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.705mm,40.414mm)(85.053mm,40.414mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.716mm,50.006mm)(82.824mm,50.114mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.801mm,43.76mm)(83.597mm,42.964mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.824mm,50.114mm)(82.824mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.824mm,51.299mm)(82.932mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (82.932mm,51.407mm)(83.148mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.148mm,51.407mm)(83.256mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.256mm,49.642mm)(83.256mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.256mm,49.642mm)(83.364mm,49.534mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.364mm,49.534mm)(83.58mm,49.534mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.58mm,49.534mm)(83.688mm,49.642mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.601mm,44.796mm)(83.601mm,48.283mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.601mm,44.796mm)(84.483mm,43.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.688mm,49.642mm)(83.688mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.688mm,51.299mm)(83.796mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.796mm,51.407mm)(84.012mm,51.407mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (83.993mm,52.578mm)(84.082mm,52.578mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.012mm,51.407mm)(84.12mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.082mm,52.578mm)(84.19mm,52.686mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.12mm,49.642mm)(84.12mm,51.299mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.12mm,49.642mm)(84.228mm,49.534mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.19mm,52.686mm)(84.19mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.19mm,52.716mm)(84.298mm,52.824mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.228mm,49.534mm)(84.444mm,49.534mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.298mm,52.824mm)(84.514mm,52.824mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.444mm,49.534mm)(84.552mm,49.642mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.483mm,43.914mm)(85.053mm,43.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.514mm,52.824mm)(84.622mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.552mm,49.642mm)(84.552mm,50.565mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.552mm,50.565mm)(84.66mm,50.673mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.622mm,51.829mm)(84.622mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.622mm,51.829mm)(84.73mm,51.721mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.66mm,50.673mm)(85.573mm,50.673mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.73mm,51.721mm)(84.946mm,51.721mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (84.946mm,51.721mm)(85.054mm,51.829mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.054mm,51.829mm)(85.054mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.054mm,52.716mm)(85.162mm,52.824mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.162mm,52.824mm)(85.378mm,52.824mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.378mm,52.824mm)(85.486mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.486mm,51.829mm)(85.486mm,52.716mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.486mm,51.829mm)(85.594mm,51.721mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.573mm,50.673mm)(86.233mm,50.673mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.594mm,51.721mm)(85.81mm,51.721mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.81mm,51.721mm)(85.918mm,51.829mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.918mm,51.829mm)(85.918mm,52.47mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (85.918mm,52.47mm)(86.026mm,52.578mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (86.026mm,52.578mm)(86.208mm,52.578mm) on Component Side Actual Width = 0.178mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (86.208mm,52.578mm)(86.995mm,52.578mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (86.995mm,52.578mm)(87.249mm,52.324mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (87.753mm,44.614mm)(87.803mm,44.614mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (87.803mm,44.614mm)(87.803mm,45.614mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (87.803mm,45.614mm)(90.653mm,48.463mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (88.253mm,44.614mm)(88.303mm,44.664mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (88.303mm,44.664mm)(88.303mm,45.555mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (88.303mm,45.555mm)(90.833mm,48.085mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (90.653mm,48.463mm)(97.19mm,48.463mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (90.805mm,26.416mm)(92.964mm,28.575mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (90.833mm,48.085mm)(96.914mm,48.085mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (92.964mm,28.575mm)(92.964mm,33.503mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (92.964mm,33.503mm)(99.085mm,39.624mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (93.364mm,28.409mm)(93.364mm,33.293mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (93.364mm,33.293mm)(99.463mm,39.392mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (96.914mm,48.085mm)(99.085mm,45.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (97.19mm,48.463mm)(99.463mm,46.19mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (99.085mm,39.624mm)(99.085mm,45.914mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-   Violation between Width Constraint: Track (99.463mm,39.392mm)(99.463mm,46.19mm) on Component Side Actual Width = 0.177mm, Target Width = 0.2mm
-Rule Violations :500
+   Violation between Width Constraint: Track (103.771mm,22.251mm)(104.775mm,21.247mm) on Component Side Actual Width = 0mm, Target Width = 0.2mm
+   Violation between Width Constraint: Track (82.931mm,16.637mm)(83.185mm,16.637mm) on Component Side Actual Width = 0mm, Target Width = 0.2mm
+Rule Violations :2
 
-Processing Rule : Width Constraint (Min=0.178mm) (Max=0.423mm) (Preferred=0.17mm) (InNetClass('USB'))
+Processing Rule : Width Constraint (Min=0.168mm) (Max=0.178mm) (Preferred=0.17mm) (InNetClass('USB'))
 Rule Violations :0
 
-Processing Rule : Width Constraint (Min=0.177mm) (Max=0.424mm) (Preferred=0.17mm) (InNetClass('USB_ULPI'))
-Rule Violations :0
+Processing Rule : Width Constraint (Min=0.168mm) (Max=0.179mm) (Preferred=0.17mm) (InNetClass('ULPI'))
+   Violation between Width Constraint: Track (68.453mm,22.987mm)(71.763mm,22.987mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (69.723mm,24.384mm)(74.97mm,24.384mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (69.942mm,26.451mm)(81.534mm,26.451mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (71.763mm,22.987mm)(72.19mm,22.56mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (72.19mm,22.56mm)(73.352mm,22.56mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (73.398mm,22.606mm)(82.042mm,22.606mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (74.97mm,24.384mm)(75.478mm,24.892mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (75.478mm,24.892mm)(82.728mm,24.892mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (81.534mm,26.451mm)(82.169mm,27.086mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+   Violation between Width Constraint: Track (82.169mm,27.086mm)(82.169mm,34.798mm) on Solder Side Actual Width = 0.423mm, Target Width = 0.179mm
+Rule Violations :10
 
 Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
-Rule Violations :0
+   Violation between Starved Thermal on Ground Plane: Pad J1-A1(111.379mm,48.076mm) on Multi-Layer. Blocked 3 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Pad J1-A12(111.379mm,54.026mm) on Multi-Layer. Blocked 3 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Pad J1-B1(112.729mm,54.026mm) on Multi-Layer. Blocked 4 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Pad J1-B12(112.729mm,48.076mm) on Multi-Layer. Blocked 4 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Pad J2-3(45.11mm,67.31mm) on Multi-Layer. Blocked 2 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Pad J2-5(43.84mm,67.31mm) on Multi-Layer. Blocked 2 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Via (86.614mm,42.215mm) from Component Side to Solder Side. Blocked 2 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Via (87.503mm,42.316mm) from Component Side to Solder Side. Blocked 3 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Via (87.503mm,43.307mm) from Component Side to Solder Side. Blocked 3 out of 4 entries.
+   Violation between Starved Thermal on Ground Plane: Via (88.392mm,42.24mm) from Component Side to Solder Side. Blocked 2 out of 4 entries.
+Rule Violations :10
 
 Processing Rule : Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)
-Rule Violations :0
+   Violation between Hole Size Constraint: (3.26mm > 2.54mm) Pad J4-10(5.941mm,18.657mm) on Multi-Layer Actual Hole Size = 3.26mm
+   Violation between Hole Size Constraint: (3.26mm > 2.54mm) Pad J4-11(5.941mm,43.647mm) on Multi-Layer Actual Hole Size = 3.26mm
+   Violation between Hole Size Constraint: (3.26mm > 2.54mm) Pad J5-10(112.877mm,33.755mm) on Multi-Layer Actual Hole Size = 3.26mm
+   Violation between Hole Size Constraint: (3.26mm > 2.54mm) Pad J5-11(112.877mm,8.765mm) on Multi-Layer Actual Hole Size = 3.26mm
+Rule Violations :4
 
 Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
 Rule Violations :0
 
 Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
-Rule Violations :0
+   Violation between Minimum Solder Mask Sliver Constraint: (0.037mm < 0.254mm) Between Pad C10-1(90.321mm,37.484mm) on Solder Side And Via (90.678mm,38.481mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.037mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.205mm < 0.254mm) Between Pad C12-1(48.387mm,44.846mm) on Solder Side And Via (49.53mm,45.466mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.205mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.179mm < 0.254mm) Between Pad C17-1(50.434mm,14.986mm) on Component Side And Via (51.435mm,14.224mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.179mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.132mm < 0.254mm) Between Pad C18-1(52.385mm,14.986mm) on Component Side And Via (51.435mm,14.224mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.131mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.251mm < 0.254mm) Between Pad C26-1(85.344mm,46.34mm) on Solder Side And Via (84.201mm,45.593mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.251mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.169mm < 0.254mm) Between Pad C39-2(63.856mm,37.592mm) on Solder Side And Via (62.865mm,38.354mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.169mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C40-1(105.105mm,8.546mm) on Solder Side And Pad C40-2(105.105mm,10.046mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Pad C41-2(107.239mm,9.996mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C42-1(19.443mm,29.718mm) on Component Side And Pad C42-2(20.943mm,29.718mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C43-1(20.943mm,27.305mm) on Component Side And Pad C43-2(19.443mm,27.305mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C44-1(99.949mm,14.72mm) on Component Side And Pad C44-2(99.949mm,13.22mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Pad C45-2(102.235mm,14.212mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.224mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Pad D4-3(102.235mm,11.024mm) on Component Side [Top Solder] Mask Sliver [0.224mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C47-1(107.772mm,14.187mm) on Solder Side And Pad C47-2(107.772mm,12.687mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C8-1(111.328mm,44.526mm) on Component Side And Pad C8-2(112.828mm,44.526mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.015mm < 0.254mm) Between Pad Free-17(64.389mm,50.927mm) on Component Side And Pad Free-18(63.881mm,50.419mm) on Component Side [Top Solder] Mask Sliver [0.015mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.11mm < 0.254mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Pad Free-20(63.373mm,51.054mm) on Component Side [Top Solder] Mask Sliver [0.11mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.059mm < 0.254mm) Between Pad Free-22(62.865mm,49.149mm) on Component Side And Pad Free-23(62.865mm,49.911mm) on Component Side [Top Solder] Mask Sliver [0.059mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.037mm < 0.254mm) Between Pad Free-23(62.865mm,49.911mm) on Component Side And Pad Free-24(62.484mm,50.546mm) on Component Side [Top Solder] Mask Sliver [0.037mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.222mm < 0.254mm) Between Pad Free-28(58.774mm,50.077mm) on Component Side And Pad Free-29(58.141mm,49.403mm) on Component Side [Top Solder] Mask Sliver [0.222mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.237mm < 0.254mm) Between Pad Free-30(58.09mm,50.8mm) on Component Side And Pad Free-31(57.15mm,50.8mm) on Component Side [Top Solder] Mask Sliver [0.237mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad Free-31(57.15mm,50.8mm) on Component Side And Pad Free-32(56.261mm,50.673mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.228mm < 0.254mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Pad Free-35(43.078mm,43.637mm) on Component Side [Top Solder] Mask Sliver [0.228mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.05mm < 0.254mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Via (41.402mm,44.069mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.05mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.144mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-62(67.888mm,40.58mm) on Component Side [Top Solder] Mask Sliver [0.144mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.077mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-63(67.888mm,41.08mm) on Component Side [Top Solder] Mask Sliver [0.077mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.144mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-64(67.888mm,41.58mm) on Component Side [Top Solder] Mask Sliver [0.144mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.186mm < 0.254mm) Between Pad Free-40(69.215mm,37.846mm) on Component Side And Pad Free-41(69.215mm,36.957mm) on Component Side [Top Solder] Mask Sliver [0.186mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.137mm < 0.254mm) Between Pad Free-40(69.215mm,37.846mm) on Component Side And Pad IC1-56(67.888mm,37.58mm) on Component Side [Top Solder] Mask Sliver [0.137mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.136mm < 0.254mm) Between Pad Free-40(69.215mm,37.846mm) on Component Side And Pad IC1-57(67.888mm,38.08mm) on Component Side [Top Solder] Mask Sliver [0.136mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.186mm < 0.254mm) Between Pad Free-41(69.215mm,36.957mm) on Component Side And Pad Free-42(69.215mm,36.068mm) on Component Side [Top Solder] Mask Sliver [0.186mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.152mm < 0.254mm) Between Pad Free-41(69.215mm,36.957mm) on Component Side And Pad IC1-54(67.888mm,36.58mm) on Component Side [Top Solder] Mask Sliver [0.152mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.136mm < 0.254mm) Between Pad Free-41(69.215mm,36.957mm) on Component Side And Pad IC1-55(67.888mm,37.08mm) on Component Side [Top Solder] Mask Sliver [0.136mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.186mm < 0.254mm) Between Pad Free-42(69.215mm,36.068mm) on Component Side And Pad Free-43(69.215mm,35.179mm) on Component Side [Top Solder] Mask Sliver [0.186mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.191mm < 0.254mm) Between Pad Free-42(69.215mm,36.068mm) on Component Side And Pad IC1-52(67.888mm,35.58mm) on Component Side [Top Solder] Mask Sliver [0.191mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.136mm < 0.254mm) Between Pad Free-42(69.215mm,36.068mm) on Component Side And Pad IC1-53(67.888mm,36.08mm) on Component Side [Top Solder] Mask Sliver [0.136mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.201mm < 0.254mm) Between Pad Free-42(69.215mm,36.068mm) on Component Side And Pad IC1-54(67.888mm,36.58mm) on Component Side [Top Solder] Mask Sliver [0.201mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.247mm < 0.254mm) Between Pad Free-43(69.215mm,35.179mm) on Component Side And Pad IC1-50(67.888mm,34.58mm) on Component Side [Top Solder] Mask Sliver [0.247mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.136mm < 0.254mm) Between Pad Free-43(69.215mm,35.179mm) on Component Side And Pad IC1-51(67.888mm,35.08mm) on Component Side [Top Solder] Mask Sliver [0.136mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.159mm < 0.254mm) Between Pad Free-43(69.215mm,35.179mm) on Component Side And Pad IC1-52(67.888mm,35.58mm) on Component Side [Top Solder] Mask Sliver [0.159mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.035mm < 0.254mm) Between Pad Free-44(69.342mm,32.893mm) on Component Side And Pad Free-45(69.291mm,32.156mm) on Component Side [Top Solder] Mask Sliver [0.035mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Pad Free-45(69.291mm,32.156mm) on Component Side And Pad IC1-45(67.888mm,32.08mm) on Component Side [Top Solder] Mask Sliver [0.213mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.238mm < 0.254mm) Between Pad Free-45(69.291mm,32.156mm) on Component Side And Pad IC1-46(67.888mm,32.58mm) on Component Side [Top Solder] Mask Sliver [0.238mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.186mm < 0.254mm) Between Pad Free-47(52.07mm,22.479mm) on Component Side And Pad Free-49(51.181mm,22.479mm) on Component Side [Top Solder] Mask Sliver [0.186mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.186mm < 0.254mm) Between Pad Free-51(42.672mm,30.734mm) on Component Side And Pad Free-52(42.672mm,31.623mm) on Component Side [Top Solder] Mask Sliver [0.186mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.221mm < 0.254mm) Between Pad Free-52(42.672mm,31.623mm) on Component Side And Pad Free-53(43.561mm,31.877mm) on Component Side [Top Solder] Mask Sliver [0.221mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.159mm < 0.254mm) Between Pad Free-53(43.561mm,31.877mm) on Component Side And Pad Free-54(44.399mm,32.08mm) on Component Side [Top Solder] Mask Sliver [0.159mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad Free-58(40.005mm,36.83mm) on Component Side And Pad Free-59(39.878mm,37.719mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Pad Free-60(39.878mm,38.735mm) on Component Side And Pad Free-62(40.386mm,39.497mm) on Component Side [Top Solder] Mask Sliver [0.213mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Pad Free-61(40.894mm,38.735mm) on Component Side And Pad Free-62(40.386mm,39.497mm) on Component Side [Top Solder] Mask Sliver [0.213mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.227mm < 0.254mm) Between Pad Free-62(40.386mm,39.497mm) on Component Side And Pad Free-63(39.802mm,40.221mm) on Component Side [Top Solder] Mask Sliver [0.227mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.249mm < 0.254mm) Between Pad Free-64(41.097mm,40.742mm) on Component Side And Pad Free-66(41.783mm,41.402mm) on Component Side [Top Solder] Mask Sliver [0.249mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.149mm < 0.254mm) Between Pad Free-65(42.545mm,41.021mm) on Component Side And Pad Free-66(41.783mm,41.402mm) on Component Side [Top Solder] Mask Sliver [0.149mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.211mm < 0.254mm) Between Pad Free-69(81.229mm,42.393mm) on Component Side And Pad Free-69(81.229mm,43.307mm) on Component Side [Top Solder] Mask Sliver [0.211mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.12mm < 0.254mm) Between Pad Free-69(81.94mm,40.716mm) on Component Side And Pad Free-69(82.471mm,40.086mm) on Component Side [Top Solder] Mask Sliver [0.12mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.177mm < 0.254mm) Between Pad Free-69(82.626mm,48.285mm) on Component Side And Pad Free-69(83.236mm,48.92mm) on Component Side [Top Solder] Mask Sliver [0.177mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.127mm < 0.254mm) Between Pad Free-69(90.475mm,48.565mm) on Component Side And Pad Free-69(90.805mm,47.803mm) on Component Side [Top Solder] Mask Sliver [0.127mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-1(89.953mm,40.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-10(88.753mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-11(88.253mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-12(87.753mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-13(87.253mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-14(86.753mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-15(86.253mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-16(85.753mm,44.614mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-17(85.053mm,43.914mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-18(85.053mm,43.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-19(85.053mm,42.914mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-2(89.953mm,40.914mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-20(85.053mm,42.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-21(85.053mm,41.914mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-22(85.053mm,41.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-23(85.053mm,40.914mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-24(85.053mm,40.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-25(85.753mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-26(86.253mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-27(86.753mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-28(87.253mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-29(87.753mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-3(89.953mm,41.414mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-30(88.253mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-31(88.753mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-32(89.253mm,39.714mm) on Component Side And Pad IC2-33(87.503mm,42.164mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-4(89.953mm,41.914mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-5(89.953mm,42.414mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-6(89.953mm,42.914mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-7(89.953mm,43.414mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-8(89.953mm,43.914mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.122mm < 0.254mm) Between Pad IC2-33(87.503mm,42.164mm) on Component Side And Pad IC2-9(89.253mm,44.614mm) on Component Side [Top Solder] Mask Sliver [0.122mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-1(4.552mm,56.013mm) on Component Side And Pad J3-2(4.959mm,57.105mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-2(4.959mm,57.105mm) on Component Side And Pad J3-3(4.552mm,58.197mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-3(4.552mm,58.197mm) on Component Side And Pad J3-4(4.349mm,59.29mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-4(4.349mm,59.29mm) on Component Side And Pad J3-5(4.552mm,60.382mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-5(4.552mm,60.382mm) on Component Side And Pad J3-6(4.349mm,61.474mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-6(4.349mm,61.474mm) on Component Side And Pad J3-7(4.552mm,62.566mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-7(4.552mm,62.566mm) on Component Side And Pad J3-8(4.552mm,63.658mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R18-1(61.206mm,20.574mm) on Component Side And Pad R18-2(60.198mm,20.574mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.117mm < 0.254mm) Between Pad R30-1(17.145mm,26.604mm) on Component Side And Pad R38-2(17.145mm,28.245mm) on Component Side [Top Solder] Mask Sliver [0.117mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.233mm < 0.254mm) Between Pad R31-2(100.381mm,17.018mm) on Component Side And Via (101.143mm,18.517mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.233mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.016mm < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Via (101.143mm,18.517mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.016mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.132mm < 0.254mm) Between Pad R39-1(106.36mm,17.018mm) on Component Side And Via (106.731mm,18.415mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.132mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R5-1(92.896mm,26.264mm) on Component Side And Pad R5-2(93.904mm,26.264mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R6-1(84.709mm,31.775mm) on Component Side And Pad R6-2(85.717mm,31.775mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.03mm < 0.254mm) Between Pad USB1-D-(55.072mm,65.913mm) on Component Side And Pad USB1-D+(54.432mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.03mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.05mm < 0.254mm) Between Pad USB1-D-(55.072mm,65.913mm) on Component Side And Pad USB1-V(55.732mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.05mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.051mm < 0.254mm) Between Pad USB1-D+(54.432mm,65.913mm) on Component Side And Pad USB1-ID(53.772mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.051mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.051mm < 0.254mm) Between Pad USB1-GND(53.111mm,65.913mm) on Component Side And Pad USB1-ID(53.772mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.051mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.111mm < 0.254mm) Between Via (86.589mm,43.307mm) from Component Side to Solder Side And Via (87.503mm,43.307mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.111mm] / [Bottom Solder] Mask Sliver [0.111mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Via (86.614mm,41.199mm) from Component Side to Solder Side And Via (86.614mm,42.215mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.213mm] / [Bottom Solder] Mask Sliver [0.213mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.138mm < 0.254mm) Between Via (86.614mm,41.199mm) from Component Side to Solder Side And Via (87.554mm,41.148mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.138mm] / [Bottom Solder] Mask Sliver [0.138mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.092mm < 0.254mm) Between Via (86.614mm,42.215mm) from Component Side to Solder Side And Via (87.503mm,42.316mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.092mm] / [Bottom Solder] Mask Sliver [0.092mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.187mm < 0.254mm) Between Via (87.503mm,42.316mm) from Component Side to Solder Side And Via (87.503mm,43.307mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.187mm] / [Bottom Solder] Mask Sliver [0.187mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.089mm < 0.254mm) Between Via (87.503mm,42.316mm) from Component Side to Solder Side And Via (88.392mm,42.24mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.089mm] / [Bottom Solder] Mask Sliver [0.089mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.114mm < 0.254mm) Between Via (87.503mm,43.307mm) from Component Side to Solder Side And Via (88.417mm,43.231mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.114mm] / [Bottom Solder] Mask Sliver [0.114mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.062mm < 0.254mm) Between Via (87.554mm,41.148mm) from Component Side to Solder Side And Via (88.417mm,41.199mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.062mm] / [Bottom Solder] Mask Sliver [0.062mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.239mm < 0.254mm) Between Via (88.392mm,42.24mm) from Component Side to Solder Side And Via (88.417mm,41.199mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.239mm] / [Bottom Solder] Mask Sliver [0.239mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.188mm < 0.254mm) Between Via (88.392mm,42.24mm) from Component Side to Solder Side And Via (88.417mm,43.231mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.188mm] / [Bottom Solder] Mask Sliver [0.188mm]
+Rule Violations :117
 
 Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
-Rule Violations :0
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Arc (40.019mm,25.477mm) on Top Overlay And Pad S1-1(38.969mm,25.527mm) on Component Side [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Arc (40.019mm,25.477mm) on Top Overlay And Pad S1-1(38.969mm,25.527mm) on Component Side [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.224mm < 0.254mm) Between Arc (51.277mm,17.031mm) on Top Overlay And Pad Q2-2(50.038mm,17.018mm) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.224mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.209mm < 0.254mm) Between Arc (51.299mm,16.996mm) on Top Overlay And Pad Q2-2(50.038mm,17.018mm) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.209mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.22mm < 0.254mm) Between Arc (51.308mm,17.018mm) on Top Overlay And Pad Q2-1(52.578mm,17.018mm) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.22mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.234mm < 0.254mm) Between Arc (51.33mm,17.009mm) on Top Overlay And Pad Q2-1(52.578mm,17.018mm) on Multi-Layer [Top Overlay] to [Top Solder] clearance [0.234mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C22-1(94.615mm,60.413mm) on Component Side And Text "C22" (93.599mm,63.754mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.067mm < 0.254mm) Between Pad C38-1(65.532mm,44.973mm) on Solder Side And Text "C38" (63.881mm,42.545mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.067mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.067mm < 0.254mm) Between Pad C38-2(65.532mm,43.663mm) on Solder Side And Text "C38" (63.881mm,42.545mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.067mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Text "L3" (109.068mm,8.026mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C41-2(107.239mm,9.996mm) on Solder Side And Text "L3" (109.068mm,8.026mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.181mm < 0.254mm) Between Pad C41-2(107.239mm,9.996mm) on Solder Side And Text "L4" (108.148mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.181mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C45-2(102.235mm,14.212mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-1(107.772mm,16.012mm) on Solder Side And Text "C47" (107.501mm,15.126mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-2(107.772mm,17.323mm) on Solder Side And Text "C47" (107.501mm,15.126mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.156mm < 0.254mm) Between Pad C47-2(107.772mm,12.687mm) on Solder Side And Text "L4" (108.148mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.156mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D3-1(24.976mm,26.863mm) on Component Side And Track (23.216mm,26.391mm)(24.028mm,26.391mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D3-2(24.976mm,28.778mm) on Component Side And Track (23.216mm,29.235mm)(24.028mm,29.235mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-1(101.285mm,8.806mm) on Component Side And Track (100.813mm,9.754mm)(100.813mm,10.566mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-2(103.2mm,8.806mm) on Component Side And Track (103.657mm,9.754mm)(103.657mm,10.566mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-1(48.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-10(52.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-100(52.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-101(51.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-102(51.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-103(50.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-104(50.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-105(49.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-106(49.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-107(48.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-108(48.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-109(46.412mm,45.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-11(53.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-110(46.412mm,45.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-111(46.412mm,44.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-112(46.412mm,44.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-113(46.412mm,43.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-114(46.412mm,43.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-115(46.412mm,42.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-116(46.412mm,42.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-117(46.412mm,41.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-118(46.412mm,41.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-119(46.412mm,40.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-12(53.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-120(46.412mm,40.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-121(46.412mm,39.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-122(46.412mm,39.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-123(46.412mm,38.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-124(46.412mm,38.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-125(46.412mm,37.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-126(46.412mm,37.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-127(46.412mm,36.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-128(46.412mm,36.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-129(46.412mm,35.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-13(54.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-130(46.412mm,35.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-131(46.412mm,34.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-132(46.412mm,34.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-133(46.412mm,33.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-134(46.412mm,33.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-135(46.412mm,32.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-136(46.412mm,32.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-137(46.412mm,31.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-138(46.412mm,31.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-139(46.412mm,30.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-14(54.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-140(46.412mm,30.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-141(46.412mm,29.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-142(46.412mm,29.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-143(46.412mm,28.58mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-144(46.412mm,28.08mm) on Component Side And Track (47.5mm,27.18mm)(47.5mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-15(55.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-16(55.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-17(56.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-18(56.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-19(57.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-2(48.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-20(57.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-21(58.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-22(58.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-23(59.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-24(59.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-25(60.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-26(60.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-27(61.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-28(61.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-29(62.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-3(49.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-30(62.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-31(63.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-32(63.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-33(64.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-34(64.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-35(65.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-36(65.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-37(67.888mm,28.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-38(67.888mm,28.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-39(67.888mm,29.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-4(49.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-40(67.888mm,29.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-41(67.888mm,30.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-42(67.888mm,30.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-43(67.888mm,31.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-44(67.888mm,31.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-45(67.888mm,32.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-46(67.888mm,32.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-47(67.888mm,33.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-48(67.888mm,33.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-49(67.888mm,34.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-5(50.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-50(67.888mm,34.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-51(67.888mm,35.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-52(67.888mm,35.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-53(67.888mm,36.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-54(67.888mm,36.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-55(67.888mm,37.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-56(67.888mm,37.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-57(67.888mm,38.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-58(67.888mm,38.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-59(67.888mm,39.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-6(50.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-60(67.888mm,39.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-61(67.888mm,40.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-62(67.888mm,40.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-63(67.888mm,41.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-64(67.888mm,41.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-65(67.888mm,42.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-66(67.888mm,42.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-67(67.888mm,43.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-68(67.888mm,43.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-69(67.888mm,44.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-7(51.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-70(67.888mm,44.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-71(67.888mm,45.08mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-72(67.888mm,45.58mm) on Component Side And Track (66.8mm,27.18mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-73(65.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-74(65.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-75(64.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-76(64.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-77(63.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-78(63.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-79(62.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-8(51.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-80(62.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-81(61.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-82(61.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-83(60.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-84(60.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-85(59.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-86(59.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-87(58.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-88(58.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-89(57.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-9(52.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-90(57.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-91(56.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-92(56.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-93(55.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-94(55.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-95(54.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-96(54.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-97(53.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-98(53.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-99(52.9mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-1(92.812mm,8.915mm) on Solder Side And Track (91.962mm,8.24mm)(93.662mm,8.24mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-1(92.812mm,8.915mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-10(92.812mm,20.345mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-11(102.362mm,20.345mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-12(102.362mm,19.075mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-13(102.362mm,17.805mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-14(102.362mm,16.535mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-15(102.362mm,15.265mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-16(102.362mm,13.995mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-17(102.362mm,12.725mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-18(102.362mm,11.455mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-19(102.362mm,10.185mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-2(92.812mm,10.185mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-20(102.362mm,8.915mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-3(92.812mm,11.455mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-4(92.812mm,12.725mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad IC4-5(92.812mm,13.995mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-5(92.812mm,13.995mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad IC4-6(92.812mm,15.265mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-6(92.812mm,15.265mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-7(92.812mm,16.535mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-8(92.812mm,17.805mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-9(92.812mm,19.075mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.233mm < 0.254mm) Between Pad J1-S1(115.739mm,46.726mm) on Multi-Layer And Track (113.889mm,46.581mm)(114.569mm,46.581mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.233mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.233mm < 0.254mm) Between Pad J1-S2(115.739mm,55.376mm) on Multi-Layer And Track (113.889mm,55.521mm)(114.569mm,55.521mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.233mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.243mm < 0.254mm) Between Pad J1-S3(112.359mm,46.726mm) on Multi-Layer And Track (113.889mm,46.581mm)(114.569mm,46.581mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.243mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad J1-S4(112.359mm,55.376mm) on Multi-Layer And Text "R4" (110.694mm,55.474mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.243mm < 0.254mm) Between Pad J1-S4(112.359mm,55.376mm) on Multi-Layer And Track (113.889mm,55.521mm)(114.569mm,55.521mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.243mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.13mm < 0.254mm) Between Pad J3-11(15.189mm,57.01mm) on Component Side And Track (15.596mm,58.118mm)(15.596mm,61.364mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.13mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.13mm < 0.254mm) Between Pad J3-12(15.189mm,62.725mm) on Component Side And Track (15.596mm,63.833mm)(15.596mm,64.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.13mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad L3-2(107.29mm,6.641mm) on Solder Side And Text "C41" (108.075mm,6.155mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.203mm < 0.254mm) Between Pad R10-2(108.214mm,44.526mm) on Component Side And Text "C8" (107.595mm,45.619mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.203mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R17-1(105.499mm,39.878mm) on Component Side And Track (106.299mm,39.328mm)(106.299mm,40.428mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R17-2(107.099mm,39.878mm) on Component Side And Track (106.299mm,39.328mm)(106.299mm,40.428mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R19-1(10.452mm,11.303mm) on Component Side And Track (9.652mm,10.753mm)(9.652mm,11.853mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R19-2(8.852mm,11.303mm) on Component Side And Track (9.652mm,10.753mm)(9.652mm,11.853mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R28-1(21.778mm,20.462mm) on Component Side And Text "R28" (22.479mm,20.447mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.001mm < 0.254mm) Between Pad R29-2(89.738mm,15.824mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.001mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R31-1(102.296mm,17.018mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Text "R31" (99.593mm,18.796mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.127mm < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Text "R33" (101.346mm,19.939mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.127mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.127mm < 0.254mm) Between Pad R33-2(102.362mm,21.412mm) on Component Side And Text "R33" (101.346mm,19.939mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.127mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.168mm < 0.254mm) Between Pad R36-1(20.386mm,25.199mm) on Component Side And Text "C43" (19.431mm,23.495mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.168mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.216mm < 0.254mm) Between Pad R37-1(104.864mm,13.65mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.216mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.057mm < 0.254mm) Between Pad R39-1(106.36mm,17.018mm) on Component Side And Text "R39" (108.204mm,16.002mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.057mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R39-2(104.445mm,17.018mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R4-1(112.837mm,58.039mm) on Component Side And Text "J1" (113.056mm,57.963mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.153mm < 0.254mm) Between Pad R4-1(112.837mm,58.039mm) on Component Side And Text "R4" (110.694mm,55.474mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.153mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R4-2(110.922mm,58.039mm) on Component Side And Text "L1" (109.087mm,57.057mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.153mm < 0.254mm) Between Pad R4-2(110.922mm,58.039mm) on Component Side And Text "R4" (110.694mm,55.474mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.153mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.102mm < 0.254mm) Between Pad R6-1(84.709mm,31.775mm) on Component Side And Text "R6" (83.889mm,29.667mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.102mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-1(79.781mm,58.979mm) on Multi-Layer And Track (78.994mm,60.071mm)(78.994mm,60.96mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-2(79.781mm,65.481mm) on Multi-Layer And Track (78.994mm,63.5mm)(78.994mm,64.389mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-3(84.303mm,58.979mm) on Multi-Layer And Track (85.09mm,60.071mm)(85.09mm,60.96mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad S2-4(84.303mm,65.481mm) on Multi-Layer And Text "S2" (81.153mm,66.675mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-4(84.303mm,65.481mm) on Multi-Layer And Track (85.09mm,63.373mm)(85.09mm,64.389mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.121mm < 0.254mm) Between Pad USB1-D-(55.072mm,65.913mm) on Component Side And Text "D-" (54.94mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.121mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.121mm < 0.254mm) Between Pad USB1-D+(54.432mm,65.913mm) on Component Side And Text "D+" (54.305mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.121mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.121mm < 0.254mm) Between Pad USB1-GND(53.111mm,65.913mm) on Component Side And Text "GND" (53.035mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.121mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.013mm < 0.254mm) Between Pad USB1-GND(53.111mm,65.913mm) on Component Side And Track (52.527mm,65.783mm)(52.832mm,65.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.013mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.121mm < 0.254mm) Between Pad USB1-ID(53.772mm,65.913mm) on Component Side And Text "ID" (53.67mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.121mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.014mm < 0.254mm) Between Pad USB1-PAD1(57.532mm,66.033mm) on Component Side And Track (56.02mm,65.783mm)(56.401mm,65.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.014mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.114mm < 0.254mm) Between Pad USB1-PAD1(57.532mm,66.033mm) on Component Side And Track (58.182mm,67.011mm)(58.182mm,67.519mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.114mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.114mm < 0.254mm) Between Pad USB1-PAD2(51.308mm,66.033mm) on Component Side And Track (50.673mm,67.011mm)(50.673mm,67.519mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.114mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.102mm < 0.254mm) Between Pad USB1-PAD2(51.308mm,66.033mm) on Component Side And Track (52.527mm,65.783mm)(52.832mm,65.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.102mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.048mm < 0.254mm) Between Pad USB1-PAD3(58.432mm,68.583mm) on Component Side And Track (58.182mm,67.011mm)(58.182mm,67.519mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.048mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.048mm < 0.254mm) Between Pad USB1-PAD6(50.419mm,68.583mm) on Component Side And Track (50.673mm,67.011mm)(50.673mm,67.519mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.048mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.122mm < 0.254mm) Between Pad USB1-V(55.732mm,65.913mm) on Component Side And Text "V" (55.702mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.122mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.021mm < 0.254mm) Between Pad USB1-V(55.732mm,65.913mm) on Component Side And Track (56.02mm,65.783mm)(56.401mm,65.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.021mm]
+Rule Violations :233
 
 Processing Rule : Silk to Silk (Clearance=0.254mm) (All),(All)
-Rule Violations :0
+   Violation between Silk To Silk Clearance Constraint: (0.088mm < 0.254mm) Between Arc (33.096mm,64.922mm) on Top Overlay And Text "BoTi" (29.947mm,64.16mm) on Top Overlay Silk Text to Silk Clearance [0.088mm]
+   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "5" (108.002mm,16.22mm) on Top Overlay And Text "R39" (108.204mm,16.002mm) on Top Overlay Silk Text to Silk Clearance [0mm]
+   Violation between Silk To Silk Clearance Constraint: (0.106mm < 0.254mm) Between Text "C42" (19.558mm,30.988mm) on Top Overlay And Text "R38" (16.532mm,31.369mm) on Top Overlay Silk Text to Silk Clearance [0.106mm]
+   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "C43" (19.431mm,23.495mm) on Top Overlay And Text "R30" (16.256mm,22.606mm) on Top Overlay Silk Text to Silk Clearance [0mm]
+   Violation between Silk To Silk Clearance Constraint: (0.026mm < 0.254mm) Between Text "L1" (109.087mm,57.057mm) on Top Overlay And Text "R4" (110.694mm,55.474mm) on Top Overlay Silk Text to Silk Clearance [0.026mm]
+   Violation between Silk To Silk Clearance Constraint: (0.158mm < 0.254mm) Between Text "R12" (41.758mm,58.511mm) on Top Overlay And Text "R7" (39.68mm,58.504mm) on Top Overlay Silk Text to Silk Clearance [0.158mm]
+   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "R31" (99.593mm,18.796mm) on Top Overlay And Text "R33" (101.346mm,19.939mm) on Top Overlay Silk Text to Silk Clearance [0mm]
+Rule Violations :7
 
 Processing Rule : Net Antennae (Tolerance=0mm) (All)
-Rule Violations :0
+   Violation between Net Antennae: Track (101.448mm,18.009mm)(103.454mm,18.009mm) on Solder Side 
+   Violation between Net Antennae: Track (103.454mm,16.739mm)(105.435mm,16.739mm) on Solder Side 
+   Violation between Net Antennae: Track (103.771mm,22.251mm)(104.775mm,21.247mm) on Component Side 
+   Violation between Net Antennae: Track (41.275mm,42.291mm)(41.564mm,42.58mm) on Component Side 
+   Violation between Net Antennae: Track (42.164mm,43.815mm)(42.429mm,44.08mm) on Component Side 
+   Violation between Net Antennae: Track (43.078mm,43.637mm)(46.412mm,43.58mm) on Component Side 
+   Violation between Net Antennae: Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
+   Violation between Net Antennae: Track (63.9mm,49.892mm)(63.9mm,50.4mm) on Component Side 
+   Violation between Net Antennae: Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
+   Violation between Net Antennae: Track (80.267mm,63.627mm)(83.998mm,63.627mm) on Component Side 
+   Violation between Net Antennae: Track (82.931mm,16.637mm)(83.185mm,16.637mm) on Component Side 
+   Violation between Net Antennae: Track (82.931mm,16.637mm)(83.185mm,16.637mm) on Component Side 
+   Violation between Net Antennae: Track (84.765mm,67.359mm)(85.576mm,66.548mm) on Component Side 
+   Violation between Net Antennae: Track (96.716mm,6.096mm)(97.575mm,6.955mm) on Component Side 
+   Violation between Net Antennae: Via (99.949mm,11.43mm) from Component Side to Solder Side 
+Rule Violations :15
 
 Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
 Rule Violations :0
@@ -550,4 +553,4 @@ Rule Violations :0
 
 Violations Detected : 500
 Waived Violations : 0
-Time Elapsed        : 00:00:00
+Time Elapsed        : 00:00:01
