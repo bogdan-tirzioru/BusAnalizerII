@@ -1,84 +1,50 @@
 Protel Design System Design Rule Check
 PCB File : D:\gitRepo\BusAnalizerII\layout\busanalizer\busanaliz2.PcbDoc
-Date     : 11/6/2026
-Time     : 8:09:35 PM
+Date     : 11/7/2026
+Time     : 8:15:55 AM
 
 ERROR : More than 500 violations detected, DRC was stopped
 
 Processing Rule : Clearance Constraint (Gap=0.2mm) (All),(All)
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-17(64.389mm,50.927mm) on Component Side And Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
-   Violation between Clearance Constraint: (0.177mm < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (63.9mm,47.568mm)(63.9mm,49.892mm) on Component Side 
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (63.9mm,49.892mm)(63.9mm,50.4mm) on Component Side 
-   Violation between Clearance Constraint: (0.16mm < 0.2mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Track (42.164mm,43.815mm)(42.429mm,44.08mm) on Component Side 
-   Violation between Clearance Constraint: (0.025mm < 0.2mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Track (42.429mm,44.08mm)(46.412mm,44.08mm) on Component Side 
-   Violation between Clearance Constraint: (0.093mm < 0.2mm) Between Pad Free-35(43.078mm,43.637mm) on Component Side And Track (42.429mm,44.08mm)(46.412mm,44.08mm) on Component Side 
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-35(43.078mm,43.637mm) on Component Side And Track (43.078mm,43.637mm)(46.412mm,43.58mm) on Component Side 
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad Free-67(41.275mm,42.291mm) on Component Side And Track (41.275mm,42.291mm)(41.564mm,42.58mm) on Component Side 
-   Violation between Clearance Constraint: (0.059mm < 0.2mm) Between Pad Free-67(41.275mm,42.291mm) on Component Side And Track (41.564mm,42.58mm)(46.412mm,42.58mm) on Component Side 
-   Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad IC1-99(52.9mm,47.568mm) on Component Side And Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
-   Violation between Clearance Constraint: (0.137mm < 0.2mm) Between Pad IC4-12(102.362mm,19.075mm) on Solder Side And Via (101.143mm,18.517mm) from Component Side to Solder Side 
-   Violation between Clearance Constraint: (0.082mm < 0.2mm) Between Pad J1-A6(111.379mm,50.626mm) on Multi-Layer And Track (111.236mm,51.47mm)(112.014mm,50.692mm) on Solder Side 
-   Violation between Clearance Constraint: (0.043mm < 0.2mm) Between Pad J1-A7(111.379mm,51.476mm) on Multi-Layer And Track (111.164mm,50.62mm)(111.924mm,51.38mm) on Component Side 
-   Violation between Clearance Constraint: (0.143mm < 0.2mm) Between Pad J1-A7(111.379mm,51.476mm) on Multi-Layer And Track (111.924mm,51.38mm)(112.406mm,51.38mm) on Component Side 
    Violation between Clearance Constraint: (0.045mm < 0.2mm) Between Pad J3-10(1.725mm,64.336mm) on Component Side And Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer 
    Violation between Clearance Constraint: (Collision < 0.2mm) Between Pad J3-9(1.003mm,51.092mm) on Component Side And Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer 
    Violation between Clearance Constraint: (0.176mm < 0.2mm) Between Track (0.127mm,0.127mm)(0.127mm,70.993mm) on Keep-Out Layer And Track (1.003mm,51.092mm)(1.725mm,51.813mm) on Component Side 
-Rule Violations :18
+Rule Violations :3
 
 Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
-Rule Violations :0
+   Violation between Short-Circuit Constraint: Between Pad IC1-120(46.412mm,40.08mm) on Component Side And Track (41.962mm,40.08mm)(46.412mm,40.08mm) on Component Side Location : [X = 71.367mm][Y = 65.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-121(46.412mm,39.58mm) on Component Side And Track (41.631mm,39.58mm)(46.412mm,39.58mm) on Component Side Location : [X = 71.367mm][Y = 64.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-123(46.412mm,38.58mm) on Component Side And Track (41.049mm,38.58mm)(46.412mm,38.58mm) on Component Side Location : [X = 71.367mm][Y = 63.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-124(46.412mm,38.08mm) on Component Side And Track (40.533mm,38.08mm)(46.412mm,38.08mm) on Component Side Location : [X = 71.367mm][Y = 63.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-125(46.412mm,37.58mm) on Component Side And Track (40.017mm,37.58mm)(46.412mm,37.58mm) on Component Side Location : [X = 71.367mm][Y = 62.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-126(46.412mm,37.08mm) on Component Side And Track (40.255mm,37.08mm)(46.412mm,37.08mm) on Component Side Location : [X = 71.367mm][Y = 62.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-133(46.412mm,33.58mm) on Component Side And Track (44.017mm,33.58mm)(46.412mm,33.58mm) on Component Side Location : [X = 71.367mm][Y = 58.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-134(46.412mm,33.08mm) on Component Side And Track (42.612mm,33.08mm)(46.412mm,33.08mm) on Component Side Location : [X = 71.367mm][Y = 58.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-136(46.412mm,32.08mm) on Component Side And Track (44.399mm,32.08mm)(46.412mm,32.08mm) on Component Side Location : [X = 71.367mm][Y = 57.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-137(46.412mm,31.58mm) on Component Side And Track (43.858mm,31.58mm)(46.412mm,31.58mm) on Component Side Location : [X = 71.367mm][Y = 56.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-138(46.412mm,31.08mm) on Component Side And Track (43.215mm,31.08mm)(46.412mm,31.08mm) on Component Side Location : [X = 71.367mm][Y = 56.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-139(46.412mm,30.58mm) on Component Side And Track (42.826mm,30.58mm)(46.412mm,30.58mm) on Component Side Location : [X = 71.367mm][Y = 55.853mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-37(67.888mm,28.08mm) on Component Side And Track (67.888mm,28.08mm)(69.202mm,28.08mm) on Component Side Location : [X = 93.479mm][Y = 53.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-4(49.9mm,26.092mm) on Component Side And Track (49.9mm,22.49mm)(49.9mm,26.092mm) on Component Side Location : [X = 75.173mm][Y = 51.047mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-45(67.888mm,32.08mm) on Component Side And Track (67.888mm,32.08mm)(69.291mm,32.156mm) on Component Side Location : [X = 93.479mm][Y = 57.373mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-47(67.888mm,33.08mm) on Component Side And Track (67.888mm,33.08mm)(69.155mm,33.08mm) on Component Side Location : [X = 93.479mm][Y = 58.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-53(67.888mm,36.08mm) on Component Side And Track (67.888mm,36.08mm)(69.215mm,36.068mm) on Component Side Location : [X = 93.479mm][Y = 61.35mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-57(67.888mm,38.08mm) on Component Side And Track (67.888mm,38.08mm)(68.981mm,38.08mm) on Component Side Location : [X = 93.479mm][Y = 63.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-63(67.888mm,41.08mm) on Component Side And Track (67.888mm,41.08mm)(69.156mm,41.08mm) on Component Side Location : [X = 93.479mm][Y = 66.353mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-65(67.888mm,42.08mm) on Component Side And Track (67.888mm,42.08mm)(69.571mm,41.986mm) on Component Side Location : [X = 93.479mm][Y = 67.332mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-78(63.4mm,47.568mm) on Component Side And Track (63.4mm,47.568mm)(63.4mm,50.122mm) on Component Side Location : [X = 88.673mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-81(61.9mm,47.568mm) on Component Side And Track (61.9mm,47.568mm)(61.9mm,48.946mm) on Component Side Location : [X = 87.173mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-84(60.4mm,47.568mm) on Component Side And Track (60.4mm,47.568mm)(60.4mm,49.859mm) on Component Side Location : [X = 85.673mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-85(59.9mm,47.568mm) on Component Side And Track (59.9mm,47.568mm)(59.9mm,50.375mm) on Component Side Location : [X = 85.173mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-87(58.9mm,47.568mm) on Component Side And Track (58.9mm,47.568mm)(58.9mm,50.066mm) on Component Side Location : [X = 84.173mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-88(58.4mm,47.568mm) on Component Side And Track (58.4mm,47.568mm)(58.4mm,49.296mm) on Component Side Location : [X = 83.673mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-9(52.4mm,26.092mm) on Component Side And Track (52.4mm,22.709mm)(52.4mm,26.092mm) on Component Side Location : [X = 77.673mm][Y = 51.047mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-90(57.4mm,47.568mm) on Component Side And Track (57.4mm,47.568mm)(57.4mm,49.78mm) on Component Side Location : [X = 82.673mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-93(55.9mm,47.568mm) on Component Side And Track (55.9mm,47.568mm)(55.9mm,48.661mm) on Component Side Location : [X = 81.173mm][Y = 73.159mm]
+   Violation between Short-Circuit Constraint: Between Pad IC1-94(55.4mm,47.568mm) on Component Side And Track (55.4mm,47.568mm)(55.4mm,49.304mm) on Component Side Location : [X = 80.673mm][Y = 73.159mm]
+Rule Violations :30
 
 Processing Rule : Un-Routed Net Constraint ( (All) )
-   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad C10-1(90.321mm,37.484mm) on Solder Side And Pad X1-4(99.815mm,33.299mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad C1-1(90.678mm,12.156mm) on Solder Side And Pad IC4-4(92.812mm,12.725mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad R29-2(89.738mm,15.824mm) on Solder Side And Pad C1-1(90.678mm,12.156mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net DGND Between Pad C1-2(90.678mm,10.846mm) on Solder Side And Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad C40-1(105.105mm,8.546mm) on Solder Side And Pad C41-1(107.239mm,8.496mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad IC4-20(102.362mm,8.915mm) on Solder Side [Unplated] And Pad C40-1(105.105mm,8.546mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad C40-2(105.105mm,10.046mm) on Solder Side And Pad C41-2(107.239mm,9.996mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad IC4-19(102.362mm,10.185mm) on Solder Side [Unplated] And Pad C40-2(105.105mm,10.046mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_2 Between Pad C40-2(105.105mm,10.046mm) on Solder Side And Pad L4-1(105.664mm,12.561mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Pad L3-2(107.29mm,6.641mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad C47-1(107.772mm,14.187mm) on Solder Side And Pad C46-1(107.772mm,16.012mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad C47-2(107.772mm,12.687mm) on Solder Side And Pad C46-2(107.772mm,17.323mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] And Pad C46-2(107.772mm,17.323mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad C46-2(107.772mm,17.323mm) on Solder Side And Pad J5-3(111.457mm,21.26mm) on Multi-Layer 
-   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad L4-2(105.664mm,14.275mm) on Solder Side And Pad C47-1(107.772mm,14.187mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad L3-1(107.29mm,4.928mm) on Solder Side And Pad C47-2(107.772mm,12.687mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC9_2 Between Pad C9-2(83.312mm,35.712mm) on Component Side And Pad R6-1(84.709mm,31.775mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net FD1_CANRX Between Pad IC1-112(46.412mm,44.08mm) on Component Side [Unplated] And Pad IC4-5(92.812mm,13.995mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net FD1_CANTX Between Pad IC1-113(46.412mm,43.58mm) on Component Side [Unplated] And Pad IC4-7(92.812mm,16.535mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad IC1-115(46.412mm,42.58mm) on Component Side [Unplated] And Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net USB_EN_OSC Between Pad IC1-77(63.9mm,47.568mm) on Component Side [Unplated] And Pad X1-1(95.815mm,33.299mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net VDD18_1 Between Track (86.203mm,39.165mm)(86.203mm,39.664mm) on Component Side And Pad IC2-15(86.253mm,44.614mm) on Component Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net DGND Between Pad IC4-1(92.812mm,8.915mm) on Solder Side [Unplated] And Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net DGND Between Pad IC4-2(92.812mm,10.185mm) on Solder Side [Unplated] And Pad IC4-10(92.812mm,20.345mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net DGND Between Track (89.916mm,27.432mm)(91.364mm,28.88mm) on Solder Side And Pad IC4-10(92.812mm,20.345mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] And Pad IC4-11(102.362mm,20.345mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net GND Between Pad IC4-15(102.362mm,15.265mm) on Solder Side [Unplated] And Pad IC4-12(102.362mm,19.075mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net NetD4_2 Between Pad IC4-14(102.362mm,16.535mm) on Solder Side [Unplated] And Track (103.454mm,16.739mm)(105.435mm,16.739mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net GND Between Track (101.461mm,14.212mm)(102.235mm,14.212mm) on Component Side And Pad IC4-15(102.362mm,15.265mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net NetC46_1 Between Pad IC4-16(102.362mm,13.995mm) on Solder Side [Unplated] And Pad L4-2(105.664mm,14.275mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC40_1 Between Pad IC4-20(102.362mm,8.915mm) on Solder Side [Unplated] And Pad IC4-18(102.362mm,11.455mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net +5V Between Pad IC4-3(92.812mm,11.455mm) on Solder Side [Unplated] And Track (94.996mm,6.985mm)(96.266mm,8.255mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net +3V3 Between Pad IC4-4(92.812mm,12.725mm) on Solder Side [Unplated] And Pad R2-1(102.86mm,2.946mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad R29-1(89.738mm,17.739mm) on Solder Side And Pad IC4-8(92.812mm,17.805mm) on Solder Side [Unplated] 
-   Violation between Un-Routed Net Constraint: Net FD1_STBM Between Pad IC4-8(92.812mm,17.805mm) on Solder Side [Unplated] And Track (96.716mm,6.096mm)(97.575mm,6.955mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net USB_VBUS Between Pad J1-A4(111.379mm,48.926mm) on Multi-Layer And Pad J1-B9(112.729mm,48.926mm) on Multi-Layer 
-   Violation between Un-Routed Net Constraint: Net USB_VBUS Between Pad J1-B9(112.729mm,48.926mm) on Multi-Layer And Pad J1-B4(112.729mm,53.176mm) on Multi-Layer 
-   Violation between Un-Routed Net Constraint: Net NetC8_1 Between Pad J1-S1(115.739mm,46.726mm) on Multi-Layer And Pad J1-S2(115.739mm,55.376mm) on Multi-Layer 
-   Violation between Un-Routed Net Constraint: Net NetC8_1 Between Pad J1-S4(112.359mm,55.376mm) on Multi-Layer And Pad J1-S2(115.739mm,55.376mm) on Multi-Layer 
-   Violation between Un-Routed Net Constraint: Net RESET Between Pad J2-10(41.3mm,66.04mm) on Multi-Layer And Track (80.244mm,63.603mm)(80.267mm,63.627mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net USB_EN_OSC Between Pad X1-1(95.815mm,33.299mm) on Component Side And Pad R2-2(104.775mm,2.946mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net +3V3 Between Track (82.575mm,18.313mm)(83.058mm,18.796mm) on Solder Side And Pad R29-2(89.738mm,15.824mm) on Solder Side 
-   Violation between Un-Routed Net Constraint: Net NetC5_2 Between Track (88.773mm,31.217mm)(88.773mm,34.163mm) on Component Side And Pad R5-1(92.896mm,26.264mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net NetR5_2 Between Pad R5-2(93.904mm,26.264mm) on Component Side And Pad X1-3(99.815mm,28.219mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net NetC5_2 Between Pad R6-2(85.717mm,31.775mm) on Component Side And Track (88.773mm,31.217mm)(88.773mm,34.163mm) on Component Side 
-   Violation between Un-Routed Net Constraint: Net DGND Between Track (89.916mm,27.432mm)(91.364mm,28.88mm) on Solder Side And Pad X1-2(95.815mm,28.219mm) on Component Side 
-   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.115 sq. mm
-   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.163 sq. mm
-   Violation between Isolated copper: Split Plane  (DGND) on Ground Plane. Dead copper detected. Copper area is : 0.183 sq. mm
    Violation between Un-Routed Net Constraint: Track (39.802mm,40.221mm)(39.878mm,40.259mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (39.878mm,37.719mm)(40.017mm,37.58mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (39.878mm,38.735mm)(40.533mm,38.08mm) on Component Side Dead Copper - Net Not Assigned.
@@ -108,13 +74,75 @@ Processing Rule : Un-Routed Net Constraint ( (All) )
    Violation between Un-Routed Net Constraint: Track (42.418mm,33.274mm)(42.612mm,33.08mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (42.461mm,42.08mm)(46.412mm,42.08mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (42.545mm,41.021mm)(43.104mm,41.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.612mm,33.08mm)(46.412mm,33.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.672mm,30.734mm)(42.826mm,30.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.672mm,31.623mm)(43.215mm,31.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (42.826mm,30.58mm)(46.412mm,30.58mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (43.104mm,41.58mm)(46.412mm,41.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.215mm,31.08mm)(46.412mm,31.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.561mm,31.877mm)(43.858mm,31.58mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (43.688mm,33.909mm)(44.017mm,33.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.858mm,31.58mm)(46.412mm,31.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.942mm,27.559mm)(43.942mm,27.813mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (43.942mm,27.813mm)(45.209mm,29.08mm) on Component Side Dead Copper - Net Not Assigned.
    Violation between Un-Routed Net Constraint: Track (44.017mm,33.58mm)(46.412mm,33.58mm) on Component Side Dead Copper - Net Not Assigned.
-   Violation between Un-Routed Net Constraint: Net USB_PH_RESET Between Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side And Via (93.726mm,50.8mm) from Component Side to Solder Side 
-   Violation between Un-Routed Net Constraint: Net +5V Between Via (98.171mm,41.173mm) from Component Side to Solder Side And Via (102.616mm,41.402mm) from Component Side to Solder Side 
-   Violation between Un-Routed Net Constraint: Net +5V Between Via (33.401mm,9.271mm) from Component Side to Solder Side And Via (59.614mm,59.944mm) from Component Side to Solder Side 
-Rule Violations :84
+   Violation between Un-Routed Net Constraint: Track (44.399mm,32.08mm)(46.412mm,32.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (45.209mm,29.08mm)(46.412mm,29.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (49.9mm,22.49mm)(49.9mm,26.092mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (49.9mm,22.49mm)(50.165mm,22.225mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (50.4mm,23.26mm)(50.4mm,26.092mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (50.4mm,23.26mm)(51.181mm,22.479mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (52.07mm,22.479mm)(52.4mm,22.709mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (52.4mm,22.709mm)(52.4mm,26.092mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (55.4mm,47.568mm)(55.4mm,49.304mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (55.4mm,49.304mm)(55.753mm,49.657mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (55.9mm,47.568mm)(55.9mm,48.661mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (55.9mm,48.661mm)(56.388mm,49.149mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (56.261mm,50.673mm)(56.388mm,50.546mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (56.388mm,49.149mm)(56.388mm,50.546mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (56.9mm,47.568mm)(56.9mm,50.55mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (56.9mm,50.55mm)(57.15mm,50.8mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (57.4mm,47.568mm)(57.4mm,49.78mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (57.4mm,49.78mm)(58.09mm,50.8mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (58.141mm,49.403mm)(58.4mm,49.296mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (58.4mm,47.568mm)(58.4mm,49.296mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (58.774mm,50.077mm)(58.9mm,50.066mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (58.9mm,47.568mm)(58.9mm,50.066mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (59.309mm,50.927mm)(59.4mm,50.836mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (59.4mm,47.568mm)(59.4mm,50.836mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (59.9mm,47.568mm)(59.9mm,50.375mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (59.9mm,50.375mm)(60.452mm,50.927mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (60.4mm,47.568mm)(60.4mm,49.859mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (60.4mm,49.859mm)(61.468mm,50.927mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (60.9mm,47.568mm)(60.9mm,49.47mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (60.9mm,49.47mm)(61.976mm,50.546mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (61.4mm,47.568mm)(61.4mm,49.081mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (61.4mm,49.081mm)(62.103mm,49.784mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (61.976mm,50.546mm)(62.103mm,50.546mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (61.9mm,47.568mm)(61.9mm,48.946mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (61.9mm,48.946mm)(62.103mm,49.149mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.103mm,49.149mm)(62.865mm,49.149mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.103mm,49.784mm)(62.865mm,49.911mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.103mm,50.546mm)(62.484mm,50.546mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.984mm,50.538mm)(62.984mm,50.792mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.984mm,50.538mm)(63.4mm,50.122mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (62.984mm,50.792mm)(63.119mm,50.927mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (63.4mm,47.568mm)(63.4mm,50.122mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,28.08mm)(69.202mm,28.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,32.08mm)(69.291mm,32.156mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,33.08mm)(69.155mm,33.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,35.58mm)(69.068mm,35.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,36.08mm)(69.215mm,36.068mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,36.58mm)(68.957mm,36.58mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,38.08mm)(68.981mm,38.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,41.08mm)(69.156mm,41.08mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (67.888mm,42.08mm)(69.571mm,41.986mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (68.957mm,36.58mm)(69.215mm,36.957mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (68.981mm,38.08mm)(69.215mm,37.846mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (69.068mm,35.58mm)(69.215mm,35.179mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (69.155mm,33.08mm)(69.342mm,32.893mm) on Component Side Dead Copper - Net Not Assigned.
+   Violation between Un-Routed Net Constraint: Track (69.202mm,28.08mm)(69.469mm,27.813mm) on Component Side Dead Copper - Net Not Assigned.
+Rule Violations :97
 
 Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
 Rule Violations :0
@@ -147,11 +175,7 @@ Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (
    Violation between Starved Thermal on Ground Plane: Pad J1-B12(112.729mm,48.076mm) on Multi-Layer. Blocked 4 out of 4 entries.
    Violation between Starved Thermal on Ground Plane: Pad J2-3(45.11mm,67.31mm) on Multi-Layer. Blocked 2 out of 4 entries.
    Violation between Starved Thermal on Ground Plane: Pad J2-5(43.84mm,67.31mm) on Multi-Layer. Blocked 2 out of 4 entries.
-   Violation between Starved Thermal on Ground Plane: Via (86.614mm,42.215mm) from Component Side to Solder Side. Blocked 2 out of 4 entries.
-   Violation between Starved Thermal on Ground Plane: Via (87.503mm,42.316mm) from Component Side to Solder Side. Blocked 3 out of 4 entries.
-   Violation between Starved Thermal on Ground Plane: Via (87.503mm,43.307mm) from Component Side to Solder Side. Blocked 3 out of 4 entries.
-   Violation between Starved Thermal on Ground Plane: Via (88.392mm,42.24mm) from Component Side to Solder Side. Blocked 2 out of 4 entries.
-Rule Violations :10
+Rule Violations :6
 
 Processing Rule : Hole Size Constraint (Min=0.025mm) (Max=2.54mm) (All)
    Violation between Hole Size Constraint: (3.26mm > 2.54mm) Pad J4-10(5.941mm,18.657mm) on Multi-Layer Actual Hole Size = 3.26mm
@@ -168,7 +192,7 @@ Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
    Violation between Minimum Solder Mask Sliver Constraint: (0.205mm < 0.254mm) Between Pad C12-1(48.387mm,44.846mm) on Solder Side And Via (49.53mm,45.466mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.205mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.179mm < 0.254mm) Between Pad C17-1(50.434mm,14.986mm) on Component Side And Via (51.435mm,14.224mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.179mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.132mm < 0.254mm) Between Pad C18-1(52.385mm,14.986mm) on Component Side And Via (51.435mm,14.224mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.131mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.251mm < 0.254mm) Between Pad C26-1(85.344mm,46.34mm) on Solder Side And Via (84.201mm,45.593mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.251mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.037mm < 0.254mm) Between Pad C26-1(85.065mm,46.365mm) on Solder Side And Via (84.201mm,45.593mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.037mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.169mm < 0.254mm) Between Pad C39-2(63.856mm,37.592mm) on Solder Side And Via (62.865mm,38.354mm) from Component Side to Solder Side [Bottom Solder] Mask Sliver [0.169mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C40-1(105.105mm,8.546mm) on Solder Side And Pad C40-2(105.105mm,10.046mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Pad C41-2(107.239mm,9.996mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
@@ -176,18 +200,15 @@ Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C43-1(20.943mm,27.305mm) on Component Side And Pad C43-2(19.443mm,27.305mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C44-1(99.949mm,14.72mm) on Component Side And Pad C44-2(99.949mm,13.22mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Pad C45-2(102.235mm,14.212mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.224mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Pad D4-3(102.235mm,11.024mm) on Component Side [Top Solder] Mask Sliver [0.224mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C47-1(107.772mm,14.187mm) on Solder Side And Pad C47-2(107.772mm,12.687mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.249mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Pad D4-3(102.159mm,10.998mm) on Component Side [Top Solder] Mask Sliver [0.249mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C47-1(107.874mm,13.729mm) on Solder Side And Pad C47-2(107.874mm,12.229mm) on Solder Side [Bottom Solder] Mask Sliver [0.197mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.197mm < 0.254mm) Between Pad C8-1(111.328mm,44.526mm) on Component Side And Pad C8-2(112.828mm,44.526mm) on Component Side [Top Solder] Mask Sliver [0.197mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.015mm < 0.254mm) Between Pad Free-17(64.389mm,50.927mm) on Component Side And Pad Free-18(63.881mm,50.419mm) on Component Side [Top Solder] Mask Sliver [0.015mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.11mm < 0.254mm) Between Pad Free-18(63.881mm,50.419mm) on Component Side And Pad Free-20(63.373mm,51.054mm) on Component Side [Top Solder] Mask Sliver [0.11mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.059mm < 0.254mm) Between Pad Free-22(62.865mm,49.149mm) on Component Side And Pad Free-23(62.865mm,49.911mm) on Component Side [Top Solder] Mask Sliver [0.059mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.037mm < 0.254mm) Between Pad Free-23(62.865mm,49.911mm) on Component Side And Pad Free-24(62.484mm,50.546mm) on Component Side [Top Solder] Mask Sliver [0.037mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.222mm < 0.254mm) Between Pad Free-28(58.774mm,50.077mm) on Component Side And Pad Free-29(58.141mm,49.403mm) on Component Side [Top Solder] Mask Sliver [0.222mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.237mm < 0.254mm) Between Pad Free-30(58.09mm,50.8mm) on Component Side And Pad Free-31(57.15mm,50.8mm) on Component Side [Top Solder] Mask Sliver [0.237mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad Free-31(57.15mm,50.8mm) on Component Side And Pad Free-32(56.261mm,50.673mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.228mm < 0.254mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Pad Free-35(43.078mm,43.637mm) on Component Side [Top Solder] Mask Sliver [0.228mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.05mm < 0.254mm) Between Pad Free-34(42.164mm,43.815mm) on Component Side And Via (41.402mm,44.069mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.05mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.037mm < 0.254mm) Between Pad Free-34(41.676mm,44.044mm) on Component Side And Via (40.97mm,44.399mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.037mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.144mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-62(67.888mm,40.58mm) on Component Side [Top Solder] Mask Sliver [0.144mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.077mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-63(67.888mm,41.08mm) on Component Side [Top Solder] Mask Sliver [0.077mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.144mm < 0.254mm) Between Pad Free-39(69.156mm,41.08mm) on Component Side And Pad IC1-64(67.888mm,41.58mm) on Component Side [Top Solder] Mask Sliver [0.144mm]
@@ -212,6 +233,7 @@ Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
    Violation between Minimum Solder Mask Sliver Constraint: (0.221mm < 0.254mm) Between Pad Free-52(42.672mm,31.623mm) on Component Side And Pad Free-53(43.561mm,31.877mm) on Component Side [Top Solder] Mask Sliver [0.221mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.159mm < 0.254mm) Between Pad Free-53(43.561mm,31.877mm) on Component Side And Pad Free-54(44.399mm,32.08mm) on Component Side [Top Solder] Mask Sliver [0.159mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad Free-58(40.005mm,36.83mm) on Component Side And Pad Free-59(39.878mm,37.719mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.245mm < 0.254mm) Between Pad Free-58(40.005mm,36.83mm) on Component Side And Via (39.062mm,36.503mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.245mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Pad Free-60(39.878mm,38.735mm) on Component Side And Pad Free-62(40.386mm,39.497mm) on Component Side [Top Solder] Mask Sliver [0.213mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Pad Free-61(40.894mm,38.735mm) on Component Side And Pad Free-62(40.386mm,39.497mm) on Component Side [Top Solder] Mask Sliver [0.213mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.227mm < 0.254mm) Between Pad Free-62(40.386mm,39.497mm) on Component Side And Pad Free-63(39.802mm,40.221mm) on Component Side [Top Solder] Mask Sliver [0.227mm]
@@ -261,27 +283,18 @@ Processing Rule : Minimum Solder Mask Sliver (Gap=0.254mm) (All),(All)
    Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-6(4.349mm,61.474mm) on Component Side And Pad J3-7(4.552mm,62.566mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.076mm < 0.254mm) Between Pad J3-7(4.552mm,62.566mm) on Component Side And Pad J3-8(4.552mm,63.658mm) on Component Side [Top Solder] Mask Sliver [0.076mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R18-1(61.206mm,20.574mm) on Component Side And Pad R18-2(60.198mm,20.574mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.227mm < 0.254mm) Between Pad R20-1(89.982mm,51.054mm) on Component Side And Via (88.591mm,50.618mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.227mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.117mm < 0.254mm) Between Pad R30-1(17.145mm,26.604mm) on Component Side And Pad R38-2(17.145mm,28.245mm) on Component Side [Top Solder] Mask Sliver [0.117mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.233mm < 0.254mm) Between Pad R31-2(100.381mm,17.018mm) on Component Side And Via (101.143mm,18.517mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.233mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.016mm < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Via (101.143mm,18.517mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.016mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.132mm < 0.254mm) Between Pad R39-1(106.36mm,17.018mm) on Component Side And Via (106.731mm,18.415mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.132mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R5-1(92.896mm,26.264mm) on Component Side And Pad R5-2(93.904mm,26.264mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R6-1(84.709mm,31.775mm) on Component Side And Pad R6-2(85.717mm,31.775mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.198mm < 0.254mm) Between Pad R37-1(105.08mm,14.26mm) on Component Side And Via (104.877mm,15.621mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.198mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.183mm < 0.254mm) Between Pad R39-2(104.597mm,17.069mm) on Component Side And Via (104.877mm,15.621mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.183mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R5-1(96.985mm,25.781mm) on Component Side And Pad R5-2(97.993mm,25.781mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
+   Violation between Minimum Solder Mask Sliver Constraint: (0.195mm < 0.254mm) Between Pad R6-1(84.666mm,31.369mm) on Component Side And Pad R6-2(85.674mm,31.369mm) on Component Side [Top Solder] Mask Sliver [0.195mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.03mm < 0.254mm) Between Pad USB1-D-(55.072mm,65.913mm) on Component Side And Pad USB1-D+(54.432mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.03mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.05mm < 0.254mm) Between Pad USB1-D-(55.072mm,65.913mm) on Component Side And Pad USB1-V(55.732mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.05mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.051mm < 0.254mm) Between Pad USB1-D+(54.432mm,65.913mm) on Component Side And Pad USB1-ID(53.772mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.051mm]
    Violation between Minimum Solder Mask Sliver Constraint: (0.051mm < 0.254mm) Between Pad USB1-GND(53.111mm,65.913mm) on Component Side And Pad USB1-ID(53.772mm,65.913mm) on Component Side [Top Solder] Mask Sliver [0.051mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.111mm < 0.254mm) Between Via (86.589mm,43.307mm) from Component Side to Solder Side And Via (87.503mm,43.307mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.111mm] / [Bottom Solder] Mask Sliver [0.111mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.213mm < 0.254mm) Between Via (86.614mm,41.199mm) from Component Side to Solder Side And Via (86.614mm,42.215mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.213mm] / [Bottom Solder] Mask Sliver [0.213mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.138mm < 0.254mm) Between Via (86.614mm,41.199mm) from Component Side to Solder Side And Via (87.554mm,41.148mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.138mm] / [Bottom Solder] Mask Sliver [0.138mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.092mm < 0.254mm) Between Via (86.614mm,42.215mm) from Component Side to Solder Side And Via (87.503mm,42.316mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.092mm] / [Bottom Solder] Mask Sliver [0.092mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.187mm < 0.254mm) Between Via (87.503mm,42.316mm) from Component Side to Solder Side And Via (87.503mm,43.307mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.187mm] / [Bottom Solder] Mask Sliver [0.187mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.089mm < 0.254mm) Between Via (87.503mm,42.316mm) from Component Side to Solder Side And Via (88.392mm,42.24mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.089mm] / [Bottom Solder] Mask Sliver [0.089mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.114mm < 0.254mm) Between Via (87.503mm,43.307mm) from Component Side to Solder Side And Via (88.417mm,43.231mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.114mm] / [Bottom Solder] Mask Sliver [0.114mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.062mm < 0.254mm) Between Via (87.554mm,41.148mm) from Component Side to Solder Side And Via (88.417mm,41.199mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.062mm] / [Bottom Solder] Mask Sliver [0.062mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.239mm < 0.254mm) Between Via (88.392mm,42.24mm) from Component Side to Solder Side And Via (88.417mm,41.199mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.239mm] / [Bottom Solder] Mask Sliver [0.239mm]
-   Violation between Minimum Solder Mask Sliver Constraint: (0.188mm < 0.254mm) Between Via (88.392mm,42.24mm) from Component Side to Solder Side And Via (88.417mm,43.231mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.188mm] / [Bottom Solder] Mask Sliver [0.188mm]
-Rule Violations :117
+   Violation between Minimum Solder Mask Sliver Constraint: (0.009mm < 0.254mm) Between Via (93.467mm,46.522mm) from Component Side to Solder Side And Via (94.19mm,46.892mm) from Component Side to Solder Side [Top Solder] Mask Sliver [0.009mm] / [Bottom Solder] Mask Sliver [0.009mm]
+Rule Violations :106
 
 Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Arc (40.019mm,25.477mm) on Top Overlay And Pad S1-1(38.969mm,25.527mm) on Component Side [Top Overlay] to [Top Solder] clearance [0.25mm]
@@ -293,17 +306,19 @@ Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C22-1(94.615mm,60.413mm) on Component Side And Text "C22" (93.599mm,63.754mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.067mm < 0.254mm) Between Pad C38-1(65.532mm,44.973mm) on Solder Side And Text "C38" (63.881mm,42.545mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.067mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.067mm < 0.254mm) Between Pad C38-2(65.532mm,43.663mm) on Solder Side And Text "C38" (63.881mm,42.545mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.067mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.189mm < 0.254mm) Between Pad C40-2(105.105mm,10.046mm) on Solder Side And Text "L4" (107.488mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.189mm]
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C41-1(107.239mm,8.496mm) on Solder Side And Text "L3" (109.068mm,8.026mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C41-2(107.239mm,9.996mm) on Solder Side And Text "L3" (109.068mm,8.026mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.181mm < 0.254mm) Between Pad C41-2(107.239mm,9.996mm) on Solder Side And Text "L4" (108.148mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.181mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C45-2(102.235mm,14.212mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-1(107.772mm,16.012mm) on Solder Side And Text "C47" (107.501mm,15.126mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-2(107.772mm,17.323mm) on Solder Side And Text "C47" (107.501mm,15.126mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.156mm < 0.254mm) Between Pad C47-2(107.772mm,12.687mm) on Solder Side And Text "L4" (108.148mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.156mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.181mm < 0.254mm) Between Pad C41-2(107.239mm,9.996mm) on Solder Side And Text "L4" (107.488mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.181mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.104mm < 0.254mm) Between Pad C45-1(102.235mm,12.712mm) on Component Side And Text "C45" (104.165mm,12.319mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.104mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.104mm < 0.254mm) Between Pad C45-2(102.235mm,14.212mm) on Component Side And Text "C45" (104.165mm,12.319mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.104mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-1(108.483mm,15.403mm) on Solder Side And Text "C47" (107.603mm,14.669mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C46-2(108.483mm,16.713mm) on Solder Side And Text "C47" (107.603mm,14.669mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad C47-2(107.874mm,12.229mm) on Solder Side And Text "L4" (107.488mm,10.854mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D3-1(24.976mm,26.863mm) on Component Side And Track (23.216mm,26.391mm)(24.028mm,26.391mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D3-2(24.976mm,28.778mm) on Component Side And Track (23.216mm,29.235mm)(24.028mm,29.235mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-1(101.285mm,8.806mm) on Component Side And Track (100.813mm,9.754mm)(100.813mm,10.566mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-2(103.2mm,8.806mm) on Component Side And Track (103.657mm,9.754mm)(103.657mm,10.566mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-1(101.209mm,8.781mm) on Component Side And Track (100.736mm,9.728mm)(100.736mm,10.541mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.16mm < 0.254mm) Between Pad D4-2(103.124mm,8.781mm) on Component Side And Track (103.581mm,9.728mm)(103.581mm,10.541mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.16mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-1(48.4mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-10(52.9mm,26.092mm) on Component Side And Track (47.5mm,27.18mm)(66.8mm,27.18mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC1-100(52.4mm,47.568mm) on Component Side And Track (47.5mm,46.48mm)(66.8mm,46.48mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.25mm]
@@ -464,9 +479,7 @@ Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-20(102.362mm,8.915mm) on Solder Side And Track (101.162mm,6.928mm)(101.162mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-3(92.812mm,11.455mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-4(92.812mm,12.725mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad IC4-5(92.812mm,13.995mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-5(92.812mm,13.995mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad IC4-6(92.812mm,15.265mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-6(92.812mm,15.265mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-7(92.812mm,16.535mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.25mm < 0.254mm) Between Pad IC4-8(92.812mm,17.805mm) on Solder Side And Track (94.012mm,6.928mm)(94.012mm,22.332mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.25mm]
@@ -484,21 +497,19 @@ Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R17-2(107.099mm,39.878mm) on Component Side And Track (106.299mm,39.328mm)(106.299mm,40.428mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R19-1(10.452mm,11.303mm) on Component Side And Track (9.652mm,10.753mm)(9.652mm,11.853mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.2mm < 0.254mm) Between Pad R19-2(8.852mm,11.303mm) on Component Side And Track (9.652mm,10.753mm)(9.652mm,11.853mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.2mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.127mm < 0.254mm) Between Pad R2-2(97.968mm,35.941mm) on Component Side And Text "R13" (94.742mm,36.83mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.127mm]
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R28-1(21.778mm,20.462mm) on Component Side And Text "R28" (22.479mm,20.447mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.001mm < 0.254mm) Between Pad R29-2(89.738mm,15.824mm) on Solder Side And Text "C1" (92.405mm,13.767mm) on Bottom Overlay [Bottom Overlay] to [Bottom Solder] clearance [0.001mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R31-1(102.296mm,17.018mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Text "R31" (99.593mm,18.796mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Text "R31" (99.517mm,18.847mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.127mm < 0.254mm) Between Pad R33-1(102.362mm,19.497mm) on Component Side And Text "R33" (101.346mm,19.939mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.127mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.127mm < 0.254mm) Between Pad R33-2(102.362mm,21.412mm) on Component Side And Text "R33" (101.346mm,19.939mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.127mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.168mm < 0.254mm) Between Pad R36-1(20.386mm,25.199mm) on Component Side And Text "C43" (19.431mm,23.495mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.168mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.216mm < 0.254mm) Between Pad R37-1(104.864mm,13.65mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.216mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.057mm < 0.254mm) Between Pad R39-1(106.36mm,17.018mm) on Component Side And Text "R39" (108.204mm,16.002mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.057mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R39-2(104.445mm,17.018mm) on Component Side And Text "C45" (103.759mm,13.716mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.025mm < 0.254mm) Between Pad R37-1(105.08mm,14.26mm) on Component Side And Text "C45" (104.165mm,12.319mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.025mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.025mm < 0.254mm) Between Pad R37-2(105.08mm,12.344mm) on Component Side And Text "C45" (104.165mm,12.319mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.025mm]
+   Violation between Silk To Solder Mask Clearance Constraint: (0.057mm < 0.254mm) Between Pad R39-1(106.512mm,17.069mm) on Component Side And Text "R39" (108.356mm,16.053mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.057mm]
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R4-1(112.837mm,58.039mm) on Component Side And Text "J1" (113.056mm,57.963mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.153mm < 0.254mm) Between Pad R4-1(112.837mm,58.039mm) on Component Side And Text "R4" (110.694mm,55.474mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.153mm]
    Violation between Silk To Solder Mask Clearance Constraint: (Collision < 0.254mm) Between Pad R4-2(110.922mm,58.039mm) on Component Side And Text "L1" (109.087mm,57.057mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.153mm < 0.254mm) Between Pad R4-2(110.922mm,58.039mm) on Component Side And Text "R4" (110.694mm,55.474mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.153mm]
-   Violation between Silk To Solder Mask Clearance Constraint: (0.102mm < 0.254mm) Between Pad R6-1(84.709mm,31.775mm) on Component Side And Text "R6" (83.889mm,29.667mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.102mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-1(79.781mm,58.979mm) on Multi-Layer And Track (78.994mm,60.071mm)(78.994mm,60.96mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-2(79.781mm,65.481mm) on Multi-Layer And Track (78.994mm,63.5mm)(78.994mm,64.389mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.016mm < 0.254mm) Between Pad S2-3(84.303mm,58.979mm) on Multi-Layer And Track (85.09mm,60.071mm)(85.09mm,60.96mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.016mm]
@@ -517,35 +528,24 @@ Processing Rule : Silk To Solder Mask (Clearance=0.254mm) (IsPad),(All)
    Violation between Silk To Solder Mask Clearance Constraint: (0.048mm < 0.254mm) Between Pad USB1-PAD6(50.419mm,68.583mm) on Component Side And Track (50.673mm,67.011mm)(50.673mm,67.519mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.048mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.122mm < 0.254mm) Between Pad USB1-V(55.732mm,65.913mm) on Component Side And Text "V" (55.702mm,65.106mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.122mm]
    Violation between Silk To Solder Mask Clearance Constraint: (0.021mm < 0.254mm) Between Pad USB1-V(55.732mm,65.913mm) on Component Side And Track (56.02mm,65.783mm)(56.401mm,65.783mm) on Top Overlay [Top Overlay] to [Top Solder] clearance [0.021mm]
-Rule Violations :233
+Rule Violations :231
 
 Processing Rule : Silk to Silk (Clearance=0.254mm) (All),(All)
    Violation between Silk To Silk Clearance Constraint: (0.088mm < 0.254mm) Between Arc (33.096mm,64.922mm) on Top Overlay And Text "BoTi" (29.947mm,64.16mm) on Top Overlay Silk Text to Silk Clearance [0.088mm]
-   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "5" (108.002mm,16.22mm) on Top Overlay And Text "R39" (108.204mm,16.002mm) on Top Overlay Silk Text to Silk Clearance [0mm]
+   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "5" (108.002mm,16.22mm) on Top Overlay And Text "R39" (108.356mm,16.053mm) on Top Overlay Silk Text to Silk Clearance [0mm]
    Violation between Silk To Silk Clearance Constraint: (0.106mm < 0.254mm) Between Text "C42" (19.558mm,30.988mm) on Top Overlay And Text "R38" (16.532mm,31.369mm) on Top Overlay Silk Text to Silk Clearance [0.106mm]
    Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "C43" (19.431mm,23.495mm) on Top Overlay And Text "R30" (16.256mm,22.606mm) on Top Overlay Silk Text to Silk Clearance [0mm]
    Violation between Silk To Silk Clearance Constraint: (0.026mm < 0.254mm) Between Text "L1" (109.087mm,57.057mm) on Top Overlay And Text "R4" (110.694mm,55.474mm) on Top Overlay Silk Text to Silk Clearance [0.026mm]
    Violation between Silk To Silk Clearance Constraint: (0.158mm < 0.254mm) Between Text "R12" (41.758mm,58.511mm) on Top Overlay And Text "R7" (39.68mm,58.504mm) on Top Overlay Silk Text to Silk Clearance [0.158mm]
-   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "R31" (99.593mm,18.796mm) on Top Overlay And Text "R33" (101.346mm,19.939mm) on Top Overlay Silk Text to Silk Clearance [0mm]
+   Violation between Silk To Silk Clearance Constraint: (Collision < 0.254mm) Between Text "R31" (99.517mm,18.847mm) on Top Overlay And Text "R33" (101.346mm,19.939mm) on Top Overlay Silk Text to Silk Clearance [0mm]
 Rule Violations :7
 
 Processing Rule : Net Antennae (Tolerance=0mm) (All)
-   Violation between Net Antennae: Track (101.448mm,18.009mm)(103.454mm,18.009mm) on Solder Side 
-   Violation between Net Antennae: Track (103.454mm,16.739mm)(105.435mm,16.739mm) on Solder Side 
    Violation between Net Antennae: Track (103.771mm,22.251mm)(104.775mm,21.247mm) on Component Side 
-   Violation between Net Antennae: Track (41.275mm,42.291mm)(41.564mm,42.58mm) on Component Side 
-   Violation between Net Antennae: Track (42.164mm,43.815mm)(42.429mm,44.08mm) on Component Side 
-   Violation between Net Antennae: Track (43.078mm,43.637mm)(46.412mm,43.58mm) on Component Side 
-   Violation between Net Antennae: Track (52.9mm,47.568mm)(52.9mm,52.256mm) on Component Side 
-   Violation between Net Antennae: Track (63.9mm,49.892mm)(63.9mm,50.4mm) on Component Side 
-   Violation between Net Antennae: Track (64.389mm,50.927mm)(64.4mm,47.568mm) on Component Side 
-   Violation between Net Antennae: Track (80.267mm,63.627mm)(83.998mm,63.627mm) on Component Side 
    Violation between Net Antennae: Track (82.931mm,16.637mm)(83.185mm,16.637mm) on Component Side 
    Violation between Net Antennae: Track (82.931mm,16.637mm)(83.185mm,16.637mm) on Component Side 
-   Violation between Net Antennae: Track (84.765mm,67.359mm)(85.576mm,66.548mm) on Component Side 
-   Violation between Net Antennae: Track (96.716mm,6.096mm)(97.575mm,6.955mm) on Component Side 
-   Violation between Net Antennae: Via (99.949mm,11.43mm) from Component Side to Solder Side 
-Rule Violations :15
+   Violation between Net Antennae: Track (84.86mm,67.188mm)(85.5mm,66.548mm) on Component Side 
+Rule Violations :4
 
 Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
 Rule Violations :0
