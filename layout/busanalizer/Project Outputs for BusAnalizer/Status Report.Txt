@@ -1,13 +1,10 @@
-Output: NC Drill Files
-Type  : NC Drill
+Output: Report Board Stack
+Type  : Report Board Stack
 From  : Project [BusAnalizer.PrjPCB]
-   Generated File[busanaliz2-RoundHoles.TXT]
-   Generated File[busanaliz2-SlotHoles.TXT]
-   Generated File[busanaliz2.LDP]
-   Generated File[busanaliz2.DRR]
+   Generated File[busanaliz2.xls]
 
 
-Files Generated   : 4
+Files Generated   : 1
 Documents Printed : 0
 
-Finished Output Generation At 8:34:39 AM On 11/7/2026
+Finished Output Generation At 11:17:48 AM On 11/11/2026

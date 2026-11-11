@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------
-Gerber File Extension Report For: busanaliz2.GBR   11/7/2026  8:33:41 AM
+Gerber File Extension Report For: busanaliz2.GBR   11/11/2026  11:15:38 AM
 ------------------------------------------------------------------------------------------
 
 
@@ -19,18 +19,6 @@ Layer Extension     Layer Description
 .gbr                Top Paste                               
 .gbr                Top Solder                              
 .gbr                Keep-Out Layer                          
-.gbr                Mechanical 27                           
-.gbr                Mechanical 37                           
-.gbr                Mechanical 16                           
-.gbr                Mechanical 1                            
-.gbr                Mechanical 3                            
-.gbr                Mechanical 7                            
-.gbr                Mechanical 15                           
-.gbr                Mechanical 13                           
-.gbr                Mechanical 6                            
-.gbr                Mechanical 5                            
-.gbr                Mechanical 25                           
-.gbr                Profile                                 
 .gbr                Non-plated through-hole drill file      
 .gbr                Plated through-hole drill file          
 .gbr                Drill Drawing                           

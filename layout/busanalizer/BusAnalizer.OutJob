@@ -145,7 +145,7 @@ Configuration1_Item1=Record=SchPrintView|ShowNoERC=True|ShowParamSet=True|ShowPr
 OutputType2=BOM_PartType
 OutputName2=Bill of Materials
 OutputCategory2=Report
-OutputDocumentPath2=
+OutputDocumentPath2=BusAnalizer.BomDoc
 OutputVariantName2=[No Variations]
 OutputEnabled2=1
 OutputEnabled2_OutputMedium1=0

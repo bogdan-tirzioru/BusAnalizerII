@@ -140,13 +140,13 @@ Used DCodes :
     D10
     D11
     D12
-    D24
-    D25
+    D13
+    D14
     D34
     D46
     D47
     D48
-    D51
+    D49
     D52
     D54
     D55
@@ -176,8 +176,8 @@ Used DCodes :
     D10
     D11
     D12
-    D24
-    D25
+    D13
+    D14
     D34
     D54
     D55
@@ -266,8 +266,8 @@ Used DCodes :
     D10
     D11
     D12
-    D24
-    D25
+    D13
+    D14
     D34
     D85
 *************************************************************
@@ -280,7 +280,7 @@ Generating : Bottom Overlay
 
 
 Used DCodes :
-    D50
+    D51
     D86
 *************************************************************
 
@@ -325,7 +325,7 @@ Generating : Top Overlay
 
 
 Used DCodes :
-    D50
+    D51
     D86
     D106
     D107
@@ -458,178 +458,6 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
-Generating : Mechanical 27
-      File : busanaliz2_Mechanical_27.gbr
-
-    Adding Layer      : Mechanical 27
-
-
-Used DCodes :
-    D111
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 37
-      File : busanaliz2_Mechanical_37.gbr
-
-    Adding Layer      : Mechanical 37
-
-
-Used DCodes :
-    D109
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 16
-      File : busanaliz2_Mechanical_16.gbr
-
-    Adding Layer      : Mechanical 16
-
-
-Used DCodes :
-    D107
-    D109
-    D111
-    D143
-    D144
-    D145
-    D146
-    D147
-    D148
-    D149
-    D150
-    D151
-    D152
-    D153
-    D154
-    D155
-    D156
-    D157
-    D158
-    D159
-    D160
-    D161
-    D162
-    D163
-    D164
-    D165
-    D166
-    D167
-    D168
-    D169
-    D170
-    D171
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 1
-      File : busanaliz2_Mechanical_1.gbr
-
-    Adding Layer      : Mechanical 1
-
-
-Used DCodes :
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 3
-      File : busanaliz2_Mechanical_3.gbr
-
-    Adding Layer      : Mechanical 3
-
-
-Used DCodes :
-    D172
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 7
-      File : busanaliz2_Mechanical_7.gbr
-
-    Adding Layer      : Mechanical 7
-
-
-Used DCodes :
-    D173
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 15
-      File : busanaliz2_Mechanical_15.gbr
-
-    Adding Layer      : Mechanical 15
-
-
-Used DCodes :
-    D106
-    D109
-    D174
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 13
-      File : busanaliz2_Mechanical_13.gbr
-
-    Adding Layer      : Mechanical 13
-
-
-Used DCodes :
-    D50
-    D86
-    D106
-    D175
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 6
-      File : busanaliz2_Mechanical_6.gbr
-
-    Adding Layer      : Mechanical 6
-
-
-Used DCodes :
-    D176
-    D177
-    D178
-    D179
-    D180
-    D181
-    D182
-    D183
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 5
-      File : busanaliz2_Mechanical_5.gbr
-
-    Adding Layer      : Mechanical 5
-
-
-Used DCodes :
-*************************************************************
-
-*************************************************************
-Generating : Mechanical 25
-      File : busanaliz2_Mechanical_25.gbr
-
-    Adding Layer      : Mechanical 25
-
-
-Used DCodes :
-    D86
-    D175
-*************************************************************
-
-*************************************************************
-Generating : Profile
-      File : busanaliz2_Profile.gbr
-
-
-Used DCodes :
-    D184
-*************************************************************
-
-*************************************************************
 Generating : Non-plated through-hole drill file
       File : busanaliz2_NPTH_Drill.gbr
 
@@ -643,17 +471,17 @@ Generating : Plated through-hole drill file
 
 
 Used DCodes :
-    D185
-    D186
-    D187
-    D188
-    D189
-    D190
-    D191
-    D192
-    D193
-    D194
-    D195
+    D143
+    D144
+    D145
+    D146
+    D147
+    D148
+    D149
+    D150
+    D151
+    D152
+    D153
 *************************************************************
 
 *************************************************************
@@ -667,8 +495,8 @@ Generating : Drill Drawing
 
 Used DCodes :
     D107
-    D143
-    D196
+    D154
+    D155
 *************************************************************
 
 *************************************************************

@@ -133,36 +133,104 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[GeneratedDocument1]
-DocumentPath=Project Outputs for BusAnalizer\BOM\Bill of Materials-busanalizer.xlsx
+[Document6]
+DocumentPath=CAMtastic3.Cam
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
 DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
 
-[GeneratedDocument2]
+[Document7]
+DocumentPath=CAMtastic4.Cam
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
+
+[Document8]
+DocumentPath=CAMtastic5.Cam
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
+
+[Document9]
+DocumentPath=Project Outputs for BusAnalizer\BusAnalizer.BomDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=
+
+[GeneratedDocument1]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2-RoundHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument3]
+[GeneratedDocument2]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2-SlotHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument4]
+[GeneratedDocument3]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2.DRR
 DItemRevisionGUID=
 
-[GeneratedDocument5]
+[GeneratedDocument4]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2.EXTREP
 DItemRevisionGUID=
 
-[GeneratedDocument6]
+[GeneratedDocument5]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2.LDP
 DItemRevisionGUID=
 
-[GeneratedDocument7]
+[GeneratedDocument6]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2.REP
 DItemRevisionGUID=
 
-[GeneratedDocument8]
+[GeneratedDocument7]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2.RUL
+DItemRevisionGUID=
+
+[GeneratedDocument8]
+DocumentPath=Project Outputs for BusAnalizer\busanaliz2.xls
 DItemRevisionGUID=
 
 [GeneratedDocument9]
@@ -202,175 +270,35 @@ DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Legend_Top.gbr
 DItemRevisionGUID=
 
 [GeneratedDocument18]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_1.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument19]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_3.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument20]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_5.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument21]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_6.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument22]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_7.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument23]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_13.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument24]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_15.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument25]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_16.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument26]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_25.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument27]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_27.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument28]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Mechanical_37.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument29]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_NPTH_Drill.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument30]
+[GeneratedDocument19]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Pads_Bot.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument31]
+[GeneratedDocument20]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Pads_Top.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument32]
+[GeneratedDocument21]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Paste_Bot.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument33]
+[GeneratedDocument22]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Paste_Top.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument34]
-DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Profile.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument35]
+[GeneratedDocument23]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_PTH_Drill.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument36]
+[GeneratedDocument24]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Soldermask_Bot.gbr
 DItemRevisionGUID=
 
-[GeneratedDocument37]
+[GeneratedDocument25]
 DocumentPath=Project Outputs for BusAnalizer\busanaliz2_Soldermask_Top.gbr
-DItemRevisionGUID=
-
-[GeneratedDocument38]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument39]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument40]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument41]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument42]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument43]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GKO
-DItemRevisionGUID=
-
-[GeneratedDocument44]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM1
-DItemRevisionGUID=
-
-[GeneratedDocument45]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM6
-DItemRevisionGUID=
-
-[GeneratedDocument46]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM13
-DItemRevisionGUID=
-
-[GeneratedDocument47]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM15
-DItemRevisionGUID=
-
-[GeneratedDocument48]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM16
-DItemRevisionGUID=
-
-[GeneratedDocument49]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM27
-DItemRevisionGUID=
-
-[GeneratedDocument50]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GM37
-DItemRevisionGUID=
-
-[GeneratedDocument51]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GPB
-DItemRevisionGUID=
-
-[GeneratedDocument52]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GPT
-DItemRevisionGUID=
-
-[GeneratedDocument53]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument54]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument55]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument56]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument57]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.REP
-DItemRevisionGUID=
-
-[GeneratedDocument58]
-DocumentPath=Project Outputs for BusAnalizer\Gerber\busanaliz.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument59]
-DocumentPath=Project Outputs for BusAnalizer\Design Rule Check - busanaliz2.html
-DItemRevisionGUID=
-
-[GeneratedDocument60]
-DocumentPath=Project Outputs for BusAnalizer\Design Rule Check - busanaliz.html
 DItemRevisionGUID=
 
 [SearchPath1]
@@ -687,6 +615,10 @@ OutputDocumentPath3=
 OutputVariantName3=
 OutputDefault3=0
 PageOptions3=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=Letter|PaperIndex=1
+Configuration3_Name1=ForceUpdateSettings
+Configuration3_Item1=False
+Configuration3_Name2=OutputConfigurationParameter1
+Configuration3_Item2=Record=LayerStackReportView|Units=Imperial|ColumnsCount=4|Column0Name=Name|Column0Title=Name|Column0Visible=True|Column1Name=Material|Column1Title=Material|Column1Visible=True|Column2Name=Thickness|Column2Title=Thickness|Column2Visible=True|Column3Name=Constant|Column3Title=Constant|Column3Visible=True|DocumentPath=D:\gitRepo\BusAnalizerII\layout\busanalizer\busanaliz2.PcbDoc
 OutputType4=Final
 OutputName4=Final Artwork Prints
 OutputDocumentPath4=
@@ -701,7 +633,7 @@ OutputDefault5=0
 Configuration5_Name1=ForceUpdateSettings
 Configuration5_Item1=False
 Configuration5_Name2=OutputConfigurationParameter1
-Configuration5_Item2=FileComment= |FileSubject=Autodetect|GenerateDRCRulesFile=True|GenerateReports=True|GerberUnit=Metric|IncludeUnconnectedMidLayerPads=True|MergePadAndRegion=False|MinusApertureTolerance=39|NumberOfDecimals=5|OptimizeChangeLocationCommands=True|PlotBackDrillingPairs=False|PlotBlindViasPairs=False|PlotBoardProfile=True|PlotCounterHolesPairs=False|PlotDrillDrawingPair0_Backdrill=False|PlotDrillDrawingPair0_DrillType=Regular|PlotDrillDrawingPair0_HighLayer=Bottom Layer|PlotDrillDrawingPair0_LowLayer=Top Layer|PlotDrillDrawingPairs=False|PlotDrillGuidePair0_Backdrill=False|PlotDrillGuidePair0_DrillType=Regular|PlotDrillGuidePair0_HighLayer=Bottom Layer|PlotDrillGuidePair0_LowLayer=Top Layer|PlotDrillGuidePairs=False|PlotMicroViasPairs=False|PlotNPTHPair0_Backdrill=False|PlotNPTHPair0_DrillType=Regular|PlotNPTHPair0_HighLayer=Top Layer|PlotNPTHPair0_LowLayer=Bottom Layer|PlotNPTHPairs=False|PlotPTHPair0_Backdrill=False|PlotPTHPair0_DrillType=Regular|PlotPTHPair0_HighLayer=Top Layer|PlotPTHPair0_LowLayer=Bottom Layer|PlotPTHPairs=False|PlotViaTypeDrillDrawingPairs=False|PlotViaTypeDrillGuidePairs=False|PlotViaTypeDrillPairs=False|PlotX2.Set=SerializeLayerHash.Version~2,ClassName~TPlotLayerStateArray,16777217~1,16842754~1,16908315~1,16908325~1,16973833~1,16908304~1,16908289~1,16908291~1,16973837~1,16973848~1,16908295~1,16908303~1,16908301~1,16973831~1,16973849~1,16908294~1,16973835~1,16973830~1,16973832~1,16842751~1,16908293~1,16973834~1,16842753~1,16908313~1|PlusApertureTolerance=39|Record=GerberX2View|Sorted=False|DocumentPath=D:\gitRepo\BusAnalizerII\layout\busanalizer\busanaliz2.PcbDoc
+Configuration5_Item2=FileComment= |FileSubject=Autodetect|GenerateDRCRulesFile=True|GenerateReports=True|GerberUnit=Metric|IncludeUnconnectedMidLayerPads=True|MergePadAndRegion=False|MinusApertureTolerance=39|NumberOfDecimals=4|OptimizeChangeLocationCommands=True|PlotBackDrillingPairs=False|PlotBlindViasPairs=False|PlotBoardProfile=False|PlotCounterHolesPairs=False|PlotDrillDrawingPair0_Backdrill=False|PlotDrillDrawingPair0_DrillType=Regular|PlotDrillDrawingPair0_HighLayer=Bottom Layer|PlotDrillDrawingPair0_LowLayer=Top Layer|PlotDrillDrawingPairs=False|PlotDrillGuidePair0_Backdrill=False|PlotDrillGuidePair0_DrillType=Regular|PlotDrillGuidePair0_HighLayer=Bottom Layer|PlotDrillGuidePair0_LowLayer=Top Layer|PlotDrillGuidePairs=False|PlotMicroViasPairs=False|PlotNPTHPair0_Backdrill=False|PlotNPTHPair0_DrillType=Regular|PlotNPTHPair0_HighLayer=Top Layer|PlotNPTHPair0_LowLayer=Bottom Layer|PlotNPTHPairs=False|PlotPTHPair0_Backdrill=False|PlotPTHPair0_DrillType=Regular|PlotPTHPair0_HighLayer=Top Layer|PlotPTHPair0_LowLayer=Bottom Layer|PlotPTHPairs=False|PlotViaTypeDrillDrawingPairs=False|PlotViaTypeDrillGuidePairs=False|PlotViaTypeDrillPairs=False|PlotX2.Set=SerializeLayerHash.Version~2,ClassName~TPlotLayerStateArray,16777217~1,16842754~1,16973833~1,16973837~1,16973848~1,16973831~1,16973849~1,16973835~1,16973830~1,16973832~1,16842751~1,16973834~1,16842753~1|PlusApertureTolerance=39|Record=GerberX2View|Sorted=False|DocumentPath=D:\gitRepo\BusAnalizerII\layout\busanalizer\busanaliz2.PcbDoc
 OutputType6=ODB
 OutputName6=ODB++ Files
 OutputDocumentPath6=
